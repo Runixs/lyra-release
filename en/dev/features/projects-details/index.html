@@ -1,0 +1,454 @@
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-toc data-has-sidebar class="astro-g5ptsecz"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Projects and Workspaces details | Lyra</title><link rel="canonical" href="https://runixs.github.io/lyra-release/en/dev/features/projects-details/"/><link rel="alternate" hreflang="ko" href="https://runixs.github.io/lyra-release/dev/features/projects-details/"/><link rel="alternate" hreflang="en" href="https://runixs.github.io/lyra-release/en/dev/features/projects-details/"/><link rel="alternate" hreflang="x-default" href="https://runixs.github.io/lyra-release/dev/features/projects-details/"/><link rel="sitemap" href="/lyra-release/sitemap-index.xml"/><link rel="shortcut icon" href="/lyra-release/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.4.2"/><meta name="generator" content="Starlight v0.42.7"/><meta property="og:title" content="Projects and Workspaces details"/><meta property="og:type" content="article"/><meta property="og:url" content="https://runixs.github.io/lyra-release/en/dev/features/projects-details/"/><meta property="og:locale" content="en"/><meta property="og:description" content="Project와 Workspace의 연산, 작업 자리의 종류와 준비 상태, 삭제 결과와 오류 코드를 표로 모았습니다."/><meta property="og:site_name" content="Lyra"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="Project와 Workspace의 연산, 작업 자리의 종류와 준비 상태, 삭제 결과와 오류 코드를 표로 모았습니다."/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/lyra-release/_astro/print.ehPL0gv-.css" media="print"><link rel="stylesheet" href="/lyra-release/_astro/common.CtTqcOyc.css"><script type="module" src="/lyra-release/_astro/page.cNngjUgL.js"></script></head><body class="astro-g5ptsecz"><a class="sl-skip-link astro-qb7clj6f" href="#_top">Skip to content</a><div class="page sl-flex astro-yntsjkba"><header class="header astro-yntsjkba"><div class="header astro-by6fddyj"><div class="title-wrapper sl-flex astro-by6fddyj"><a href="/lyra-release/en" class="site-title sl-flex astro-6rvad3va"><span class="astro-6rvad3va" translate="no">Lyra</span></a></div><div class="sl-flex print:hidden astro-by6fddyj"><site-search class="astro-by6fddyj astro-b5kgnn7o" data-translations="{&quot;placeholder&quot;:&quot;Search&quot;}"><button data-open-modal disabled aria-label="Search" aria-keyshortcuts="Control+K" class="astro-b5kgnn7o"><svg aria-hidden="true" class="astro-b5kgnn7o astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg><span class="sl-hidden md:sl-block astro-b5kgnn7o" aria-hidden="true">Search</span><kbd class="sl-hidden md:sl-flex astro-b5kgnn7o" style="display: none;"><kbd class="astro-b5kgnn7o">Ctrl</kbd><kbd class="astro-b5kgnn7o">K</kbd></kbd></button><dialog style="padding:0" aria-label="Search" class="astro-b5kgnn7o"><div class="dialog-frame sl-flex astro-b5kgnn7o"><button data-close-modal class="sl-flex md:sl-hidden astro-b5kgnn7o">Cancel</button><div class="search-container astro-b5kgnn7o"><div id="starlight__search" class="astro-b5kgnn7o"></div></div></div></dialog></site-search><script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script><script type="module" src="/lyra-release/_astro/Search.astro_astro_type_script_index_0_lang.DVXiSYbz.js"></script></div><div class="sl-hidden md:sl-flex print:hidden right-group astro-by6fddyj"><div class="sl-flex social-icons astro-by6fddyj"></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script><starlight-lang-select><label style="--sl-select-width: 7em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select language</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path fill-rule="evenodd" d="M8.516 3a.94.94 0 0 0-.941.94v1.15H2.94a.94.94 0 1 0 0 1.882h7.362a7.422 7.422 0 0 1-1.787 3.958 7.42 7.42 0 0 1-1.422-2.425.94.94 0 1 0-1.774.627 9.303 9.303 0 0 0 1.785 3.043 7.422 7.422 0 0 1-4.164 1.278.94.94 0 1 0 0 1.881 9.303 9.303 0 0 0 5.575-1.855 9.303 9.303 0 0 0 4.11 1.74l-.763 1.525a.968.968 0 0 0-.016.034l-1.385 2.77a.94.94 0 1 0 1.683.841l1.133-2.267h5.806l1.134 2.267a.94.94 0 0 0 1.683-.841l-1.385-2.769a.95.95 0 0 0-.018-.036l-3.476-6.951a.94.94 0 0 0-1.682 0l-1.82 3.639a7.423 7.423 0 0 1-3.593-1.256 9.303 9.303 0 0 0 2.27-5.203h1.894a.94.94 0 0 0 0-1.881H9.456V3.94A.94.94 0 0 0 8.516 3Zm6.426 11.794a1.068 1.068 0 0 1-.02.039l-.703 1.407h3.924l-1.962-3.924-1.24 2.478Z" clip-rule="evenodd"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="/lyra-release/dev/features/projects-details/" class="astro-2z5xp7gb">한국어</option><option value="/lyra-release/en/dev/features/projects-details/" selected class="astro-2z5xp7gb">English</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-lang-select><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script></div></div></header><nav class="sidebar print:hidden astro-yntsjkba" aria-label="Main"><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden astro-r2osgdlg"><svg aria-hidden="true" class="open-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only astro-r2osgdlg">Menu</span></button><script type="module">var e=class extends HTMLElement{constructor(){super();let e=matchMedia(`(min-width: 50em)`),t=()=>{this.popover=e.matches?null:`auto`};t(),e.addEventListener(`change`,()=>t()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane astro-yntsjkba"><div class="sidebar-content sl-flex astro-yntsjkba"><ul class="ly-rail"><li><a class="ly-rb" href="/lyra-release/en/start/"><svg class="ly-icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h8l4 4v14H6zM14 3v5h4M9 12h6M9 16h4"></path></svg><span class="ly-fly">User guide</span></a></li><li><a class="ly-rb" href="/lyra-release/en/dev/" aria-current="true"><svg class="ly-icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 7L3.5 12l5 5M15.5 7l5 5-5 5"></path></svg><span class="ly-fly">Developers</span></a></li><li class="ly-rdiv" aria-hidden="true"></li><li><a class="ly-rb" href="/lyra-release/en/architecture/"><svg class="ly-icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10h4v4H4zM16 4h4v4h-4zM16 16h4v4h-4zM8 12h4V6h4M12 12v6h4"></path></svg><span class="ly-fly">Architecture</span></a></li></ul><sl-sidebar-state-persist data-hash="1ltv0my" class="astro-ipdry5cl"><script aria-hidden="true">
+		(() => {
+			try {
+				if (!matchMedia('(min-width: 50em)').matches) return;
+				/** @type {HTMLElement | null} */
+				const target = document.querySelector('sl-sidebar-state-persist');
+				const state = JSON.parse(sessionStorage.getItem('sl-sidebar-state') || '0');
+				if (!target || !state || target.dataset.hash !== state.hash) return;
+				window._starlightScrollRestore = state.scroll;
+				customElements.define(
+					'sl-sidebar-restore',
+					class SidebarRestore extends HTMLElement {
+						connectedCallback() {
+							try {
+								const idx = parseInt(this.dataset.index || '');
+								const details = this.closest('details');
+								if (details && typeof state.open[idx] === 'boolean') details.open = state.open[idx];
+							} catch {}
+						}
+					}
+				);
+			} catch {}
+		})();
+	</script><div class="ly-card"><div class="ly-head">Developers</div><div class="ly-tree"><div hidden><ul class="ly-list ly-sections"><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4l12 8-12 8z"></path></svg><b title="Getting started">Getting started</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="0"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/start/" class="ly-page" title="Getting started"><span>Getting started</span></a></li><li><a href="/lyra-release/en/start/overview/" class="ly-page" title="Overview"><span>Overview</span></a></li><li><a href="/lyra-release/en/start/install/" class="ly-page" title="Install"><span>Install</span></a></li><li><a href="/lyra-release/en/start/wsl/" class="ly-page" title="Use WSL as a server"><span>Use WSL as a server</span></a></li><li><a href="/lyra-release/en/start/first-session/" class="ly-page" title="First Session"><span>First Session</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5z"></path></svg><b title="Home">Home</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="1"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/screens/home/" class="ly-page" title="Home"><span>Home</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 13.5L7 5.5h10l2.5 8v5.5h-15zM4.5 13.5h4l1.5 2.5h4l1.5-2.5h4"></path></svg><b title="Inbox">Inbox</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="2"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/screens/inbox/" class="ly-page" title="Inbox"><span>Inbox</span></a></li><li><a href="/lyra-release/en/screens/inbox/notices/" class="ly-page" title="Notice list"><span>Notice list</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H10l-6 4z"></path></svg><b title="Lyra">Lyra</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="3"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/screens/lyra/" class="ly-page" title="Lyra"><span>Lyra</span></a></li><li><a href="/lyra-release/en/screens/lyra/composer/" class="ly-page" title="Lyra input box"><span>Lyra input box</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM7 9l3 3-3 3M13 15h4"></path></svg><b title="Projects">Projects</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="4"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/screens/projects/" class="ly-page" title="Projects"><span>Projects</span></a></li><li><a href="/lyra-release/en/screens/projects/add-project/" class="ly-page" title="Add a Project"><span>Add a Project</span></a></li><li><a href="/lyra-release/en/screens/projects/explorer/" class="ly-page" title="Explorer"><span>Explorer</span></a></li><li><a href="/lyra-release/en/screens/projects/workspaces/" class="ly-page" title="Worktree and Workspace"><span>Worktree and Workspace</span></a></li><li><a href="/lyra-release/en/screens/projects/sessions/" class="ly-page" title="Open a Session"><span>Open a Session</span></a></li><li><a href="/lyra-release/en/screens/projects/tabs/" class="ly-page" title="Tabs"><span>Tabs</span></a></li><li><a href="/lyra-release/en/screens/projects/layout/" class="ly-page" title="Split and Layout"><span>Split and Layout</span></a></li><li><a href="/lyra-release/en/screens/projects/side-panel/" class="ly-page" title="Right side panel"><span>Right side panel</span></a></li><li><a href="/lyra-release/en/screens/projects/project-settings/" class="ly-page" title="Project settings"><span>Project settings</span></a></li><li><a href="/lyra-release/en/screens/projects/execution-pane/" class="ly-page" title="Run pane"><span>Run pane</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10h4v4H4zM16 4h4v4h-4zM16 16h4v4h-4zM8 12h4V6h4M12 12v6h4"></path></svg><b title="Workflows">Workflows</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="5"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/screens/workflows/" class="ly-page" title="Workflows"><span>Workflows</span></a></li><li><a href="/lyra-release/en/screens/workflows/run/" class="ly-page" title="Run now"><span>Run now</span></a></li><li><a href="/lyra-release/en/screens/workflows/editor/" class="ly-page" title="Edit"><span>Edit</span></a></li><li><a href="/lyra-release/en/screens/workflows/run-screen/" class="ly-page" title="Run screen"><span>Run screen</span></a></li><li><a href="/lyra-release/en/screens/workflows/waiting/" class="ly-page" title="Waiting runs"><span>Waiting runs</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5a8.5 8.5 0 1 0 0 17a8.5 8.5 0 1 0 0-17zM12 10.4a1.6 1.6 0 1 0 0 3.2a1.6 1.6 0 1 0 0-3.2z"></path></svg><b title="Issues">Issues</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="6"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/screens/issues/" class="ly-page" title="Issues"><span>Issues</span></a></li><li><a href="/lyra-release/en/screens/issues/read/" class="ly-page" title="Read an issue"><span>Read an issue</span></a></li><li><a href="/lyra-release/en/screens/issues/comments/" class="ly-page" title="Comments"><span>Comments</span></a></li><li><a href="/lyra-release/en/screens/issues/start/" class="ly-page" title="Start work"><span>Start work</span></a></li><li><a href="/lyra-release/en/screens/issues/connections/" class="ly-page" title="Connections"><span>Connections</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8.8a3.2 3.2 0 1 0 0 6.4a3.2 3.2 0 1 0 0-6.4zM19.4 14.5a1.6 1.6 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.6 1.6 0 00-2.7 1.1v.3a2 2 0 11-4 0v-.2a1.6 1.6 0 00-2.8-1.1l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.6 1.6 0 00-1.1-2.7h-.3a2 2 0 110-4h.2a1.6 1.6 0 001.1-2.8l-.1-.1A2 2 0 116.9 3.9l.1.1a1.6 1.6 0 001.8.3h.1a1.6 1.6 0 001-1.5v-.3a2 2 0 114 0v.2a1.6 1.6 0 002.7 1.1l.1-.1a2 2 0 112.8 2.8l-.1.1a1.6 1.6 0 00-.3 1.8v.1a1.6 1.6 0 001.5 1h.3a2 2 0 110 4h-.2a1.6 1.6 0 00-1.5 1z"></path></svg><b title="Settings">Settings</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="7"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/screens/settings/" class="ly-page" title="Settings"><span>Settings</span></a></li><li><a href="/lyra-release/en/screens/settings/wsl/" class="ly-page" title="WSL"><span>WSL</span></a></li><li><a href="/lyra-release/en/screens/settings/remote/" class="ly-page" title="Remote"><span>Remote</span></a></li><li><a href="/lyra-release/en/screens/settings/agents/" class="ly-page" title="Agents"><span>Agents</span></a></li><li><a href="/lyra-release/en/screens/settings/connections/" class="ly-page" title="Issue connections"><span>Issue connections</span></a></li><li><a href="/lyra-release/en/screens/settings/general/" class="ly-page" title="General"><span>General</span></a></li><li><a href="/lyra-release/en/screens/settings/appearance/" class="ly-page" title="Appearance"><span>Appearance</span></a></li><li><a href="/lyra-release/en/screens/settings/shortcuts/" class="ly-page" title="Shortcuts"><span>Shortcuts</span></a></li><li><a href="/lyra-release/en/screens/settings/agent-skills/" class="ly-page" title="Agent skills"><span>Agent skills</span></a></li><li><a href="/lyra-release/en/screens/settings/orchestration/" class="ly-page" title="Orchestration"><span>Orchestration</span></a></li><li><a href="/lyra-release/en/screens/settings/serial/" class="ly-page" title="Serial"><span>Serial</span></a></li><li><a href="/lyra-release/en/screens/settings/token-profiling/" class="ly-page" title="Token profiling"><span>Token profiling</span></a></li><li><a href="/lyra-release/en/screens/settings/app/" class="ly-page" title="App"><span>App</span></a></li><li><a href="/lyra-release/en/screens/settings/problem-log/" class="ly-page" title="Problem log"><span>Problem log</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"></path></svg><b title="Across screens">Across screens</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="8"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/across/" class="ly-page" title="Across screens"><span>Across screens</span></a></li><li><a href="/lyra-release/en/across/servers-hosts/" class="ly-page" title="Servers and Hosts"><span>Servers and Hosts</span></a></li><li><a href="/lyra-release/en/across/profiles-agents/" class="ly-page" title="Profiles and agents"><span>Profiles and agents</span></a></li><li><a href="/lyra-release/en/across/orchestration/" class="ly-page" title="Orchestration"><span>Orchestration</span></a></li><li><a href="/lyra-release/en/across/window/" class="ly-page" title="The top and bottom of the window"><span>The top and bottom of the window</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h8l4 4v14H6zM14 3v5h4M9 12h6M9 16h4"></path></svg><b title="Orchestration guide">Orchestration guide</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="9"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/orchestration-book/" class="ly-page" title="Structure"><span>Structure</span></a></li><li><a href="/lyra-release/en/orchestration-book/life/" class="ly-page" title="The life of a task"><span>The life of a task</span></a></li><li><a href="/lyra-release/en/orchestration-book/scenarios/" class="ly-page" title="Scenarios"><span>Scenarios</span></a></li><li><a href="/lyra-release/en/orchestration-book/edges/" class="ly-page" title="Edge cases"><span>Edge cases</span></a></li><li><a href="/lyra-release/en/orchestration-book/roles/" class="ly-page" title="Roles"><span>Roles</span></a></li><li><a href="/lyra-release/en/orchestration-book/handoff/" class="ly-page" title="Handoff"><span>Handoff</span></a></li><li><a href="/lyra-release/en/orchestration-book/experiments/" class="ly-page" title="Experiments to try"><span>Experiments to try</span></a></li><li><a href="/lyra-release/en/orchestration-book/trouble/" class="ly-page" title="When this happens"><span>When this happens</span></a></li><li><a href="/lyra-release/en/orchestration-book/commands/" class="ly-page" title="Command reference"><span>Command reference</span></a></li><li><a href="/lyra-release/en/orchestration-book/words/" class="ly-page" title="Words"><span>Words</span></a></li><li><a href="/lyra-release/en/orchestration-book/roadmap/" class="ly-page" title="Roadmap"><span>Roadmap</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 7L3.5 12l5 5M15.5 7l5 5-5 5"></path></svg><b title="Command line">Command line</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="10"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/cli/" class="ly-page" title="Command line"><span>Command line</span></a></li><li><a href="/lyra-release/en/cli/commands/" class="ly-page" title="Command list"><span>Command list</span></a></li><li><a href="/lyra-release/en/cli/skills/" class="ly-page" title="Default skills"><span>Default skills</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5.5h12M6 12h12M6 18.5h7"></path></svg><b title="Terms">Terms</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="11"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/terms/" class="ly-page" title="Terms"><span>Terms</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3L2 21h20L12 3zM12 9v5M12 17h.01"></path></svg><b title="Troubleshooting">Troubleshooting</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="12"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/troubleshooting/" class="ly-page" title="Troubleshooting"><span>Troubleshooting</span></a></li></ul></details></li></ul></div><div><ul class="ly-list ly-sections"><li><a href="/lyra-release/en/dev/" class="ly-top" title="Overview"><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5z"></path></svg><span>Overview</span></a></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM7 9l3 3-3 3M13 15h4"></path></svg><b title="Processes">Processes</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="13"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/dev/processes/app/" class="ly-page" title="Lyra app"><span>Lyra app</span></a></li><li><a href="/lyra-release/en/dev/processes/sidecar/" class="ly-page" title="Desktop sidecar"><span>Desktop sidecar</span></a></li><li><a href="/lyra-release/en/dev/processes/engine/" class="ly-page" title="Engine"><span>Engine</span></a></li><li><a href="/lyra-release/en/dev/processes/keeper/" class="ly-page" title="Keeper"><span>Keeper</span></a></li><li><a href="/lyra-release/en/dev/processes/server-daemon/" class="ly-page" title="Server daemon"><span>Server daemon</span></a></li><li><a href="/lyra-release/en/dev/processes/cli/" class="ly-page" title="Command line"><span>Command line</span></a></li><li><a href="/lyra-release/en/dev/processes/children/" class="ly-page" title="Agent and terminal children"><span>Agent and terminal children</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"></path></svg><b title="Connections">Connections</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="14"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/dev/connections/window-bridge/" class="ly-page" title="Window bridge"><span>Window bridge</span></a></li><li><a href="/lyra-release/en/dev/connections/sidecar-lines/" class="ly-page" title="Sidecar line protocol"><span>Sidecar line protocol</span></a></li><li><a href="/lyra-release/en/dev/connections/guest-socket/" class="ly-page" title="Guest socket"><span>Guest socket</span></a></li><li><a href="/lyra-release/en/dev/connections/keeper-socket/" class="ly-page" title="Keeper socket"><span>Keeper socket</span></a></li><li><a href="/lyra-release/en/dev/connections/link/" class="ly-page" title="Link"><span>Link</span></a></li><li><a href="/lyra-release/en/dev/connections/wsl/" class="ly-page" title="WSL channel"><span>WSL channel</span></a></li><li><a href="/lyra-release/en/dev/connections/cli-bridge/" class="ly-page" title="CLI bridge"><span>CLI bridge</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h8l4 4v14H6zM14 3v5h4M9 12h6M9 16h4"></path></svg><b title="Data">Data</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="15"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/dev/data/folders/" class="ly-page" title="Folders"><span>Folders</span></a></li><li><a href="/lyra-release/en/dev/data/home-sqlite/" class="ly-page" title="home.sqlite"><span>home.sqlite</span></a></li><li><a href="/lyra-release/en/dev/data/server-state/" class="ly-page" title="Server state"><span>Server state</span></a></li><li><a href="/lyra-release/en/dev/data/credentials/" class="ly-page" title="Credentials"><span>Credentials</span></a></li><li><a href="/lyra-release/en/dev/data/logs/" class="ly-page" title="Logs and problem records"><span>Logs and problem records</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5z"></path></svg><b title="Features">Features</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="16"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/dev/features/sessions/" class="ly-page" title="Sessions and Turns"><span>Sessions and Turns</span></a></li><li><a href="/lyra-release/en/dev/features/sessions-details/" class="ly-page" title="Sessions and Turns details"><span>Sessions and Turns details</span></a></li><li><a href="/lyra-release/en/dev/features/inbox/" class="ly-page" title="Inbox"><span>Inbox</span></a></li><li><a href="/lyra-release/en/dev/features/inbox-details/" class="ly-page" title="Inbox details"><span>Inbox details</span></a></li><li><a href="/lyra-release/en/dev/features/orchestration/" class="ly-page" title="Orchestration"><span>Orchestration</span></a></li><li><a href="/lyra-release/en/dev/features/orchestration-details/" class="ly-page" title="Orchestration details"><span>Orchestration details</span></a></li><li><a href="/lyra-release/en/dev/features/workflows/" class="ly-page" title="Workflows"><span>Workflows</span></a></li><li><a href="/lyra-release/en/dev/features/workflows-details/" class="ly-page" title="Workflows details"><span>Workflows details</span></a></li><li><a href="/lyra-release/en/dev/features/issues/" class="ly-page" title="Issues and connections"><span>Issues and connections</span></a></li><li><a href="/lyra-release/en/dev/features/issues-details/" class="ly-page" title="Issues and connections details"><span>Issues and connections details</span></a></li><li><a href="/lyra-release/en/dev/features/projects/" class="ly-page" title="Projects and Workspaces"><span>Projects and Workspaces</span></a></li><li><a href="/lyra-release/en/dev/features/projects-details/" class="ly-page" aria-current="page" title="Projects and Workspaces details"><span>Projects and Workspaces details</span></a></li><li><a href="/lyra-release/en/dev/features/terminals/" class="ly-page" title="Terminals"><span>Terminals</span></a></li><li><a href="/lyra-release/en/dev/features/terminals-details/" class="ly-page" title="Terminals details"><span>Terminals details</span></a></li><li><a href="/lyra-release/en/dev/features/serial/" class="ly-page" title="Serial"><span>Serial</span></a></li><li><a href="/lyra-release/en/dev/features/serial-details/" class="ly-page" title="Serial details"><span>Serial details</span></a></li><li><a href="/lyra-release/en/dev/features/profiles/" class="ly-page" title="Profiles and agents"><span>Profiles and agents</span></a></li><li><a href="/lyra-release/en/dev/features/profiles-details/" class="ly-page" title="Profiles and agents details"><span>Profiles and agents details</span></a></li><li><a href="/lyra-release/en/dev/features/avatars-modules/" class="ly-page" title="Avatars and Modules"><span>Avatars and Modules</span></a></li><li><a href="/lyra-release/en/dev/features/avatars-modules-details/" class="ly-page" title="Avatars and Modules details"><span>Avatars and Modules details</span></a></li><li><a href="/lyra-release/en/dev/features/search/" class="ly-page" title="Search"><span>Search</span></a></li><li><a href="/lyra-release/en/dev/features/search-details/" class="ly-page" title="Search details"><span>Search details</span></a></li><li><a href="/lyra-release/en/dev/features/updates/" class="ly-page" title="Updates"><span>Updates</span></a></li><li><a href="/lyra-release/en/dev/features/updates-details/" class="ly-page" title="Updates details"><span>Updates details</span></a></li><li><a href="/lyra-release/en/dev/features/status/" class="ly-page" title="Status and diagnostics"><span>Status and diagnostics</span></a></li><li><a href="/lyra-release/en/dev/features/status-details/" class="ly-page" title="Status and diagnostics details"><span>Status and diagnostics details</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10h4v4H4zM16 4h4v4h-4zM16 16h4v4h-4zM8 12h4V6h4M12 12v6h4"></path></svg><b title="Lifecycles">Lifecycles</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="17"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/dev/lifecycles/session-open/" class="ly-page" title="Opening a Session"><span>Opening a Session</span></a></li><li><a href="/lyra-release/en/dev/lifecycles/engine-start/" class="ly-page" title="Engine start and restart"><span>Engine start and restart</span></a></li><li><a href="/lyra-release/en/dev/lifecycles/updates/" class="ly-page" title="Updating the app and the server daemon"><span>Updating the app and the server daemon</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3v5M16 3v5M6 8h12v4a6 6 0 0 1-12 0zM12 18v4"></path></svg><b title="Extending">Extending</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="18"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/dev/extending/plugins/" class="ly-page" title="Plugins"><span>Plugins</span></a></li><li><a href="/lyra-release/en/dev/extending/modules/" class="ly-page" title="Modules"><span>Modules</span></a></li><li><a href="/lyra-release/en/dev/extending/skills/" class="ly-page" title="Bundled skills"><span>Bundled skills</span></a></li><li><a href="/lyra-release/en/dev/extending/project-mcp/" class="ly-page" title="Project MCP"><span>Project MCP</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5.5h12M6 12h12M6 18.5h7"></path></svg><b title="Lookup">Lookup</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="19"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/dev/lookup/operations/" class="ly-page" title="Engine operations"><span>Engine operations</span></a></li><li><a href="/lyra-release/en/dev/lookup/errors/" class="ly-page" title="Error codes"><span>Error codes</span></a></li><li><a href="/lyra-release/en/dev/lookup/contracts/" class="ly-page" title="Contracts"><span>Contracts</span></a></li><li><a href="/lyra-release/en/dev/lookup/crates/" class="ly-page" title="Crates"><span>Crates</span></a></li><li><a href="/lyra-release/en/dev/lookup/implementation/" class="ly-page" title="Implementation status"><span>Implementation status</span></a></li></ul></details></li></ul></div></div></div><script aria-hidden="true">
+		(() => {
+			const scroller = document.getElementById('starlight__sidebar');
+			if (!window._starlightScrollRestore || !scroller) return;
+			scroller.scrollTop = window._starlightScrollRestore;
+			delete window._starlightScrollRestore;
+		})();
+	</script></sl-sidebar-state-persist><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-p4azlveh"><div class="social-icons astro-p4azlveh"></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><starlight-lang-select><label style="--sl-select-width: 7em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select language</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path fill-rule="evenodd" d="M8.516 3a.94.94 0 0 0-.941.94v1.15H2.94a.94.94 0 1 0 0 1.882h7.362a7.422 7.422 0 0 1-1.787 3.958 7.42 7.42 0 0 1-1.422-2.425.94.94 0 1 0-1.774.627 9.303 9.303 0 0 0 1.785 3.043 7.422 7.422 0 0 1-4.164 1.278.94.94 0 1 0 0 1.881 9.303 9.303 0 0 0 5.575-1.855 9.303 9.303 0 0 0 4.11 1.74l-.763 1.525a.968.968 0 0 0-.016.034l-1.385 2.77a.94.94 0 1 0 1.683.841l1.133-2.267h5.806l1.134 2.267a.94.94 0 0 0 1.683-.841l-1.385-2.769a.95.95 0 0 0-.018-.036l-3.476-6.951a.94.94 0 0 0-1.682 0l-1.82 3.639a7.423 7.423 0 0 1-3.593-1.256 9.303 9.303 0 0 0 2.27-5.203h1.894a.94.94 0 0 0 0-1.881H9.456V3.94A.94.94 0 0 0 8.516 3Zm6.426 11.794a1.068 1.068 0 0 1-.02.039l-.703 1.407h3.924l-1.962-3.924-1.24 2.478Z" clip-rule="evenodd"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="/lyra-release/dev/features/projects-details/" class="astro-2z5xp7gb">한국어</option><option value="/lyra-release/en/dev/features/projects-details/" selected class="astro-2z5xp7gb">English</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-lang-select></div></div></div></sl-sidebar-pane></nav><div class="main-frame astro-yntsjkba"><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex astro-lrzkfocr"><aside class="right-sidebar-container print:hidden astro-lrzkfocr"><div class="right-sidebar astro-lrzkfocr"><div class="lg:sl-hidden astro-qok35upx"><mobile-starlight-toc data-min-h="2" data-max-h="3" class="astro-66cqc7ze"><nav aria-labelledby="starlight__on-this-page--mobile" class="astro-66cqc7ze"><details id="starlight__mobile-toc" class="astro-66cqc7ze"><summary id="starlight__on-this-page--mobile" class="sl-flex astro-66cqc7ze"><span class="toggle sl-flex astro-66cqc7ze">On this page<svg aria-hidden="true" class="caret astro-66cqc7ze astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></span><span class="display-current astro-66cqc7ze"></span></summary><div class="dropdown astro-66cqc7ze"><ul class="isMobile astro-jugkfwgx" style="--depth: 0;"><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#_top" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Overview</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#연산" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">연산</span></a><ul class="isMobile astro-jugkfwgx" style="--depth: 1;"><li style="--depth: 1;" class="astro-jugkfwgx"><a href="#workspaceremove의-입력" style="--depth: 1;" class="astro-jugkfwgx"><span style="--depth: 1;" class="astro-jugkfwgx">workspace.remove의 입력</span></a></li></ul></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#작업-자리의-종류" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">작업 자리의 종류</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#준비-상태" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">준비 상태</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#지운-결과" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">지운 결과</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#장부의-칸" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">장부의 칸</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#오류-코드" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">오류 코드</span></a></li></ul></div></details></nav></mobile-starlight-toc><script type="module" src="/lyra-release/_astro/MobileTableOfContents.astro_astro_type_script_index_0_lang.C3fM4Kra.js"></script></div><div class="right-sidebar-panel sl-hidden lg:sl-block astro-qok35upx"><div class="sl-container astro-qok35upx"><starlight-toc data-min-h="2" data-max-h="3"><nav aria-labelledby="starlight__on-this-page"><h2 id="starlight__on-this-page">On this page</h2><ul class="astro-jugkfwgx" style="--depth: 0;"><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#_top" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Overview</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#연산" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">연산</span></a><ul class="astro-jugkfwgx" style="--depth: 1;"><li style="--depth: 1;" class="astro-jugkfwgx"><a href="#workspaceremove의-입력" style="--depth: 1;" class="astro-jugkfwgx"><span style="--depth: 1;" class="astro-jugkfwgx">workspace.remove의 입력</span></a></li></ul></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#작업-자리의-종류" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">작업 자리의 종류</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#준비-상태" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">준비 상태</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#지운-결과" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">지운 결과</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#장부의-칸" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">장부의 칸</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#오류-코드" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">오류 코드</span></a></li></ul></nav></starlight-toc><script type="module" src="/lyra-release/_astro/TableOfContents.astro_astro_type_script_index_0_lang.BpJaGz7G.js"></script></div></div></div></aside><div class="main-pane astro-lrzkfocr"><main data-pagefind-body class="astro-g5ptsecz" lang="ko" dir="ltr"><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><h1 id="_top" class="astro-bebwqqxs">Projects and Workspaces details</h1><p class="sl-flex astro-gsljcgkv"><svg aria-hidden="true" class="astro-gsljcgkv astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-color: var(--sl-color-orange-high);--sl-icon-size: 1.5em;"><path d="M12 16a1 1 0 1 0 0 2 1 1 0 0 0 0-2Zm10.67 1.47-8.05-14a3 3 0 0 0-5.24 0l-8 14A3 3 0 0 0 3.94 22h16.12a3 3 0 0 0 2.61-4.53Zm-1.73 2a1 1 0 0 1-.88.51H3.94a1 1 0 0 1-.88-.51 1 1 0 0 1 0-1l8-14a1 1 0 0 1 1.78 0l8.05 14a1 1 0 0 1 .05 1.02v-.02ZM12 8a1 1 0 0 0-1 1v4a1 1 0 0 0 2 0V9a1 1 0 0 0-1-1Z"/></svg><span class="astro-gsljcgkv">This content is not available in your language yet.</span></p></div></div><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><div class="sl-markdown-content"><p><a href="../projects/">Projects and Workspaces</a>의 찾아보기 표입니다. 모든 연산은 <a href="../../lookup/operations/">Operations</a>, 모든 오류 코드는 <a href="../../lookup/errors/">Errors</a>가 정합니다. 여기에는 이 기능의 것만 한 줄씩 적습니다.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="연산">연산</h2><a class="sl-anchor-link" href="#연산"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “연산”</span></a></div>
+<p>모두 <a href="../../connections/window-bridge/">window bridge</a>의 <code dir="auto">lyra:call</code>로 부를 수 있습니다. 목록 읽기(<code dir="auto">project.list</code> · <code dir="auto">workspace.list</code>)는 <code dir="auto">cursor</code> · <code dir="auto">limit</code>으로 쪽을 나눕니다.</p>
+<table>
+<thead>
+<tr>
+<th>연산</th>
+<th>한 줄</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code dir="auto">project.list</code> · <code dir="auto">project.show</code></td>
+<td>Project를 읽습니다. <code dir="auto">project.list</code>는 <code dir="auto">hostId</code>로 거르고, <code dir="auto">project.show</code>는 <code dir="auto">refreshBranchCleanups</code>로 <code dir="auto">Host</code>에서 남긴 브랜치의 영수증을 다시 읽습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">project.scan</code></td>
+<td>폴더가 Git 저장소인지와 하위 폴더를 읽습니다. 아무것도 바꾸지 않습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">project.add</code></td>
+<td>폴더를 Project로 등록합니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">project.clone</code></td>
+<td>URL을 <code dir="auto">Host</code>에 복제하고 등록합니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">project.create</code></td>
+<td>새 폴더(<code dir="auto">git</code>이 참이면 Git 저장소)를 만들고 등록합니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">project.find-repositories</code></td>
+<td>폴더 아래의 Git 저장소를 찾습니다. 이미 등록된 것은 <code dir="auto">projectId</code>를 달아 돌려줍니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">project.location.add</code></td>
+<td>같은 Project에 다른 체크아웃 위치를 더합니다. <code dir="auto">expectedRevision</code>이 필요합니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">project.update</code></td>
+<td>이름, <code dir="auto">worktreeBasePath</code>, <code dir="auto">appearance</code>를 바꿉니다. <code dir="auto">expectedRevision</code>이 필요합니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">project.remove</code></td>
+<td>Project와 작업 자리 기록을 장부에서 지웁니다. 폴더는 지우지 않습니다. <code dir="auto">confirmation: "yes"</code>가 필요합니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">project.prepare-status</code></td>
+<td>위치의 준비 파일과 동의의 상태를 읽습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">project.prepare-trust</code> · <code dir="auto">project.prepare-trust-clear</code></td>
+<td>준비 명령의 동의를 주거나 거둡니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">git.branches</code></td>
+<td>Project 위치의 브랜치 목록을 <code dir="auto">Host</code>에서 읽습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">workspace.list</code> · <code dir="auto">workspace.show</code></td>
+<td>작업 자리를 읽습니다. 목록은 워크플로 실행의 작업 자리를 만드는 중인 것까지 빼고(워크플로 화면에만 보입니다), 지우는 중(<code dir="auto">removing</code>)과 남은 것(<code dir="auto">leftover</code>)을 행마다 답합니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">workspace.create</code></td>
+<td><code dir="auto">Worktree</code> 또는 <code dir="auto">Workspace</code>를 만들고 준비를 시작합니다. <code dir="auto">baseRef</code> · <code dir="auto">branchName</code> · <code dir="auto">reuseBranch</code> · <code dir="auto">setup</code>(<code dir="auto">run</code> · <code dir="auto">skip</code>) · <code dir="auto">issue</code>를 받습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">workspace.register</code></td>
+<td>이미 있는 linked worktree를 <code dir="auto">selectedNativePath</code>로 등록합니다. 준비 명령은 돌리지 않습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">workspace.resume</code></td>
+<td>멈춘 준비를 이어서 합니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">workspace.rename</code></td>
+<td>표시 이름만 바꿉니다. 경로와 브랜치는 그대로입니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">workspace.remove</code></td>
+<td>작업 자리를 지웁니다. 입력은 아래 표에 있습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">workspace.branch-merged</code></td>
+<td>만든 브랜치가 병합됐는지와 병합되지 않은 커밋 수를 읽습니다. 지울 브랜치가 없으면 <code dir="auto">branch: null</code>입니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">workspace.remove-branch</code></td>
+<td>남긴 브랜치를 영수증과 머리 커밋이 같을 때 지웁니다.</td>
+</tr>
+</tbody>
+</table>
+<div class="sl-heading-wrapper level-h3"><h3 id="workspaceremove의-입력"><code dir="auto">workspace.remove</code>의 입력</h3><a class="sl-anchor-link" href="#workspaceremove의-입력"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “workspace.remove의 입력”</span></a></div>
+<table>
+<thead>
+<tr>
+<th>입력</th>
+<th>뜻</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code dir="auto">confirmation</code></td>
+<td><code dir="auto">"yes"</code>여야 합니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">force</code></td>
+<td>저장하지 않은 변경을 알고도 지웁니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">keepBranch</code> · <code dir="auto">deleteBranch</code></td>
+<td>만든 브랜치를 남기거나, 영수증과 머리 커밋(<code dir="auto">expectedHead</code>)을 걸고 강제로 지웁니다. 둘을 함께 보내거나 <code dir="auto">deleteBranch</code>에 <code dir="auto">expectedHead</code>가 없으면 <code dir="auto">invalid-input</code>입니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">listOnly</code></td>
+<td>폴더는 두고 등록만 지웁니다. <code dir="auto">deleteBranch</code>와 함께 보낼 수 없습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">forgetUnknown</code></td>
+<td>끝을 모르는 삭제 기록을 잊습니다. <code dir="auto">expectedRevision</code>이 필요하고 다른 선택과 함께 보낼 수 없습니다.</td>
+</tr>
+</tbody>
+</table>
+<div class="sl-heading-wrapper level-h2"><h2 id="작업-자리의-종류">작업 자리의 종류</h2><a class="sl-anchor-link" href="#작업-자리의-종류"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “작업 자리의 종류”</span></a></div>
+<table>
+<thead>
+<tr>
+<th><code dir="auto">WorkspaceKind</code></th>
+<th>화면</th>
+<th>디스크</th>
+<th>지울 때</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code dir="auto">LyraWorktree</code></td>
+<td><code dir="auto">Worktree</code></td>
+<td>Lyra</td>
+<td>폴더를 지우고, 만든 브랜치는 선택에 따라 지우거나 남깁니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">ExistingWorktree</code></td>
+<td><code dir="auto">Worktree</code></td>
+<td>사람</td>
+<td>Lyra가 디스크를 갖지 않습니다(<code dir="auto">lyra_owns_disk</code>가 거짓).</td>
+</tr>
+<tr>
+<td><code dir="auto">PrimaryCheckout</code></td>
+<td><code dir="auto">원본</code></td>
+<td>사람</td>
+<td>지우지 않습니다. Project의 뿌리 자리는 <code dir="auto">workspace-root-kept</code>로 거절하고, Project를 지울 때만 장부에서 사라집니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">Folder</code></td>
+<td><code dir="auto">폴더</code></td>
+<td>사람</td>
+<td>이름이 붙은 추가 <code dir="auto">Workspace</code>는 그 id만 지웁니다. 이름 없는 뿌리는 <code dir="auto">PrimaryCheckout</code>과 같습니다.</td>
+</tr>
+</tbody>
+</table>
+<div class="sl-heading-wrapper level-h2"><h2 id="준비-상태">준비 상태</h2><a class="sl-anchor-link" href="#준비-상태"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “준비 상태”</span></a></div>
+<table>
+<thead>
+<tr>
+<th><code dir="auto">SetupState</code></th>
+<th>경계의 철자</th>
+<th>뜻</th>
+<th>Session을 받음</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code dir="auto">Creating</code></td>
+<td><code dir="auto">creating</code></td>
+<td>만들 권리를 얻고 경로와 Git 여부를 확인하는 중입니다.</td>
+<td>아니요</td>
+</tr>
+<tr>
+<td><code dir="auto">Preparing</code></td>
+<td><code dir="auto">preparing</code></td>
+<td>고정된 계획의 다음 단계를 돌리는 중입니다.</td>
+<td>예</td>
+</tr>
+<tr>
+<td><code dir="auto">Ready</code></td>
+<td><code dir="auto">ready</code></td>
+<td>모든 단계가 끝났습니다.</td>
+<td>예</td>
+</tr>
+<tr>
+<td><code dir="auto">Failed</code></td>
+<td><code dir="auto">failed</code></td>
+<td>첫 단계나 생성이 실패했습니다. 자리는 보존됩니다.</td>
+<td>아니요</td>
+</tr>
+<tr>
+<td><code dir="auto">Partial</code></td>
+<td><code dir="auto">partial</code></td>
+<td>하나 이상 성공한 뒤 다음 단계가 실패했습니다.</td>
+<td>아니요</td>
+</tr>
+</tbody>
+</table>
+<p>단계 하나(<code dir="auto">SetupStepState</code>)는 <code dir="auto">Pending</code> · <code dir="auto">Running</code> · <code dir="auto">Succeeded</code> · 실패로 갑니다. <code dir="auto">Running</code>은 답을 기다리는 단계이고, 답 없이 끊기면 결과 모름 실패로 둡니다. 성공한 단계는 같은 자리에서 다시 돌리지 않습니다. 계획은 만들 때 고정하고 Project의 나중 명령으로 바꾸지 않습니다.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="지운-결과">지운 결과</h2><a class="sl-anchor-link" href="#지운-결과"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “지운 결과”</span></a></div>
+<table>
+<thead>
+<tr>
+<th>답</th>
+<th>뜻</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code dir="auto">status: "unregistered"</code></td>
+<td>등록을 지웠습니다. <code dir="auto">diskRemoved</code>, <code dir="auto">branchDeleted</code>, <code dir="auto">branchPreserved</code>와 그 이유(<code dir="auto">reason</code>), <code dir="auto">branchHead</code>, <code dir="auto">cleanupRef</code>가 따라옵니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">workspace-dirty</code></td>
+<td>저장하지 않은 변경이 있어 폴더와 등록을 그대로 뒀습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">workspace-clean-unknown</code></td>
+<td>깨끗한지 확인하지 못해 그대로 뒀습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">workspace-remove-incomplete</code></td>
+<td>다 지우지 못했습니다. 남은 경로(<code dir="auto">remainingPath</code>)를 비우고 다시 지웁니다.</td>
+</tr>
+</tbody>
+</table>
+<p>답에는 멈춘 Session과 셸의 목록(<code dir="auto">stopped</code>)이 붙습니다. <code dir="auto">reason</code>이 <code dir="auto">branch-restore-failed</code>이면 <code dir="auto">branchRootPath</code>가 붙어, 되돌릴 자리를 알려 줍니다.</p>
+<p>탐색기는 남긴 브랜치를 목록으로 보이지 않습니다(<code dir="auto">ForceDelete.tsx</code>의 주석). 프로젝트 설정의 <code dir="auto">남긴 브랜치</code>가 그 영수증을 보입니다.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="장부의-칸">장부의 칸</h2><a class="sl-anchor-link" href="#장부의-칸"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “장부의 칸”</span></a></div>
+<table>
+<thead>
+<tr>
+<th>값</th>
+<th>뜻</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code dir="auto">Project.id</code> · <code dir="auto">name</code> · <code dir="auto">revision</code></td>
+<td>Project ID, 이름, 바뀔 때마다 오르는 버전(<code dir="auto">project-&lt;n&gt;</code>)</td>
+</tr>
+<tr>
+<td><code dir="auto">Project.worktree_container</code></td>
+<td>등록할 때 고정되는 워크트리 통 이름</td>
+</tr>
+<tr>
+<td><code dir="auto">Project.locations[]</code></td>
+<td>위치: <code dir="auto">hostId</code>, <code dir="auto">executionLocationId</code>, <code dir="auto">rootPath</code>, <code dir="auto">rootIsGit</code>, <code dir="auto">setupPlan</code>, <code dir="auto">gitRemoteIdentity</code>, <code dir="auto">worktreeBasePath</code></td>
+</tr>
+<tr>
+<td><code dir="auto">Project.prepare_trust</code></td>
+<td>준비 명령의 동의와 버전</td>
+</tr>
+<tr>
+<td><code dir="auto">Project.appearance</code></td>
+<td>프로젝트 설정에서 고른 아이콘과 색. 없으면 <code dir="auto">Host</code> 표시</td>
+</tr>
+<tr>
+<td><code dir="auto">Workspace.kind</code> · <code dir="auto">setup_state</code> · <code dir="auto">setup_plan</code> · <code dir="auto">setup_progress</code></td>
+<td>종류, 준비 상태, 고정된 계획, 단계별 진행</td>
+</tr>
+<tr>
+<td><code dir="auto">Workspace.path</code> · <code dir="auto">root_path</code></td>
+<td>실제 폴더(<code dir="auto">Host</code>가 돌려준 철자), 원본 checkout</td>
+</tr>
+<tr>
+<td><code dir="auto">Workspace.display_name</code> · <code dir="auto">folder_name</code> · <code dir="auto">branch</code> · <code dir="auto">creation</code></td>
+<td>표시 이름, 이름 붙은 <code dir="auto">Workspace</code>의 이름, 체크아웃된 브랜치, 만들 때 요청한 브랜치 선택</td>
+</tr>
+<tr>
+<td><code dir="auto">Workspace.failure</code> · <code dir="auto">retained_workspaces</code></td>
+<td>실패와, 번호를 붙이는 동안 남겨 둔 경로와 브랜치</td>
+</tr>
+</tbody>
+</table>
+<p>저장소 버전은 <code dir="auto">lyra_schema_versions</code>의 구성 요소 <code dir="auto">project</code>, 버전 5입니다. 버전 4가 삭제 기록(<code dir="auto">removals</code>)을, 버전 5가 아이콘과 색(<code dir="auto">appearance</code>)을 더했고, 낮은 버전의 엔진이 새 장부를 읽다 틀리지 않고 처음부터 거절하도록 번호를 올렸습니다(<code dir="auto">STATE_FORMAT_VERSION</code>의 주석).</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="오류-코드">오류 코드</h2><a class="sl-anchor-link" href="#오류-코드"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “오류 코드”</span></a></div>
+<p>이 기능의 코드 가운데 사람이 마주치는 것만 적습니다. 전체는 <a href="../../lookup/errors/">Errors</a>입니다.</p>
+<table>
+<thead>
+<tr>
+<th>코드</th>
+<th>뜻</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code dir="auto">project-not-found</code> · <code dir="auto">workspace-not-found</code></td>
+<td>없는 Project · 작업 자리입니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">project-name-invalid</code> · <code dir="auto">workspace-name-invalid</code></td>
+<td>이름이 규칙에 맞지 않습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">project-base-path-invalid</code></td>
+<td>워크트리 위치가 쓸 수 없는 경로입니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">project-location-invalid</code> · <code dir="auto">project-root-invalid</code></td>
+<td>위치나 뿌리 폴더를 확인하지 못했습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">project-setup-invalid</code></td>
+<td>준비 명령이 규칙에 맞지 않습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">project-has-live-sessions</code></td>
+<td>쓰는 중인 작업 자리가 있어 Project를 지울 수 없습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">project-branch-cleanup-unsettled</code></td>
+<td>남긴 브랜치의 강제 삭제가 끝났는지 몰라 Project를 지울 수 없습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">workspace-root-not-git</code></td>
+<td>Git이 아닌 Project에 <code dir="auto">Worktree</code>를 만들 수 없습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">workspace-root-kept</code></td>
+<td>Project의 뿌리 작업 자리(원본 checkout, 또는 Git이 아닌 Project의 폴더)는 지우지 않습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">workspace-state-conflict</code> · <code dir="auto">workspace-in-use</code> · <code dir="auto">workspace-removing</code></td>
+<td>작업 자리의 지금 상태가 그 일을 받지 않습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">workspace-already-registered</code> · <code dir="auto">workspace-not-a-linked-worktree</code></td>
+<td>등록하려는 폴더가 이미 있거나 linked worktree가 아닙니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">workspace-exists-with-other-branch</code></td>
+<td>같은 이름의 작업 자리가 다른 브랜치로 있습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">workspace-branch-options-invalid</code></td>
+<td>만들 때 <code dir="auto">reuseBranch</code>와 <code dir="auto">branchName</code>을 함께 주었거나 <code dir="auto">baseRef</code> 없이 주었거나, 뿌리 작업 자리에 브랜치 선택을 주었습니다. 지울 때 어긋난 브랜치 선택은 <code dir="auto">invalid-input</code>입니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">setup-plan-changed</code> · <code dir="auto">setup-nothing-to-resume</code> · <code dir="auto">setup-step-outcome-unknown</code> · <code dir="auto">setup-interrupted</code></td>
+<td>준비를 이어 갈 수 없거나, 단계의 결과를 모르거나, 끊겼습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">prepare-untrusted</code> · <code dir="auto">prepare-plan-changed</code> · <code dir="auto">prepare-trust-revision-conflict</code></td>
+<td>준비 명령의 동의가 없거나, 사람이 본 명령과 지금 명령이 다르거나, 동의의 버전이 어긋납니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">prepare-file-invalid</code> · <code dir="auto">prepare-file-unreadable</code></td>
+<td><code dir="auto">.lyra/config.yaml</code>이 준비 목록으로 올바르지 않거나, 읽지 못했거나 없음을 확인하지 못했습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">branch-cleanup-not-found</code> · <code dir="auto">branch-cleanup-not-eligible</code> · <code dir="auto">branch-head-changed</code> · <code dir="auto">branch-checked-out</code> · <code dir="auto">branch-repository-changed</code> · <code dir="auto">branch-restore-failed</code> · <code dir="auto">branch-delete-time-limit</code></td>
+<td>남긴 브랜치를 지울 수 없는 이유입니다. 영수증이 없거나 지울 수 없는 상태, 머리 커밋이 움직임, 어느 worktree에 체크아웃됨, 다른 저장소임, 되살리기 실패, Project를 지우는 시간이 다 됨 순입니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">project-identity-changed</code> · <code dir="auto">project-registration-changed</code></td>
+<td>복제한 사본이 확인한 저장소가 아니거나, 복제하는 동안 등록이 바뀌었습니다. 사본은 남기고 아무것도 등록하지 않습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">project-appearance-invalid</code></td>
+<td>고른 그림이 정해진 아이콘, 이모지 하나, 작은 정사각 PNG가 아닙니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">revision-conflict</code></td>
+<td>장부의 버전이 어긋납니다. 다시 읽고 시도합니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">project-store-unreadable</code> · <code dir="auto">project-store-unwritable</code></td>
+<td>장부를 읽거나 쓰지 못했습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">project-remote-answer-invalid</code></td>
+<td><code dir="auto">Host</code>의 답이 약속한 모양이 아닙니다.</td>
+</tr>
+</tbody>
+</table></div><footer class="sl-flex astro-ddtxxk7k"><div class="meta sl-flex astro-ddtxxk7k"></div><div class="pagination-links print:hidden astro-b5raizh3" dir="ltr"><a href="/lyra-release/en/dev/features/projects/" rel="prev" class="astro-b5raizh3"><svg aria-hidden="true" class="astro-b5raizh3 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17 11H9.41l3.3-3.29a1.004 1.004 0 1 0-1.42-1.42l-5 5a1 1 0 0 0-.21.33 1 1 0 0 0 0 .76 1 1 0 0 0 .21.33l5 5a1.002 1.002 0 0 0 1.639-.325 1 1 0 0 0-.219-1.095L9.41 13H17a1 1 0 0 0 0-2Z"/></svg><span class="astro-b5raizh3">Previous<br class="astro-b5raizh3"><span class="link-title astro-b5raizh3">Projects and Workspaces</span></span></a><a href="/lyra-release/en/dev/features/terminals/" rel="next" class="astro-b5raizh3"><svg aria-hidden="true" class="astro-b5raizh3 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17.92 11.62a1.001 1.001 0 0 0-.21-.33l-5-5a1.003 1.003 0 1 0-1.42 1.42l3.3 3.29H7a1 1 0 0 0 0 2h7.59l-3.3 3.29a1.002 1.002 0 0 0 .325 1.639 1 1 0 0 0 1.095-.219l5-5a1 1 0 0 0 .21-.33 1 1 0 0 0 0-.76Z"/></svg><span class="astro-b5raizh3">Next<br class="astro-b5raizh3"><span class="link-title astro-b5raizh3">Terminals</span></span></a></div></footer></div></div></main></div></div></div></div></body></html>

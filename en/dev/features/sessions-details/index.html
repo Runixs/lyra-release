@@ -1,0 +1,622 @@
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-toc data-has-sidebar class="astro-g5ptsecz"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Sessions and Turns details | Lyra</title><link rel="canonical" href="https://runixs.github.io/lyra-release/en/dev/features/sessions-details/"/><link rel="alternate" hreflang="ko" href="https://runixs.github.io/lyra-release/dev/features/sessions-details/"/><link rel="alternate" hreflang="en" href="https://runixs.github.io/lyra-release/en/dev/features/sessions-details/"/><link rel="alternate" hreflang="x-default" href="https://runixs.github.io/lyra-release/dev/features/sessions-details/"/><link rel="sitemap" href="/lyra-release/sitemap-index.xml"/><link rel="shortcut icon" href="/lyra-release/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.4.2"/><meta name="generator" content="Starlight v0.42.7"/><meta property="og:title" content="Sessions and Turns details"/><meta property="og:type" content="article"/><meta property="og:url" content="https://runixs.github.io/lyra-release/en/dev/features/sessions-details/"/><meta property="og:locale" content="en"/><meta property="og:description" content="Session의 상태와 이동, 한 줄이 지니는 값, Turn의 종류와 상태, 연산과 오류 코드를 표로 모았습니다."/><meta property="og:site_name" content="Lyra"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="Session의 상태와 이동, 한 줄이 지니는 값, Turn의 종류와 상태, 연산과 오류 코드를 표로 모았습니다."/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/lyra-release/_astro/print.ehPL0gv-.css" media="print"><link rel="stylesheet" href="/lyra-release/_astro/common.CtTqcOyc.css"><script type="module" src="/lyra-release/_astro/page.cNngjUgL.js"></script></head><body class="astro-g5ptsecz"><a class="sl-skip-link astro-qb7clj6f" href="#_top">Skip to content</a><div class="page sl-flex astro-yntsjkba"><header class="header astro-yntsjkba"><div class="header astro-by6fddyj"><div class="title-wrapper sl-flex astro-by6fddyj"><a href="/lyra-release/en" class="site-title sl-flex astro-6rvad3va"><span class="astro-6rvad3va" translate="no">Lyra</span></a></div><div class="sl-flex print:hidden astro-by6fddyj"><site-search class="astro-by6fddyj astro-b5kgnn7o" data-translations="{&quot;placeholder&quot;:&quot;Search&quot;}"><button data-open-modal disabled aria-label="Search" aria-keyshortcuts="Control+K" class="astro-b5kgnn7o"><svg aria-hidden="true" class="astro-b5kgnn7o astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg><span class="sl-hidden md:sl-block astro-b5kgnn7o" aria-hidden="true">Search</span><kbd class="sl-hidden md:sl-flex astro-b5kgnn7o" style="display: none;"><kbd class="astro-b5kgnn7o">Ctrl</kbd><kbd class="astro-b5kgnn7o">K</kbd></kbd></button><dialog style="padding:0" aria-label="Search" class="astro-b5kgnn7o"><div class="dialog-frame sl-flex astro-b5kgnn7o"><button data-close-modal class="sl-flex md:sl-hidden astro-b5kgnn7o">Cancel</button><div class="search-container astro-b5kgnn7o"><div id="starlight__search" class="astro-b5kgnn7o"></div></div></div></dialog></site-search><script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script><script type="module" src="/lyra-release/_astro/Search.astro_astro_type_script_index_0_lang.DVXiSYbz.js"></script></div><div class="sl-hidden md:sl-flex print:hidden right-group astro-by6fddyj"><div class="sl-flex social-icons astro-by6fddyj"></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script><starlight-lang-select><label style="--sl-select-width: 7em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select language</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path fill-rule="evenodd" d="M8.516 3a.94.94 0 0 0-.941.94v1.15H2.94a.94.94 0 1 0 0 1.882h7.362a7.422 7.422 0 0 1-1.787 3.958 7.42 7.42 0 0 1-1.422-2.425.94.94 0 1 0-1.774.627 9.303 9.303 0 0 0 1.785 3.043 7.422 7.422 0 0 1-4.164 1.278.94.94 0 1 0 0 1.881 9.303 9.303 0 0 0 5.575-1.855 9.303 9.303 0 0 0 4.11 1.74l-.763 1.525a.968.968 0 0 0-.016.034l-1.385 2.77a.94.94 0 1 0 1.683.841l1.133-2.267h5.806l1.134 2.267a.94.94 0 0 0 1.683-.841l-1.385-2.769a.95.95 0 0 0-.018-.036l-3.476-6.951a.94.94 0 0 0-1.682 0l-1.82 3.639a7.423 7.423 0 0 1-3.593-1.256 9.303 9.303 0 0 0 2.27-5.203h1.894a.94.94 0 0 0 0-1.881H9.456V3.94A.94.94 0 0 0 8.516 3Zm6.426 11.794a1.068 1.068 0 0 1-.02.039l-.703 1.407h3.924l-1.962-3.924-1.24 2.478Z" clip-rule="evenodd"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="/lyra-release/dev/features/sessions-details/" class="astro-2z5xp7gb">한국어</option><option value="/lyra-release/en/dev/features/sessions-details/" selected class="astro-2z5xp7gb">English</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-lang-select><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script></div></div></header><nav class="sidebar print:hidden astro-yntsjkba" aria-label="Main"><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden astro-r2osgdlg"><svg aria-hidden="true" class="open-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only astro-r2osgdlg">Menu</span></button><script type="module">var e=class extends HTMLElement{constructor(){super();let e=matchMedia(`(min-width: 50em)`),t=()=>{this.popover=e.matches?null:`auto`};t(),e.addEventListener(`change`,()=>t()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane astro-yntsjkba"><div class="sidebar-content sl-flex astro-yntsjkba"><ul class="ly-rail"><li><a class="ly-rb" href="/lyra-release/en/start/"><svg class="ly-icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h8l4 4v14H6zM14 3v5h4M9 12h6M9 16h4"></path></svg><span class="ly-fly">User guide</span></a></li><li><a class="ly-rb" href="/lyra-release/en/dev/" aria-current="true"><svg class="ly-icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 7L3.5 12l5 5M15.5 7l5 5-5 5"></path></svg><span class="ly-fly">Developers</span></a></li><li class="ly-rdiv" aria-hidden="true"></li><li><a class="ly-rb" href="/lyra-release/en/architecture/"><svg class="ly-icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10h4v4H4zM16 4h4v4h-4zM16 16h4v4h-4zM8 12h4V6h4M12 12v6h4"></path></svg><span class="ly-fly">Architecture</span></a></li></ul><sl-sidebar-state-persist data-hash="1ltv0my" class="astro-ipdry5cl"><script aria-hidden="true">
+		(() => {
+			try {
+				if (!matchMedia('(min-width: 50em)').matches) return;
+				/** @type {HTMLElement | null} */
+				const target = document.querySelector('sl-sidebar-state-persist');
+				const state = JSON.parse(sessionStorage.getItem('sl-sidebar-state') || '0');
+				if (!target || !state || target.dataset.hash !== state.hash) return;
+				window._starlightScrollRestore = state.scroll;
+				customElements.define(
+					'sl-sidebar-restore',
+					class SidebarRestore extends HTMLElement {
+						connectedCallback() {
+							try {
+								const idx = parseInt(this.dataset.index || '');
+								const details = this.closest('details');
+								if (details && typeof state.open[idx] === 'boolean') details.open = state.open[idx];
+							} catch {}
+						}
+					}
+				);
+			} catch {}
+		})();
+	</script><div class="ly-card"><div class="ly-head">Developers</div><div class="ly-tree"><div hidden><ul class="ly-list ly-sections"><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4l12 8-12 8z"></path></svg><b title="Getting started">Getting started</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="0"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/start/" class="ly-page" title="Getting started"><span>Getting started</span></a></li><li><a href="/lyra-release/en/start/overview/" class="ly-page" title="Overview"><span>Overview</span></a></li><li><a href="/lyra-release/en/start/install/" class="ly-page" title="Install"><span>Install</span></a></li><li><a href="/lyra-release/en/start/wsl/" class="ly-page" title="Use WSL as a server"><span>Use WSL as a server</span></a></li><li><a href="/lyra-release/en/start/first-session/" class="ly-page" title="First Session"><span>First Session</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5z"></path></svg><b title="Home">Home</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="1"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/screens/home/" class="ly-page" title="Home"><span>Home</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 13.5L7 5.5h10l2.5 8v5.5h-15zM4.5 13.5h4l1.5 2.5h4l1.5-2.5h4"></path></svg><b title="Inbox">Inbox</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="2"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/screens/inbox/" class="ly-page" title="Inbox"><span>Inbox</span></a></li><li><a href="/lyra-release/en/screens/inbox/notices/" class="ly-page" title="Notice list"><span>Notice list</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H10l-6 4z"></path></svg><b title="Lyra">Lyra</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="3"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/screens/lyra/" class="ly-page" title="Lyra"><span>Lyra</span></a></li><li><a href="/lyra-release/en/screens/lyra/composer/" class="ly-page" title="Lyra input box"><span>Lyra input box</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM7 9l3 3-3 3M13 15h4"></path></svg><b title="Projects">Projects</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="4"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/screens/projects/" class="ly-page" title="Projects"><span>Projects</span></a></li><li><a href="/lyra-release/en/screens/projects/add-project/" class="ly-page" title="Add a Project"><span>Add a Project</span></a></li><li><a href="/lyra-release/en/screens/projects/explorer/" class="ly-page" title="Explorer"><span>Explorer</span></a></li><li><a href="/lyra-release/en/screens/projects/workspaces/" class="ly-page" title="Worktree and Workspace"><span>Worktree and Workspace</span></a></li><li><a href="/lyra-release/en/screens/projects/sessions/" class="ly-page" title="Open a Session"><span>Open a Session</span></a></li><li><a href="/lyra-release/en/screens/projects/tabs/" class="ly-page" title="Tabs"><span>Tabs</span></a></li><li><a href="/lyra-release/en/screens/projects/layout/" class="ly-page" title="Split and Layout"><span>Split and Layout</span></a></li><li><a href="/lyra-release/en/screens/projects/side-panel/" class="ly-page" title="Right side panel"><span>Right side panel</span></a></li><li><a href="/lyra-release/en/screens/projects/project-settings/" class="ly-page" title="Project settings"><span>Project settings</span></a></li><li><a href="/lyra-release/en/screens/projects/execution-pane/" class="ly-page" title="Run pane"><span>Run pane</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10h4v4H4zM16 4h4v4h-4zM16 16h4v4h-4zM8 12h4V6h4M12 12v6h4"></path></svg><b title="Workflows">Workflows</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="5"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/screens/workflows/" class="ly-page" title="Workflows"><span>Workflows</span></a></li><li><a href="/lyra-release/en/screens/workflows/run/" class="ly-page" title="Run now"><span>Run now</span></a></li><li><a href="/lyra-release/en/screens/workflows/editor/" class="ly-page" title="Edit"><span>Edit</span></a></li><li><a href="/lyra-release/en/screens/workflows/run-screen/" class="ly-page" title="Run screen"><span>Run screen</span></a></li><li><a href="/lyra-release/en/screens/workflows/waiting/" class="ly-page" title="Waiting runs"><span>Waiting runs</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5a8.5 8.5 0 1 0 0 17a8.5 8.5 0 1 0 0-17zM12 10.4a1.6 1.6 0 1 0 0 3.2a1.6 1.6 0 1 0 0-3.2z"></path></svg><b title="Issues">Issues</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="6"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/screens/issues/" class="ly-page" title="Issues"><span>Issues</span></a></li><li><a href="/lyra-release/en/screens/issues/read/" class="ly-page" title="Read an issue"><span>Read an issue</span></a></li><li><a href="/lyra-release/en/screens/issues/comments/" class="ly-page" title="Comments"><span>Comments</span></a></li><li><a href="/lyra-release/en/screens/issues/start/" class="ly-page" title="Start work"><span>Start work</span></a></li><li><a href="/lyra-release/en/screens/issues/connections/" class="ly-page" title="Connections"><span>Connections</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8.8a3.2 3.2 0 1 0 0 6.4a3.2 3.2 0 1 0 0-6.4zM19.4 14.5a1.6 1.6 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.6 1.6 0 00-2.7 1.1v.3a2 2 0 11-4 0v-.2a1.6 1.6 0 00-2.8-1.1l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.6 1.6 0 00-1.1-2.7h-.3a2 2 0 110-4h.2a1.6 1.6 0 001.1-2.8l-.1-.1A2 2 0 116.9 3.9l.1.1a1.6 1.6 0 001.8.3h.1a1.6 1.6 0 001-1.5v-.3a2 2 0 114 0v.2a1.6 1.6 0 002.7 1.1l.1-.1a2 2 0 112.8 2.8l-.1.1a1.6 1.6 0 00-.3 1.8v.1a1.6 1.6 0 001.5 1h.3a2 2 0 110 4h-.2a1.6 1.6 0 00-1.5 1z"></path></svg><b title="Settings">Settings</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="7"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/screens/settings/" class="ly-page" title="Settings"><span>Settings</span></a></li><li><a href="/lyra-release/en/screens/settings/wsl/" class="ly-page" title="WSL"><span>WSL</span></a></li><li><a href="/lyra-release/en/screens/settings/remote/" class="ly-page" title="Remote"><span>Remote</span></a></li><li><a href="/lyra-release/en/screens/settings/agents/" class="ly-page" title="Agents"><span>Agents</span></a></li><li><a href="/lyra-release/en/screens/settings/connections/" class="ly-page" title="Issue connections"><span>Issue connections</span></a></li><li><a href="/lyra-release/en/screens/settings/general/" class="ly-page" title="General"><span>General</span></a></li><li><a href="/lyra-release/en/screens/settings/appearance/" class="ly-page" title="Appearance"><span>Appearance</span></a></li><li><a href="/lyra-release/en/screens/settings/shortcuts/" class="ly-page" title="Shortcuts"><span>Shortcuts</span></a></li><li><a href="/lyra-release/en/screens/settings/agent-skills/" class="ly-page" title="Agent skills"><span>Agent skills</span></a></li><li><a href="/lyra-release/en/screens/settings/orchestration/" class="ly-page" title="Orchestration"><span>Orchestration</span></a></li><li><a href="/lyra-release/en/screens/settings/serial/" class="ly-page" title="Serial"><span>Serial</span></a></li><li><a href="/lyra-release/en/screens/settings/token-profiling/" class="ly-page" title="Token profiling"><span>Token profiling</span></a></li><li><a href="/lyra-release/en/screens/settings/app/" class="ly-page" title="App"><span>App</span></a></li><li><a href="/lyra-release/en/screens/settings/problem-log/" class="ly-page" title="Problem log"><span>Problem log</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"></path></svg><b title="Across screens">Across screens</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="8"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/across/" class="ly-page" title="Across screens"><span>Across screens</span></a></li><li><a href="/lyra-release/en/across/servers-hosts/" class="ly-page" title="Servers and Hosts"><span>Servers and Hosts</span></a></li><li><a href="/lyra-release/en/across/profiles-agents/" class="ly-page" title="Profiles and agents"><span>Profiles and agents</span></a></li><li><a href="/lyra-release/en/across/orchestration/" class="ly-page" title="Orchestration"><span>Orchestration</span></a></li><li><a href="/lyra-release/en/across/window/" class="ly-page" title="The top and bottom of the window"><span>The top and bottom of the window</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h8l4 4v14H6zM14 3v5h4M9 12h6M9 16h4"></path></svg><b title="Orchestration guide">Orchestration guide</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="9"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/orchestration-book/" class="ly-page" title="Structure"><span>Structure</span></a></li><li><a href="/lyra-release/en/orchestration-book/life/" class="ly-page" title="The life of a task"><span>The life of a task</span></a></li><li><a href="/lyra-release/en/orchestration-book/scenarios/" class="ly-page" title="Scenarios"><span>Scenarios</span></a></li><li><a href="/lyra-release/en/orchestration-book/edges/" class="ly-page" title="Edge cases"><span>Edge cases</span></a></li><li><a href="/lyra-release/en/orchestration-book/roles/" class="ly-page" title="Roles"><span>Roles</span></a></li><li><a href="/lyra-release/en/orchestration-book/handoff/" class="ly-page" title="Handoff"><span>Handoff</span></a></li><li><a href="/lyra-release/en/orchestration-book/experiments/" class="ly-page" title="Experiments to try"><span>Experiments to try</span></a></li><li><a href="/lyra-release/en/orchestration-book/trouble/" class="ly-page" title="When this happens"><span>When this happens</span></a></li><li><a href="/lyra-release/en/orchestration-book/commands/" class="ly-page" title="Command reference"><span>Command reference</span></a></li><li><a href="/lyra-release/en/orchestration-book/words/" class="ly-page" title="Words"><span>Words</span></a></li><li><a href="/lyra-release/en/orchestration-book/roadmap/" class="ly-page" title="Roadmap"><span>Roadmap</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 7L3.5 12l5 5M15.5 7l5 5-5 5"></path></svg><b title="Command line">Command line</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="10"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/cli/" class="ly-page" title="Command line"><span>Command line</span></a></li><li><a href="/lyra-release/en/cli/commands/" class="ly-page" title="Command list"><span>Command list</span></a></li><li><a href="/lyra-release/en/cli/skills/" class="ly-page" title="Default skills"><span>Default skills</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5.5h12M6 12h12M6 18.5h7"></path></svg><b title="Terms">Terms</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="11"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/terms/" class="ly-page" title="Terms"><span>Terms</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3L2 21h20L12 3zM12 9v5M12 17h.01"></path></svg><b title="Troubleshooting">Troubleshooting</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="12"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/troubleshooting/" class="ly-page" title="Troubleshooting"><span>Troubleshooting</span></a></li></ul></details></li></ul></div><div><ul class="ly-list ly-sections"><li><a href="/lyra-release/en/dev/" class="ly-top" title="Overview"><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5z"></path></svg><span>Overview</span></a></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM7 9l3 3-3 3M13 15h4"></path></svg><b title="Processes">Processes</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="13"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/dev/processes/app/" class="ly-page" title="Lyra app"><span>Lyra app</span></a></li><li><a href="/lyra-release/en/dev/processes/sidecar/" class="ly-page" title="Desktop sidecar"><span>Desktop sidecar</span></a></li><li><a href="/lyra-release/en/dev/processes/engine/" class="ly-page" title="Engine"><span>Engine</span></a></li><li><a href="/lyra-release/en/dev/processes/keeper/" class="ly-page" title="Keeper"><span>Keeper</span></a></li><li><a href="/lyra-release/en/dev/processes/server-daemon/" class="ly-page" title="Server daemon"><span>Server daemon</span></a></li><li><a href="/lyra-release/en/dev/processes/cli/" class="ly-page" title="Command line"><span>Command line</span></a></li><li><a href="/lyra-release/en/dev/processes/children/" class="ly-page" title="Agent and terminal children"><span>Agent and terminal children</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"></path></svg><b title="Connections">Connections</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="14"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/dev/connections/window-bridge/" class="ly-page" title="Window bridge"><span>Window bridge</span></a></li><li><a href="/lyra-release/en/dev/connections/sidecar-lines/" class="ly-page" title="Sidecar line protocol"><span>Sidecar line protocol</span></a></li><li><a href="/lyra-release/en/dev/connections/guest-socket/" class="ly-page" title="Guest socket"><span>Guest socket</span></a></li><li><a href="/lyra-release/en/dev/connections/keeper-socket/" class="ly-page" title="Keeper socket"><span>Keeper socket</span></a></li><li><a href="/lyra-release/en/dev/connections/link/" class="ly-page" title="Link"><span>Link</span></a></li><li><a href="/lyra-release/en/dev/connections/wsl/" class="ly-page" title="WSL channel"><span>WSL channel</span></a></li><li><a href="/lyra-release/en/dev/connections/cli-bridge/" class="ly-page" title="CLI bridge"><span>CLI bridge</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h8l4 4v14H6zM14 3v5h4M9 12h6M9 16h4"></path></svg><b title="Data">Data</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="15"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/dev/data/folders/" class="ly-page" title="Folders"><span>Folders</span></a></li><li><a href="/lyra-release/en/dev/data/home-sqlite/" class="ly-page" title="home.sqlite"><span>home.sqlite</span></a></li><li><a href="/lyra-release/en/dev/data/server-state/" class="ly-page" title="Server state"><span>Server state</span></a></li><li><a href="/lyra-release/en/dev/data/credentials/" class="ly-page" title="Credentials"><span>Credentials</span></a></li><li><a href="/lyra-release/en/dev/data/logs/" class="ly-page" title="Logs and problem records"><span>Logs and problem records</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5z"></path></svg><b title="Features">Features</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="16"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/dev/features/sessions/" class="ly-page" title="Sessions and Turns"><span>Sessions and Turns</span></a></li><li><a href="/lyra-release/en/dev/features/sessions-details/" class="ly-page" aria-current="page" title="Sessions and Turns details"><span>Sessions and Turns details</span></a></li><li><a href="/lyra-release/en/dev/features/inbox/" class="ly-page" title="Inbox"><span>Inbox</span></a></li><li><a href="/lyra-release/en/dev/features/inbox-details/" class="ly-page" title="Inbox details"><span>Inbox details</span></a></li><li><a href="/lyra-release/en/dev/features/orchestration/" class="ly-page" title="Orchestration"><span>Orchestration</span></a></li><li><a href="/lyra-release/en/dev/features/orchestration-details/" class="ly-page" title="Orchestration details"><span>Orchestration details</span></a></li><li><a href="/lyra-release/en/dev/features/workflows/" class="ly-page" title="Workflows"><span>Workflows</span></a></li><li><a href="/lyra-release/en/dev/features/workflows-details/" class="ly-page" title="Workflows details"><span>Workflows details</span></a></li><li><a href="/lyra-release/en/dev/features/issues/" class="ly-page" title="Issues and connections"><span>Issues and connections</span></a></li><li><a href="/lyra-release/en/dev/features/issues-details/" class="ly-page" title="Issues and connections details"><span>Issues and connections details</span></a></li><li><a href="/lyra-release/en/dev/features/projects/" class="ly-page" title="Projects and Workspaces"><span>Projects and Workspaces</span></a></li><li><a href="/lyra-release/en/dev/features/projects-details/" class="ly-page" title="Projects and Workspaces details"><span>Projects and Workspaces details</span></a></li><li><a href="/lyra-release/en/dev/features/terminals/" class="ly-page" title="Terminals"><span>Terminals</span></a></li><li><a href="/lyra-release/en/dev/features/terminals-details/" class="ly-page" title="Terminals details"><span>Terminals details</span></a></li><li><a href="/lyra-release/en/dev/features/serial/" class="ly-page" title="Serial"><span>Serial</span></a></li><li><a href="/lyra-release/en/dev/features/serial-details/" class="ly-page" title="Serial details"><span>Serial details</span></a></li><li><a href="/lyra-release/en/dev/features/profiles/" class="ly-page" title="Profiles and agents"><span>Profiles and agents</span></a></li><li><a href="/lyra-release/en/dev/features/profiles-details/" class="ly-page" title="Profiles and agents details"><span>Profiles and agents details</span></a></li><li><a href="/lyra-release/en/dev/features/avatars-modules/" class="ly-page" title="Avatars and Modules"><span>Avatars and Modules</span></a></li><li><a href="/lyra-release/en/dev/features/avatars-modules-details/" class="ly-page" title="Avatars and Modules details"><span>Avatars and Modules details</span></a></li><li><a href="/lyra-release/en/dev/features/search/" class="ly-page" title="Search"><span>Search</span></a></li><li><a href="/lyra-release/en/dev/features/search-details/" class="ly-page" title="Search details"><span>Search details</span></a></li><li><a href="/lyra-release/en/dev/features/updates/" class="ly-page" title="Updates"><span>Updates</span></a></li><li><a href="/lyra-release/en/dev/features/updates-details/" class="ly-page" title="Updates details"><span>Updates details</span></a></li><li><a href="/lyra-release/en/dev/features/status/" class="ly-page" title="Status and diagnostics"><span>Status and diagnostics</span></a></li><li><a href="/lyra-release/en/dev/features/status-details/" class="ly-page" title="Status and diagnostics details"><span>Status and diagnostics details</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10h4v4H4zM16 4h4v4h-4zM16 16h4v4h-4zM8 12h4V6h4M12 12v6h4"></path></svg><b title="Lifecycles">Lifecycles</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="17"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/dev/lifecycles/session-open/" class="ly-page" title="Opening a Session"><span>Opening a Session</span></a></li><li><a href="/lyra-release/en/dev/lifecycles/engine-start/" class="ly-page" title="Engine start and restart"><span>Engine start and restart</span></a></li><li><a href="/lyra-release/en/dev/lifecycles/updates/" class="ly-page" title="Updating the app and the server daemon"><span>Updating the app and the server daemon</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3v5M16 3v5M6 8h12v4a6 6 0 0 1-12 0zM12 18v4"></path></svg><b title="Extending">Extending</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="18"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/dev/extending/plugins/" class="ly-page" title="Plugins"><span>Plugins</span></a></li><li><a href="/lyra-release/en/dev/extending/modules/" class="ly-page" title="Modules"><span>Modules</span></a></li><li><a href="/lyra-release/en/dev/extending/skills/" class="ly-page" title="Bundled skills"><span>Bundled skills</span></a></li><li><a href="/lyra-release/en/dev/extending/project-mcp/" class="ly-page" title="Project MCP"><span>Project MCP</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5.5h12M6 12h12M6 18.5h7"></path></svg><b title="Lookup">Lookup</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="19"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/dev/lookup/operations/" class="ly-page" title="Engine operations"><span>Engine operations</span></a></li><li><a href="/lyra-release/en/dev/lookup/errors/" class="ly-page" title="Error codes"><span>Error codes</span></a></li><li><a href="/lyra-release/en/dev/lookup/contracts/" class="ly-page" title="Contracts"><span>Contracts</span></a></li><li><a href="/lyra-release/en/dev/lookup/crates/" class="ly-page" title="Crates"><span>Crates</span></a></li><li><a href="/lyra-release/en/dev/lookup/implementation/" class="ly-page" title="Implementation status"><span>Implementation status</span></a></li></ul></details></li></ul></div></div></div><script aria-hidden="true">
+		(() => {
+			const scroller = document.getElementById('starlight__sidebar');
+			if (!window._starlightScrollRestore || !scroller) return;
+			scroller.scrollTop = window._starlightScrollRestore;
+			delete window._starlightScrollRestore;
+		})();
+	</script></sl-sidebar-state-persist><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-p4azlveh"><div class="social-icons astro-p4azlveh"></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><starlight-lang-select><label style="--sl-select-width: 7em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select language</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path fill-rule="evenodd" d="M8.516 3a.94.94 0 0 0-.941.94v1.15H2.94a.94.94 0 1 0 0 1.882h7.362a7.422 7.422 0 0 1-1.787 3.958 7.42 7.42 0 0 1-1.422-2.425.94.94 0 1 0-1.774.627 9.303 9.303 0 0 0 1.785 3.043 7.422 7.422 0 0 1-4.164 1.278.94.94 0 1 0 0 1.881 9.303 9.303 0 0 0 5.575-1.855 9.303 9.303 0 0 0 4.11 1.74l-.763 1.525a.968.968 0 0 0-.016.034l-1.385 2.77a.94.94 0 1 0 1.683.841l1.133-2.267h5.806l1.134 2.267a.94.94 0 0 0 1.683-.841l-1.385-2.769a.95.95 0 0 0-.018-.036l-3.476-6.951a.94.94 0 0 0-1.682 0l-1.82 3.639a7.423 7.423 0 0 1-3.593-1.256 9.303 9.303 0 0 0 2.27-5.203h1.894a.94.94 0 0 0 0-1.881H9.456V3.94A.94.94 0 0 0 8.516 3Zm6.426 11.794a1.068 1.068 0 0 1-.02.039l-.703 1.407h3.924l-1.962-3.924-1.24 2.478Z" clip-rule="evenodd"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="/lyra-release/dev/features/sessions-details/" class="astro-2z5xp7gb">한국어</option><option value="/lyra-release/en/dev/features/sessions-details/" selected class="astro-2z5xp7gb">English</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-lang-select></div></div></div></sl-sidebar-pane></nav><div class="main-frame astro-yntsjkba"><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex astro-lrzkfocr"><aside class="right-sidebar-container print:hidden astro-lrzkfocr"><div class="right-sidebar astro-lrzkfocr"><div class="lg:sl-hidden astro-qok35upx"><mobile-starlight-toc data-min-h="2" data-max-h="3" class="astro-66cqc7ze"><nav aria-labelledby="starlight__on-this-page--mobile" class="astro-66cqc7ze"><details id="starlight__mobile-toc" class="astro-66cqc7ze"><summary id="starlight__on-this-page--mobile" class="sl-flex astro-66cqc7ze"><span class="toggle sl-flex astro-66cqc7ze">On this page<svg aria-hidden="true" class="caret astro-66cqc7ze astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></span><span class="display-current astro-66cqc7ze"></span></summary><div class="dropdown astro-66cqc7ze"><ul class="isMobile astro-jugkfwgx" style="--depth: 0;"><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#_top" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Overview</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#session의-상태" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Session의 상태</span></a><ul class="isMobile astro-jugkfwgx" style="--depth: 1;"><li style="--depth: 1;" class="astro-jugkfwgx"><a href="#이동" style="--depth: 1;" class="astro-jugkfwgx"><span style="--depth: 1;" class="astro-jugkfwgx">이동</span></a></li><li style="--depth: 1;" class="astro-jugkfwgx"><a href="#닫기의-세-갈래" style="--depth: 1;" class="astro-jugkfwgx"><span style="--depth: 1;" class="astro-jugkfwgx">닫기의 세 갈래</span></a></li></ul></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#session-한-줄" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Session 한 줄</span></a><ul class="isMobile astro-jugkfwgx" style="--depth: 1;"><li style="--depth: 1;" class="astro-jugkfwgx"><a href="#발사-조건-launchsnapshot" style="--depth: 1;" class="astro-jugkfwgx"><span style="--depth: 1;" class="astro-jugkfwgx">발사 조건 LaunchSnapshot</span></a></li></ul></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#작성-칸의-선택" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">작성 칸의 선택</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#turn-한-줄" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Turn 한 줄</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#연산" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">연산</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#사건" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">사건</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#오류-코드" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">오류 코드</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#sessionreset의-단계" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">session.reset의 단계</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#저장소-버전" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">저장소 버전</span></a></li></ul></div></details></nav></mobile-starlight-toc><script type="module" src="/lyra-release/_astro/MobileTableOfContents.astro_astro_type_script_index_0_lang.C3fM4Kra.js"></script></div><div class="right-sidebar-panel sl-hidden lg:sl-block astro-qok35upx"><div class="sl-container astro-qok35upx"><starlight-toc data-min-h="2" data-max-h="3"><nav aria-labelledby="starlight__on-this-page"><h2 id="starlight__on-this-page">On this page</h2><ul class="astro-jugkfwgx" style="--depth: 0;"><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#_top" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Overview</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#session의-상태" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Session의 상태</span></a><ul class="astro-jugkfwgx" style="--depth: 1;"><li style="--depth: 1;" class="astro-jugkfwgx"><a href="#이동" style="--depth: 1;" class="astro-jugkfwgx"><span style="--depth: 1;" class="astro-jugkfwgx">이동</span></a></li><li style="--depth: 1;" class="astro-jugkfwgx"><a href="#닫기의-세-갈래" style="--depth: 1;" class="astro-jugkfwgx"><span style="--depth: 1;" class="astro-jugkfwgx">닫기의 세 갈래</span></a></li></ul></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#session-한-줄" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Session 한 줄</span></a><ul class="astro-jugkfwgx" style="--depth: 1;"><li style="--depth: 1;" class="astro-jugkfwgx"><a href="#발사-조건-launchsnapshot" style="--depth: 1;" class="astro-jugkfwgx"><span style="--depth: 1;" class="astro-jugkfwgx">발사 조건 LaunchSnapshot</span></a></li></ul></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#작성-칸의-선택" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">작성 칸의 선택</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#turn-한-줄" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Turn 한 줄</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#연산" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">연산</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#사건" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">사건</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#오류-코드" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">오류 코드</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#sessionreset의-단계" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">session.reset의 단계</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#저장소-버전" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">저장소 버전</span></a></li></ul></nav></starlight-toc><script type="module" src="/lyra-release/_astro/TableOfContents.astro_astro_type_script_index_0_lang.BpJaGz7G.js"></script></div></div></div></aside><div class="main-pane astro-lrzkfocr"><main data-pagefind-body class="astro-g5ptsecz" lang="ko" dir="ltr"><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><h1 id="_top" class="astro-bebwqqxs">Sessions and Turns details</h1><p class="sl-flex astro-gsljcgkv"><svg aria-hidden="true" class="astro-gsljcgkv astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-color: var(--sl-color-orange-high);--sl-icon-size: 1.5em;"><path d="M12 16a1 1 0 1 0 0 2 1 1 0 0 0 0-2Zm10.67 1.47-8.05-14a3 3 0 0 0-5.24 0l-8 14A3 3 0 0 0 3.94 22h16.12a3 3 0 0 0 2.61-4.53Zm-1.73 2a1 1 0 0 1-.88.51H3.94a1 1 0 0 1-.88-.51 1 1 0 0 1 0-1l8-14a1 1 0 0 1 1.78 0l8.05 14a1 1 0 0 1 .05 1.02v-.02ZM12 8a1 1 0 0 0-1 1v4a1 1 0 0 0 2 0V9a1 1 0 0 0-1-1Z"/></svg><span class="astro-gsljcgkv">This content is not available in your language yet.</span></p></div></div><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><div class="sl-markdown-content"><p><a href="../sessions/">Sessions and Turns</a>의 찾아보기 표입니다. 모든 연산은 <a href="../../lookup/operations/">Operations</a>, 모든 오류 코드는 <a href="../../lookup/errors/">Errors</a>가 정합니다. 여기에는 이 기능의 것만 한 줄씩 적습니다.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="session의-상태">Session의 상태</h2><a class="sl-anchor-link" href="#session의-상태"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “Session의 상태”</span></a></div>
+<p>기록의 상태 <code dir="auto">SessionState</code>는 여섯 가지입니다. 화면의 <code dir="auto">Lyra</code> 대화 목록은 이 이름을 그대로 보입니다.</p>
+<table>
+<thead>
+<tr>
+<th>상태</th>
+<th>화면</th>
+<th>뜻</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code dir="auto">Opening</code></td>
+<td><code dir="auto">Opening</code></td>
+<td>열기를 기록했고 실행 위치의 결과를 기다립니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">FailedUnverified</code></td>
+<td><code dir="auto">Failed · Unverified</code></td>
+<td>발사 실패는 알지만 원래 프로세스가 멈췄는지, 인수됐는지 확인하지 못했습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">Active</code></td>
+<td><code dir="auto">Active</code></td>
+<td>실행 손잡이가 확인됐습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">Closing</code></td>
+<td><code dir="auto">Closing</code></td>
+<td>명시적 종료가 진행 중입니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">Closed</code></td>
+<td><code dir="auto">Closed</code></td>
+<td>실행 위치의 종료가 확인됐습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">Failed</code></td>
+<td><code dir="auto">Failed</code></td>
+<td>원인(<code dir="auto">failureCode</code>)과 함께 실패했습니다.</td>
+</tr>
+</tbody>
+</table>
+<p><code dir="auto">Working</code> · <code dir="auto">Waiting</code> · <code dir="auto">Idle</code> · <code dir="auto">Done</code> 같은 상태 낱말은 이 기록의 상태가 아니라 에이전트가 지금 무엇을 하는지를 말합니다. 그 길은 <a href="../status/">Status</a>가 설명합니다.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="이동">이동</h3><a class="sl-anchor-link" href="#이동"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “이동”</span></a></div>
+<p><code dir="auto">SessionCore::transition</code>이 허용하는 이동은 아래뿐입니다. 그 밖의 이동은 오류입니다. 출발이 <code dir="auto">Closed</code> 또는 <code dir="auto">Failed</code>이면 <code dir="auto">late-session-command</code>, 그 밖에는 <code dir="auto">invalid-session-transition</code>입니다. 이동마다 <code dir="auto">revision</code>이 1 오릅니다.</p>
+<table>
+<thead>
+<tr>
+<th>에서</th>
+<th>로 갈 수 있는 곳</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code dir="auto">Opening</code></td>
+<td><code dir="auto">Active</code> · <code dir="auto">Failed</code> · <code dir="auto">FailedUnverified</code></td>
+</tr>
+<tr>
+<td><code dir="auto">FailedUnverified</code></td>
+<td><code dir="auto">Active</code> · <code dir="auto">Failed</code> · <code dir="auto">FailedUnverified</code> · <code dir="auto">Closing</code></td>
+</tr>
+<tr>
+<td><code dir="auto">Active</code></td>
+<td><code dir="auto">Closing</code> · <code dir="auto">Failed</code></td>
+</tr>
+<tr>
+<td><code dir="auto">Closing</code></td>
+<td><code dir="auto">Closed</code> · <code dir="auto">Failed</code></td>
+</tr>
+<tr>
+<td><code dir="auto">Failed</code></td>
+<td><code dir="auto">Closing</code></td>
+</tr>
+<tr>
+<td><code dir="auto">Closed</code></td>
+<td>없음</td>
+</tr>
+</tbody>
+</table>
+<div class="sl-heading-wrapper level-h3"><h3 id="닫기의-세-갈래">닫기의 세 갈래</h3><a class="sl-anchor-link" href="#닫기의-세-갈래"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “닫기의 세 갈래”</span></a></div>
+<p><code dir="auto">SessionCore::close_action</code>이 증거로 고릅니다. 닿지 못함은 증거가 아닙니다.</p>
+<table>
+<thead>
+<tr>
+<th>갈래</th>
+<th>고르는 때</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code dir="auto">Local</code></td>
+<td>이미 <code dir="auto">Closed</code>. 또는 <code dir="auto">Failed</code>이면서 실행과 함께 끝난 실패(<code dir="auto">daemon-instance-mismatch</code> · <code dir="auto">update-cut</code> · <code dir="auto">wsl-work-stopped</code>)이거나 실행 손잡이가 없음. 또는 기록된 주인 <code dir="auto">daemon</code>이 지금 답하는 <code dir="auto">daemon</code>과 다름</td>
+</tr>
+<tr>
+<td><code dir="auto">Reconcile</code></td>
+<td><code dir="auto">Opening</code>, 또는 주인이 같은 <code dir="auto">FailedUnverified</code>. 원래 열던 작업을 먼저 맞춰 봄</td>
+</tr>
+<tr>
+<td><code dir="auto">Owner</code></td>
+<td>저장된 실행이 지금 답하는 <code dir="auto">daemon</code>의 것임. 그 <code dir="auto">daemon</code>에 닫으라고 함</td>
+</tr>
+</tbody>
+</table>
+<div class="sl-heading-wrapper level-h2"><h2 id="session-한-줄">Session 한 줄</h2><a class="sl-anchor-link" href="#session-한-줄"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “Session 한 줄”</span></a></div>
+<p><code dir="auto">session_records</code>의 본문(<code dir="auto">SessionRecord</code>)이 지니는 값입니다. 비밀 값은 없습니다.</p>
+<table>
+<thead>
+<tr>
+<th>값</th>
+<th>뜻</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code dir="auto">id</code></td>
+<td>엔진이 발급한 Session ID</td>
+</tr>
+<tr>
+<td><code dir="auto">state</code> · <code dir="auto">revision</code></td>
+<td>상태와 바뀔 때마다 오르는 버전</td>
+</tr>
+<tr>
+<td><code dir="auto">projectId</code></td>
+<td>프로젝트에 속한 Session이면 그 프로젝트. <code dir="auto">Lyra</code> 화면의 독립 대화에는 없음</td>
+</tr>
+<tr>
+<td><code dir="auto">context</code></td>
+<td>열 때 고정되는 조건: <code dir="auto">profileRef</code>, 고른 모델, 규칙 참조, 연 쪽(<code dir="auto">opened_by</code>), 원점(<code dir="auto">origin</code>), 발사 조건</td>
+</tr>
+<tr>
+<td><code dir="auto">title</code></td>
+<td>제목 글, 출처(<code dir="auto">Temporary</code> · <code dir="auto">ModelSummary</code> · <code dir="auto">User</code>), 바뀐 시각</td>
+</tr>
+<tr>
+<td><code dir="auto">launchOperationId</code></td>
+<td>처음 연 요청의 멱등 키</td>
+</tr>
+<tr>
+<td><code dir="auto">executionHandle</code></td>
+<td>실행 위치가 발급한 참조와 열기 결속: 위치(<code dir="auto">hostId</code>), 주인 <code dir="auto">daemon</code> 기동 참조, <code dir="auto">remoteSessionRef</code>, 기록 시각</td>
+</tr>
+<tr>
+<td><code dir="auto">openedAt</code> · <code dir="auto">closedAt</code> · <code dir="auto">failureCode</code></td>
+<td>열기 확인, 종료 확인 시각과 비밀 없는 실패 코드</td>
+</tr>
+<tr>
+<td><code dir="auto">continuedFrom</code></td>
+<td>이어받은 닫힌 앞 Session</td>
+</tr>
+<tr>
+<td><code dir="auto">providerBinding</code></td>
+<td>에이전트의 대화 신원과 쓰는 쪽(<code dir="auto">writer</code>: <code dir="auto">Live</code> · <code dir="auto">Exited</code> · <code dir="auto">Unknown</code>)의 세대</td>
+</tr>
+<tr>
+<td><code dir="auto">conversationOptions</code></td>
+<td>마지막으로 확인된 권한 모드와 노력 단계. 발사 조건과 따로 둠</td>
+</tr>
+<tr>
+<td><code dir="auto">daemonPlace</code></td>
+<td>실행이 받아들여진 곳</td>
+</tr>
+<tr>
+<td><code dir="auto">cacheObservation</code></td>
+<td>열 때 읽은 캐시 설정(<code dir="auto">5m</code> · <code dir="auto">1h</code> · <code dir="auto">off</code>)</td>
+</tr>
+</tbody>
+</table>
+<p>연 쪽 <code dir="auto">SessionOpener</code>는 <code dir="auto">user</code> · <code dir="auto">orchestrator</code> · <code dir="auto">workflow_run</code> 셋입니다.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="발사-조건-launchsnapshot">발사 조건 <code dir="auto">LaunchSnapshot</code></h3><a class="sl-anchor-link" href="#발사-조건-launchsnapshot"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “발사 조건 LaunchSnapshot”</span></a></div>
+<p>열기 직전에 한 번 고정하고 이후 바꾸지 않습니다. 다이제스트(SHA-256)가 함께 저장됩니다.</p>
+<table>
+<thead>
+<tr>
+<th>값</th>
+<th>뜻</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code dir="auto">profileRef</code> · <code dir="auto">profileRevision</code> · <code dir="auto">endpointRef</code></td>
+<td>열 때의 Profile과 비밀 없는 접속점 이름</td>
+</tr>
+<tr>
+<td><code dir="auto">executionHostId</code> · <code dir="auto">executionLocationId</code></td>
+<td>실행 <code dir="auto">Host</code>와 위치</td>
+</tr>
+<tr>
+<td><code dir="auto">workspaceId</code> · <code dir="auto">nativeCwd</code></td>
+<td>작업 자리와 실행 위치 쪽 철자의 작업 폴더</td>
+</tr>
+<tr>
+<td><code dir="auto">configRoot</code> · <code dir="auto">configRootKind</code></td>
+<td>에이전트 설정 폴더와 종류(<code dir="auto">user_default</code> · <code dir="auto">sandbox_isolated</code>)</td>
+</tr>
+<tr>
+<td><code dir="auto">harnessKind</code> · <code dir="auto">harnessVersion</code></td>
+<td>에이전트 종류와 설치본 버전</td>
+</tr>
+<tr>
+<td><code dir="auto">environmentNames</code></td>
+<td>환경 변수의 이름만. 값은 없음</td>
+</tr>
+<tr>
+<td><code dir="auto">primaryModel</code></td>
+<td>실제 쓰는 모델과 출처(<code dir="auto">session</code> · <code dir="auto">avatar</code> · <code dir="auto">profile_global</code> · <code dir="auto">provider_default</code>)</td>
+</tr>
+<tr>
+<td><code dir="auto">permissionMode</code> · <code dir="auto">effort</code> · <code dir="auto">cacheLifetime</code> · <code dir="auto">conversationKind</code></td>
+<td>처음 고른 권한 모드, 노력 단계, 캐시 수명, 대화 종류</td>
+</tr>
+</tbody>
+</table>
+<div class="sl-heading-wrapper level-h2"><h2 id="작성-칸의-선택">작성 칸의 선택</h2><a class="sl-anchor-link" href="#작성-칸의-선택"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “작성 칸의 선택”</span></a></div>
+<table>
+<thead>
+<tr>
+<th>선택</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>권한 모드 <code dir="auto">PermissionMode</code></td>
+<td><code dir="auto">default</code> · <code dir="auto">acceptEdits</code> · <code dir="auto">plan</code> · <code dir="auto">bypassPermissions</code></td>
+</tr>
+<tr>
+<td>노력 단계 <code dir="auto">ReasoningEffort</code></td>
+<td><code dir="auto">none</code> · <code dir="auto">minimal</code> · <code dir="auto">low</code> · <code dir="auto">medium</code> · <code dir="auto">high</code> · <code dir="auto">xhigh</code> · <code dir="auto">max</code> · <code dir="auto">ultra</code>. 비우면 에이전트의 기본값. 모델이 내세운 단계만 받음</td>
+</tr>
+<tr>
+<td>캐시 수명</td>
+<td><code dir="auto">5m</code> · <code dir="auto">1h</code> · <code dir="auto">off</code>(에이전트 기본, 시계 없음). 화면은 <code dir="auto">off</code>나 값 없음(자동)만 고릅니다</td>
+</tr>
+</tbody>
+</table>
+<p>두 선택은 한 묶음(<code dir="auto">ConversationOptions</code>)으로 다음 글 앞에 함께 보내지고, 확인이 와야 글이 갑니다.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="turn-한-줄">Turn 한 줄</h2><a class="sl-anchor-link" href="#turn-한-줄"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “Turn 한 줄”</span></a></div>
+<p><code dir="auto">session_turns</code>의 한 행은 에이전트 출력의 Card 하나입니다.</p>
+<table>
+<thead>
+<tr>
+<th>값</th>
+<th>뜻</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code dir="auto">id</code> · <code dir="auto">sessionId</code></td>
+<td>엔진이 준 Turn ID와 소속 Session</td>
+</tr>
+<tr>
+<td><code dir="auto">sourceKey</code></td>
+<td>Card의 원본 참조에서 정해지는 안정 키. 같은 Session 안에서 유일</td>
+</tr>
+<tr>
+<td><code dir="auto">card</code> · <code dir="auto">initialCard</code> · <code dir="auto">updates</code></td>
+<td>검증된 Card, 처음 받은 불변 Card, 받아들인 부분 갱신</td>
+</tr>
+<tr>
+<td><code dir="auto">outcome</code></td>
+<td>도구 결과의 확인 정보. 본문은 저장하지 않고 ID, 다이제스트, 실패 여부만 둠</td>
+</tr>
+<tr>
+<td><code dir="auto">contentDigest</code></td>
+<td>Card JSON의 SHA-256</td>
+</tr>
+<tr>
+<td><code dir="auto">receivedSequence</code> · <code dir="auto">receivedAt</code></td>
+<td>엔진이 받은 순서와 시각</td>
+</tr>
+<tr>
+<td><code dir="auto">state</code></td>
+<td><code dir="auto">TurnState</code></td>
+</tr>
+<tr>
+<td><code dir="auto">routeDedupeKey</code></td>
+<td>질문 · 승인은 이 키를 먼저 적음</td>
+</tr>
+</tbody>
+</table>
+<p>Card의 종류(<code dir="auto">CardKind</code>)는 <code dir="auto">Message</code> · <code dir="auto">ToolCall</code> · <code dir="auto">Change</code> · <code dir="auto">Status</code> · <code dir="auto">Approval</code> · <code dir="auto">Question</code> · <code dir="auto">Delegation</code> · <code dir="auto">ChildWork</code> · <code dir="auto">PeerMessage</code> 아홉입니다. <code dir="auto">ChildWork</code>는 같은 Session의 하위 작업(Claude의 sub-agent나 백그라운드 명령), <code dir="auto">PeerMessage</code>는 다른 Session이 보낸 글이 대화 기록에 나타난 것입니다.</p>
+<table>
+<thead>
+<tr>
+<th><code dir="auto">TurnState</code></th>
+<th>뜻</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code dir="auto">Routing</code></td>
+<td>Turn과 중복 키가 먼저 확정됐습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">Routed</code></td>
+<td>Inbox 항목이 확인됐거나 보낼 필요가 없습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">RouteFailed</code></td>
+<td>결과를 몰라 같은 키로 다시 물어야 합니다.</td>
+</tr>
+</tbody>
+</table>
+<div class="sl-heading-wrapper level-h2"><h2 id="연산">연산</h2><a class="sl-anchor-link" href="#연산"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “연산”</span></a></div>
+<p>모든 연산은 <a href="../../connections/window-bridge/">window bridge</a>의 <code dir="auto">lyra:call</code>로 부를 수 있습니다. 예외는 <code dir="auto">session.image.*</code> 넷으로, main만 부릅니다.</p>
+<table>
+<thead>
+<tr>
+<th>연산</th>
+<th>한 줄</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code dir="auto">session.open</code></td>
+<td>Session을 엽니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">session.prompt</code></td>
+<td>글을 보냅니다. 작성 칸 선택(<code dir="auto">conversationOptions</code>)을 함께 보냅니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">session.close</code></td>
+<td>닫습니다. 사람이 확인하면 <code dir="auto">FailedUnverified</code> 기록만 닫습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">session.force-stop</code></td>
+<td>되돌릴 수 없는 종료. 확인하지 못한 출력은 남깁니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">session.interrupt</code></td>
+<td>지금 글 하나만 멈춥니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">session.resumable</code> · <code dir="auto">session.continue</code></td>
+<td>이어갈 수 있는지 보고, 같은 에이전트 대화로 이어갑니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">session.reset</code></td>
+<td>쉬는 Session을 에이전트의 <code dir="auto">/clear</code>로 갈아타고 메모를 줍니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">session.retry</code></td>
+<td>이름만 있고 아직 동작하지 않습니다. 항상 <code dir="auto">session.retry-delivery-port-unavailable</code>로 거절합니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">session.rename</code></td>
+<td>제목을 바꿉니다. 버전을 말하면 그 버전에서만 바꿉니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">session.list</code> · <code dir="auto">session.show</code></td>
+<td>목록과 하나를 읽습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">session.turns</code> · <code dir="auto">session.transcriptCards</code></td>
+<td>Turn의 쪽과 대화 기록 Card를 읽습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">session.cards</code> · <code dir="auto">session.cardAction</code></td>
+<td>카드 프로토콜 @2(C-27)의 카드 목록과 기록 쪽을 읽고, 카드의 동작을 보냅니다. 엔진은 Session의 실행 위치 <code dir="auto">lyra-daemon</code>의 <code dir="auto">session.cards.read</code> · <code dir="auto">session.cards.act</code>로 넘깁니다. 이 연산을 부르는 카드 보기는 잠겨 있습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">session.read</code></td>
+<td>감독하는 쪽이 감독 대상이 한 말과 일을 읽습니다. 아무것도 보내거나 확인하지 않습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">session.artifact</code></td>
+<td>화면에 보이는 그림의 조각을 읽습니다. 조각은 128 KiB입니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">session.image.begin</code> · <code dir="auto">append</code> · <code dir="auto">commit</code> · <code dir="auto">abort</code></td>
+<td>이미지 올리기. main만 부릅니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">session.model-calls</code></td>
+<td>Lyra가 일으킨 지시의 횟수 같은 메타 정보. 입력 내용은 없습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">session.models</code> · <code dir="auto">session.models.remembered</code></td>
+<td>에이전트의 모델 목록과 엔진이 기억한 마지막 목록입니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">session.commands</code></td>
+<td>에이전트의 <code dir="auto">/</code> 명령 목록입니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">session.capabilities</code></td>
+<td>실행 위치가 하는 일의 목록입니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">session.inventory</code></td>
+<td>Claude Code Session이 쓰는 것의 목록을 실행 위치에서 읽습니다. 다른 에이전트는 <code dir="auto">session.inventory-unsupported</code>입니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">session.configuration.show</code> · <code dir="auto">set</code></td>
+<td>Profile 복사본의 실행 명령 설정을 읽고 씁니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">session.configuration.test.start</code> · <code dir="auto">show</code> · <code dir="auto">close</code></td>
+<td>그 설정을 시험해 봅니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">session.defaults.show</code> · <code dir="auto">set</code></td>
+<td>에이전트 종류별 기본 모델을 읽고 씁니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">session.subscribe</code></td>
+<td>Session 기록의 바뀜을 구독합니다. <code dir="auto">sessionId</code> · <code dir="auto">workspaceId</code> · <code dir="auto">hostId</code>로 범위를 좁힐 수 있습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">session.detach</code> · <code dir="auto">session.move</code> · <code dir="auto">session.role.set</code></td>
+<td><a href="../orchestration/">Orchestration</a>의 <code dir="auto">dispatch</code>가 처리합니다.</td>
+</tr>
+</tbody>
+</table>
+<div class="sl-heading-wrapper level-h2"><h2 id="사건">사건</h2><a class="sl-anchor-link" href="#사건"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “사건”</span></a></div>
+<p>엔진이 Session 기록을 바꾸면 <code dir="auto">changed(inner, "sessions")</code>가 <code dir="auto">data-changed</code> 사건을 만들고, sidecar가 <code dir="auto">{ document }</code>로 화면에 전합니다. 화면은 이 사건을 받으면 다시 읽습니다. 중간 버전은 합쳐질 수 있습니다. 사건의 전달은 <a href="../../connections/sidecar-lines/">Sidecar line protocol</a>이 설명합니다.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="오류-코드">오류 코드</h2><a class="sl-anchor-link" href="#오류-코드"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “오류 코드”</span></a></div>
+<p>이 기능의 <code dir="auto">SessionErrorCode</code> 가운데 사람이 마주치는 것만 적습니다. 전체는 <a href="../../lookup/errors/">Errors</a>입니다.</p>
+<table>
+<thead>
+<tr>
+<th>코드</th>
+<th>뜻</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code dir="auto">invalid-input</code></td>
+<td>입력의 모양이나 길이가 틀립니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">invalid-session-transition</code></td>
+<td>허용되지 않는 상태 이동입니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">late-session-command</code></td>
+<td>이미 끝난 Session에 명령을 보냈습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">late-session-input</code></td>
+<td>끝난 Session에 새 입력이 왔습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">profile-changed-during-open</code></td>
+<td>여는 동안 Profile이나 실행 지도가 바뀌었습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">execution-location-unresolved</code></td>
+<td>실행 위치가 없거나 겹칩니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">launch-rejected</code></td>
+<td>실행 위치가 발사를 거절했습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">launch-outcome-unknown</code></td>
+<td>발사나 닫기의 결과를 증거로 알 수 없습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">launch-transport-failed</code></td>
+<td><code dir="auto">daemon</code>으로의 전송이 명시적으로 실패했습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">daemon-instance-mismatch</code></td>
+<td>기록된 주인 <code dir="auto">daemon</code>이 지금과 다릅니다. 실행과 함께 끝난 실패라 이어갈 수 있습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">update-cut</code></td>
+<td>업데이트가 실행을 잘랐습니다. 이어갈 수 있습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">wsl-work-stopped</code></td>
+<td>배포판이 꺼져 일이 끝났습니다. 다음 켜기가 켜기 전에 기록합니다. 이어갈 수 있습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">session.request-conflict</code></td>
+<td>같은 <code dir="auto">requestId</code>인데 다른 조건으로 다시 열려 했습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">session.retry-delivery-port-unavailable</code></td>
+<td><code dir="auto">session.retry</code>는 아직 없습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">session-resetting</code></td>
+<td>갈아타는 중이라 Lyra의 입력이 기다립니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">session-reset-clear-unsupported</code></td>
+<td>따라갈 수 있는 clear 명령이 없는 에이전트입니다(Claude Code만 있음).</td>
+</tr>
+<tr>
+<td><code dir="auto">session-reset-clear-unconfirmed</code></td>
+<td>clear를 쳤지만 시간 안에 새 대화를 보지 못했습니다. 다시 치지 않습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">store-conflict</code></td>
+<td>기록의 버전이 어긋났습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">store-busy</code> · <code dir="auto">store-wait-timeout</code></td>
+<td><code dir="auto">home.sqlite</code>가 바쁩니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">IDENTITY_UNVERIFIED</code> · <code dir="auto">WRITER_ACTIVE</code> · <code dir="auto">WRITER_STATE_UNKNOWN</code> · <code dir="auto">RESUME_PROOF_FAILED</code></td>
+<td>이어가기를 받아들이기 위한 증거가 모자랍니다.</td>
+</tr>
+</tbody>
+</table>
+<div class="sl-heading-wrapper level-h2"><h2 id="sessionreset의-단계"><code dir="auto">session.reset</code>의 단계</h2><a class="sl-anchor-link" href="#sessionreset의-단계"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “session.reset의 단계”</span></a></div>
+<p>한 번의 갈아타기는 단계마다 먼저 저장하고 나서 쓰므로 엔진이 다시 떠도 clear나 메모를 두 번 치지 않습니다.</p>
+<table>
+<thead>
+<tr>
+<th>단계</th>
+<th>뜻</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code dir="auto">pending</code></td>
+<td>Session이 쉬기를 기다립니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">clearing</code></td>
+<td>clear를 쳤고 새 대화를 기다립니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">cleared</code></td>
+<td>새 대화가 보였습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">noting</code></td>
+<td>메모를 주는 중입니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">done</code></td>
+<td>끝났습니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">refused</code></td>
+<td>아무것도 치지 못했거나 Session이 닫혔습니다.</td>
+</tr>
+</tbody>
+</table>
+<p><code dir="auto">clearing</code> · <code dir="auto">cleared</code> · <code dir="auto">noting</code>인 동안 그 Session에 가는 Lyra의 입력은 기다립니다. 메모의 한도는 16384바이트이고 기한은 10분입니다.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="저장소-버전">저장소 버전</h2><a class="sl-anchor-link" href="#저장소-버전"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “저장소 버전”</span></a></div>
+<p>Session 표는 <code dir="auto">lyra_schema_versions</code>의 구성 요소 <code dir="auto">session</code>, 버전 3입니다. 버전 1과 2는 열 때 3으로 올리고, 그 밖의 버전은 열지 않고 <code dir="auto">unsupported-schema</code>입니다.</p></div><footer class="sl-flex astro-ddtxxk7k"><div class="meta sl-flex astro-ddtxxk7k"></div><div class="pagination-links print:hidden astro-b5raizh3" dir="ltr"><a href="/lyra-release/en/dev/features/sessions/" rel="prev" class="astro-b5raizh3"><svg aria-hidden="true" class="astro-b5raizh3 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17 11H9.41l3.3-3.29a1.004 1.004 0 1 0-1.42-1.42l-5 5a1 1 0 0 0-.21.33 1 1 0 0 0 0 .76 1 1 0 0 0 .21.33l5 5a1.002 1.002 0 0 0 1.639-.325 1 1 0 0 0-.219-1.095L9.41 13H17a1 1 0 0 0 0-2Z"/></svg><span class="astro-b5raizh3">Previous<br class="astro-b5raizh3"><span class="link-title astro-b5raizh3">Sessions and Turns</span></span></a><a href="/lyra-release/en/dev/features/inbox/" rel="next" class="astro-b5raizh3"><svg aria-hidden="true" class="astro-b5raizh3 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17.92 11.62a1.001 1.001 0 0 0-.21-.33l-5-5a1.003 1.003 0 1 0-1.42 1.42l3.3 3.29H7a1 1 0 0 0 0 2h7.59l-3.3 3.29a1.002 1.002 0 0 0 .325 1.639 1 1 0 0 0 1.095-.219l5-5a1 1 0 0 0 .21-.33 1 1 0 0 0 0-.76Z"/></svg><span class="astro-b5raizh3">Next<br class="astro-b5raizh3"><span class="link-title astro-b5raizh3">Inbox</span></span></a></div></footer></div></div></main></div></div></div></div></body></html>

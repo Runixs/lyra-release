@@ -1,0 +1,471 @@
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-toc data-has-sidebar class="astro-g5ptsecz"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Run screen | Lyra</title><link rel="canonical" href="https://runixs.github.io/lyra-release/en/screens/workflows/run-screen/"/><link rel="alternate" hreflang="ko" href="https://runixs.github.io/lyra-release/screens/workflows/run-screen/"/><link rel="alternate" hreflang="en" href="https://runixs.github.io/lyra-release/en/screens/workflows/run-screen/"/><link rel="alternate" hreflang="x-default" href="https://runixs.github.io/lyra-release/screens/workflows/run-screen/"/><link rel="sitemap" href="/lyra-release/sitemap-index.xml"/><link rel="shortcut icon" href="/lyra-release/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.4.2"/><meta name="generator" content="Starlight v0.42.7"/><meta property="og:title" content="Run screen"/><meta property="og:type" content="article"/><meta property="og:url" content="https://runixs.github.io/lyra-release/en/screens/workflows/run-screen/"/><meta property="og:locale" content="en"/><meta property="og:description" content="The screen where you see a finished or running run's state, run log, evidence records, node menu and session terminal, and where you stop a run."/><meta property="og:site_name" content="Lyra"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="The screen where you see a finished or running run's state, run log, evidence records, node menu and session terminal, and where you stop a run."/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/lyra-release/_astro/print.ehPL0gv-.css" media="print"><link rel="stylesheet" href="/lyra-release/_astro/common.CtTqcOyc.css"><script type="module" src="/lyra-release/_astro/page.cNngjUgL.js"></script></head><body class="astro-g5ptsecz"><a class="sl-skip-link astro-qb7clj6f" href="#_top">Skip to content</a><div class="page sl-flex astro-yntsjkba"><header class="header astro-yntsjkba"><div class="header astro-by6fddyj"><div class="title-wrapper sl-flex astro-by6fddyj"><a href="/lyra-release/en" class="site-title sl-flex astro-6rvad3va"><span class="astro-6rvad3va" translate="no">Lyra</span></a></div><div class="sl-flex print:hidden astro-by6fddyj"><site-search class="astro-by6fddyj astro-b5kgnn7o" data-translations="{&quot;placeholder&quot;:&quot;Search&quot;}"><button data-open-modal disabled aria-label="Search" aria-keyshortcuts="Control+K" class="astro-b5kgnn7o"><svg aria-hidden="true" class="astro-b5kgnn7o astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg><span class="sl-hidden md:sl-block astro-b5kgnn7o" aria-hidden="true">Search</span><kbd class="sl-hidden md:sl-flex astro-b5kgnn7o" style="display: none;"><kbd class="astro-b5kgnn7o">Ctrl</kbd><kbd class="astro-b5kgnn7o">K</kbd></kbd></button><dialog style="padding:0" aria-label="Search" class="astro-b5kgnn7o"><div class="dialog-frame sl-flex astro-b5kgnn7o"><button data-close-modal class="sl-flex md:sl-hidden astro-b5kgnn7o">Cancel</button><div class="search-container astro-b5kgnn7o"><div id="starlight__search" class="astro-b5kgnn7o"></div></div></div></dialog></site-search><script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script><script type="module" src="/lyra-release/_astro/Search.astro_astro_type_script_index_0_lang.DVXiSYbz.js"></script></div><div class="sl-hidden md:sl-flex print:hidden right-group astro-by6fddyj"><div class="sl-flex social-icons astro-by6fddyj"></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script><starlight-lang-select><label style="--sl-select-width: 7em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select language</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path fill-rule="evenodd" d="M8.516 3a.94.94 0 0 0-.941.94v1.15H2.94a.94.94 0 1 0 0 1.882h7.362a7.422 7.422 0 0 1-1.787 3.958 7.42 7.42 0 0 1-1.422-2.425.94.94 0 1 0-1.774.627 9.303 9.303 0 0 0 1.785 3.043 7.422 7.422 0 0 1-4.164 1.278.94.94 0 1 0 0 1.881 9.303 9.303 0 0 0 5.575-1.855 9.303 9.303 0 0 0 4.11 1.74l-.763 1.525a.968.968 0 0 0-.016.034l-1.385 2.77a.94.94 0 1 0 1.683.841l1.133-2.267h5.806l1.134 2.267a.94.94 0 0 0 1.683-.841l-1.385-2.769a.95.95 0 0 0-.018-.036l-3.476-6.951a.94.94 0 0 0-1.682 0l-1.82 3.639a7.423 7.423 0 0 1-3.593-1.256 9.303 9.303 0 0 0 2.27-5.203h1.894a.94.94 0 0 0 0-1.881H9.456V3.94A.94.94 0 0 0 8.516 3Zm6.426 11.794a1.068 1.068 0 0 1-.02.039l-.703 1.407h3.924l-1.962-3.924-1.24 2.478Z" clip-rule="evenodd"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="/lyra-release/screens/workflows/run-screen/" class="astro-2z5xp7gb">한국어</option><option value="/lyra-release/en/screens/workflows/run-screen/" selected class="astro-2z5xp7gb">English</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-lang-select><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script></div></div></header><nav class="sidebar print:hidden astro-yntsjkba" aria-label="Main"><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden astro-r2osgdlg"><svg aria-hidden="true" class="open-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only astro-r2osgdlg">Menu</span></button><script type="module">var e=class extends HTMLElement{constructor(){super();let e=matchMedia(`(min-width: 50em)`),t=()=>{this.popover=e.matches?null:`auto`};t(),e.addEventListener(`change`,()=>t()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane astro-yntsjkba"><div class="sidebar-content sl-flex astro-yntsjkba"><ul class="ly-rail"><li><a class="ly-rb" href="/lyra-release/en/start/" aria-current="true"><svg class="ly-icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h8l4 4v14H6zM14 3v5h4M9 12h6M9 16h4"></path></svg><span class="ly-fly">User guide</span></a></li><li><a class="ly-rb" href="/lyra-release/en/dev/"><svg class="ly-icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 7L3.5 12l5 5M15.5 7l5 5-5 5"></path></svg><span class="ly-fly">Developers</span></a></li><li class="ly-rdiv" aria-hidden="true"></li><li><a class="ly-rb" href="/lyra-release/en/architecture/"><svg class="ly-icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10h4v4H4zM16 4h4v4h-4zM16 16h4v4h-4zM8 12h4V6h4M12 12v6h4"></path></svg><span class="ly-fly">Architecture</span></a></li></ul><sl-sidebar-state-persist data-hash="1ltv0my" class="astro-ipdry5cl"><script aria-hidden="true">
+		(() => {
+			try {
+				if (!matchMedia('(min-width: 50em)').matches) return;
+				/** @type {HTMLElement | null} */
+				const target = document.querySelector('sl-sidebar-state-persist');
+				const state = JSON.parse(sessionStorage.getItem('sl-sidebar-state') || '0');
+				if (!target || !state || target.dataset.hash !== state.hash) return;
+				window._starlightScrollRestore = state.scroll;
+				customElements.define(
+					'sl-sidebar-restore',
+					class SidebarRestore extends HTMLElement {
+						connectedCallback() {
+							try {
+								const idx = parseInt(this.dataset.index || '');
+								const details = this.closest('details');
+								if (details && typeof state.open[idx] === 'boolean') details.open = state.open[idx];
+							} catch {}
+						}
+					}
+				);
+			} catch {}
+		})();
+	</script><div class="ly-card"><div class="ly-head">User guide</div><div class="ly-tree"><div><ul class="ly-list ly-sections"><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4l12 8-12 8z"></path></svg><b title="Getting started">Getting started</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="0"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/start/" class="ly-page" title="Getting started"><span>Getting started</span></a></li><li><a href="/lyra-release/en/start/overview/" class="ly-page" title="Overview"><span>Overview</span></a></li><li><a href="/lyra-release/en/start/install/" class="ly-page" title="Install"><span>Install</span></a></li><li><a href="/lyra-release/en/start/wsl/" class="ly-page" title="Use WSL as a server"><span>Use WSL as a server</span></a></li><li><a href="/lyra-release/en/start/first-session/" class="ly-page" title="First Session"><span>First Session</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5z"></path></svg><b title="Home">Home</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="1"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/screens/home/" class="ly-page" title="Home"><span>Home</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 13.5L7 5.5h10l2.5 8v5.5h-15zM4.5 13.5h4l1.5 2.5h4l1.5-2.5h4"></path></svg><b title="Inbox">Inbox</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="2"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/screens/inbox/" class="ly-page" title="Inbox"><span>Inbox</span></a></li><li><a href="/lyra-release/en/screens/inbox/notices/" class="ly-page" title="Notice list"><span>Notice list</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H10l-6 4z"></path></svg><b title="Lyra">Lyra</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="3"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/screens/lyra/" class="ly-page" title="Lyra"><span>Lyra</span></a></li><li><a href="/lyra-release/en/screens/lyra/composer/" class="ly-page" title="Lyra input box"><span>Lyra input box</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM7 9l3 3-3 3M13 15h4"></path></svg><b title="Projects">Projects</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="4"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/screens/projects/" class="ly-page" title="Projects"><span>Projects</span></a></li><li><a href="/lyra-release/en/screens/projects/add-project/" class="ly-page" title="Add a Project"><span>Add a Project</span></a></li><li><a href="/lyra-release/en/screens/projects/explorer/" class="ly-page" title="Explorer"><span>Explorer</span></a></li><li><a href="/lyra-release/en/screens/projects/workspaces/" class="ly-page" title="Worktree and Workspace"><span>Worktree and Workspace</span></a></li><li><a href="/lyra-release/en/screens/projects/sessions/" class="ly-page" title="Open a Session"><span>Open a Session</span></a></li><li><a href="/lyra-release/en/screens/projects/tabs/" class="ly-page" title="Tabs"><span>Tabs</span></a></li><li><a href="/lyra-release/en/screens/projects/layout/" class="ly-page" title="Split and Layout"><span>Split and Layout</span></a></li><li><a href="/lyra-release/en/screens/projects/side-panel/" class="ly-page" title="Right side panel"><span>Right side panel</span></a></li><li><a href="/lyra-release/en/screens/projects/project-settings/" class="ly-page" title="Project settings"><span>Project settings</span></a></li><li><a href="/lyra-release/en/screens/projects/execution-pane/" class="ly-page" title="Run pane"><span>Run pane</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10h4v4H4zM16 4h4v4h-4zM16 16h4v4h-4zM8 12h4V6h4M12 12v6h4"></path></svg><b title="Workflows">Workflows</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="5"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/screens/workflows/" class="ly-page" title="Workflows"><span>Workflows</span></a></li><li><a href="/lyra-release/en/screens/workflows/run/" class="ly-page" title="Run now"><span>Run now</span></a></li><li><a href="/lyra-release/en/screens/workflows/editor/" class="ly-page" title="Edit"><span>Edit</span></a></li><li><a href="/lyra-release/en/screens/workflows/run-screen/" class="ly-page" aria-current="page" title="Run screen"><span>Run screen</span></a></li><li><a href="/lyra-release/en/screens/workflows/waiting/" class="ly-page" title="Waiting runs"><span>Waiting runs</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5a8.5 8.5 0 1 0 0 17a8.5 8.5 0 1 0 0-17zM12 10.4a1.6 1.6 0 1 0 0 3.2a1.6 1.6 0 1 0 0-3.2z"></path></svg><b title="Issues">Issues</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="6"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/screens/issues/" class="ly-page" title="Issues"><span>Issues</span></a></li><li><a href="/lyra-release/en/screens/issues/read/" class="ly-page" title="Read an issue"><span>Read an issue</span></a></li><li><a href="/lyra-release/en/screens/issues/comments/" class="ly-page" title="Comments"><span>Comments</span></a></li><li><a href="/lyra-release/en/screens/issues/start/" class="ly-page" title="Start work"><span>Start work</span></a></li><li><a href="/lyra-release/en/screens/issues/connections/" class="ly-page" title="Connections"><span>Connections</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8.8a3.2 3.2 0 1 0 0 6.4a3.2 3.2 0 1 0 0-6.4zM19.4 14.5a1.6 1.6 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.6 1.6 0 00-2.7 1.1v.3a2 2 0 11-4 0v-.2a1.6 1.6 0 00-2.8-1.1l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.6 1.6 0 00-1.1-2.7h-.3a2 2 0 110-4h.2a1.6 1.6 0 001.1-2.8l-.1-.1A2 2 0 116.9 3.9l.1.1a1.6 1.6 0 001.8.3h.1a1.6 1.6 0 001-1.5v-.3a2 2 0 114 0v.2a1.6 1.6 0 002.7 1.1l.1-.1a2 2 0 112.8 2.8l-.1.1a1.6 1.6 0 00-.3 1.8v.1a1.6 1.6 0 001.5 1h.3a2 2 0 110 4h-.2a1.6 1.6 0 00-1.5 1z"></path></svg><b title="Settings">Settings</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="7"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/screens/settings/" class="ly-page" title="Settings"><span>Settings</span></a></li><li><a href="/lyra-release/en/screens/settings/wsl/" class="ly-page" title="WSL"><span>WSL</span></a></li><li><a href="/lyra-release/en/screens/settings/remote/" class="ly-page" title="Remote"><span>Remote</span></a></li><li><a href="/lyra-release/en/screens/settings/agents/" class="ly-page" title="Agents"><span>Agents</span></a></li><li><a href="/lyra-release/en/screens/settings/connections/" class="ly-page" title="Issue connections"><span>Issue connections</span></a></li><li><a href="/lyra-release/en/screens/settings/general/" class="ly-page" title="General"><span>General</span></a></li><li><a href="/lyra-release/en/screens/settings/appearance/" class="ly-page" title="Appearance"><span>Appearance</span></a></li><li><a href="/lyra-release/en/screens/settings/shortcuts/" class="ly-page" title="Shortcuts"><span>Shortcuts</span></a></li><li><a href="/lyra-release/en/screens/settings/agent-skills/" class="ly-page" title="Agent skills"><span>Agent skills</span></a></li><li><a href="/lyra-release/en/screens/settings/orchestration/" class="ly-page" title="Orchestration"><span>Orchestration</span></a></li><li><a href="/lyra-release/en/screens/settings/serial/" class="ly-page" title="Serial"><span>Serial</span></a></li><li><a href="/lyra-release/en/screens/settings/token-profiling/" class="ly-page" title="Token profiling"><span>Token profiling</span></a></li><li><a href="/lyra-release/en/screens/settings/app/" class="ly-page" title="App"><span>App</span></a></li><li><a href="/lyra-release/en/screens/settings/problem-log/" class="ly-page" title="Problem log"><span>Problem log</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"></path></svg><b title="Across screens">Across screens</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="8"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/across/" class="ly-page" title="Across screens"><span>Across screens</span></a></li><li><a href="/lyra-release/en/across/servers-hosts/" class="ly-page" title="Servers and Hosts"><span>Servers and Hosts</span></a></li><li><a href="/lyra-release/en/across/profiles-agents/" class="ly-page" title="Profiles and agents"><span>Profiles and agents</span></a></li><li><a href="/lyra-release/en/across/orchestration/" class="ly-page" title="Orchestration"><span>Orchestration</span></a></li><li><a href="/lyra-release/en/across/window/" class="ly-page" title="The top and bottom of the window"><span>The top and bottom of the window</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h8l4 4v14H6zM14 3v5h4M9 12h6M9 16h4"></path></svg><b title="Orchestration guide">Orchestration guide</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="9"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/orchestration-book/" class="ly-page" title="Structure"><span>Structure</span></a></li><li><a href="/lyra-release/en/orchestration-book/life/" class="ly-page" title="The life of a task"><span>The life of a task</span></a></li><li><a href="/lyra-release/en/orchestration-book/scenarios/" class="ly-page" title="Scenarios"><span>Scenarios</span></a></li><li><a href="/lyra-release/en/orchestration-book/edges/" class="ly-page" title="Edge cases"><span>Edge cases</span></a></li><li><a href="/lyra-release/en/orchestration-book/roles/" class="ly-page" title="Roles"><span>Roles</span></a></li><li><a href="/lyra-release/en/orchestration-book/handoff/" class="ly-page" title="Handoff"><span>Handoff</span></a></li><li><a href="/lyra-release/en/orchestration-book/experiments/" class="ly-page" title="Experiments to try"><span>Experiments to try</span></a></li><li><a href="/lyra-release/en/orchestration-book/trouble/" class="ly-page" title="When this happens"><span>When this happens</span></a></li><li><a href="/lyra-release/en/orchestration-book/commands/" class="ly-page" title="Command reference"><span>Command reference</span></a></li><li><a href="/lyra-release/en/orchestration-book/words/" class="ly-page" title="Words"><span>Words</span></a></li><li><a href="/lyra-release/en/orchestration-book/roadmap/" class="ly-page" title="Roadmap"><span>Roadmap</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 7L3.5 12l5 5M15.5 7l5 5-5 5"></path></svg><b title="Command line">Command line</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="10"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/cli/" class="ly-page" title="Command line"><span>Command line</span></a></li><li><a href="/lyra-release/en/cli/commands/" class="ly-page" title="Command list"><span>Command list</span></a></li><li><a href="/lyra-release/en/cli/skills/" class="ly-page" title="Default skills"><span>Default skills</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5.5h12M6 12h12M6 18.5h7"></path></svg><b title="Terms">Terms</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="11"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/terms/" class="ly-page" title="Terms"><span>Terms</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3L2 21h20L12 3zM12 9v5M12 17h.01"></path></svg><b title="Troubleshooting">Troubleshooting</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="12"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/troubleshooting/" class="ly-page" title="Troubleshooting"><span>Troubleshooting</span></a></li></ul></details></li></ul></div><div hidden><ul class="ly-list ly-sections"><li><a href="/lyra-release/en/dev/" class="ly-top" title="Overview"><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5z"></path></svg><span>Overview</span></a></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM7 9l3 3-3 3M13 15h4"></path></svg><b title="Processes">Processes</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="13"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/dev/processes/app/" class="ly-page" title="Lyra app"><span>Lyra app</span></a></li><li><a href="/lyra-release/en/dev/processes/sidecar/" class="ly-page" title="Desktop sidecar"><span>Desktop sidecar</span></a></li><li><a href="/lyra-release/en/dev/processes/engine/" class="ly-page" title="Engine"><span>Engine</span></a></li><li><a href="/lyra-release/en/dev/processes/keeper/" class="ly-page" title="Keeper"><span>Keeper</span></a></li><li><a href="/lyra-release/en/dev/processes/server-daemon/" class="ly-page" title="Server daemon"><span>Server daemon</span></a></li><li><a href="/lyra-release/en/dev/processes/cli/" class="ly-page" title="Command line"><span>Command line</span></a></li><li><a href="/lyra-release/en/dev/processes/children/" class="ly-page" title="Agent and terminal children"><span>Agent and terminal children</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"></path></svg><b title="Connections">Connections</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="14"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/dev/connections/window-bridge/" class="ly-page" title="Window bridge"><span>Window bridge</span></a></li><li><a href="/lyra-release/en/dev/connections/sidecar-lines/" class="ly-page" title="Sidecar line protocol"><span>Sidecar line protocol</span></a></li><li><a href="/lyra-release/en/dev/connections/guest-socket/" class="ly-page" title="Guest socket"><span>Guest socket</span></a></li><li><a href="/lyra-release/en/dev/connections/keeper-socket/" class="ly-page" title="Keeper socket"><span>Keeper socket</span></a></li><li><a href="/lyra-release/en/dev/connections/link/" class="ly-page" title="Link"><span>Link</span></a></li><li><a href="/lyra-release/en/dev/connections/wsl/" class="ly-page" title="WSL channel"><span>WSL channel</span></a></li><li><a href="/lyra-release/en/dev/connections/cli-bridge/" class="ly-page" title="CLI bridge"><span>CLI bridge</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h8l4 4v14H6zM14 3v5h4M9 12h6M9 16h4"></path></svg><b title="Data">Data</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="15"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/dev/data/folders/" class="ly-page" title="Folders"><span>Folders</span></a></li><li><a href="/lyra-release/en/dev/data/home-sqlite/" class="ly-page" title="home.sqlite"><span>home.sqlite</span></a></li><li><a href="/lyra-release/en/dev/data/server-state/" class="ly-page" title="Server state"><span>Server state</span></a></li><li><a href="/lyra-release/en/dev/data/credentials/" class="ly-page" title="Credentials"><span>Credentials</span></a></li><li><a href="/lyra-release/en/dev/data/logs/" class="ly-page" title="Logs and problem records"><span>Logs and problem records</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5z"></path></svg><b title="Features">Features</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="16"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/dev/features/sessions/" class="ly-page" title="Sessions and Turns"><span>Sessions and Turns</span></a></li><li><a href="/lyra-release/en/dev/features/sessions-details/" class="ly-page" title="Sessions and Turns details"><span>Sessions and Turns details</span></a></li><li><a href="/lyra-release/en/dev/features/inbox/" class="ly-page" title="Inbox"><span>Inbox</span></a></li><li><a href="/lyra-release/en/dev/features/inbox-details/" class="ly-page" title="Inbox details"><span>Inbox details</span></a></li><li><a href="/lyra-release/en/dev/features/orchestration/" class="ly-page" title="Orchestration"><span>Orchestration</span></a></li><li><a href="/lyra-release/en/dev/features/orchestration-details/" class="ly-page" title="Orchestration details"><span>Orchestration details</span></a></li><li><a href="/lyra-release/en/dev/features/workflows/" class="ly-page" title="Workflows"><span>Workflows</span></a></li><li><a href="/lyra-release/en/dev/features/workflows-details/" class="ly-page" title="Workflows details"><span>Workflows details</span></a></li><li><a href="/lyra-release/en/dev/features/issues/" class="ly-page" title="Issues and connections"><span>Issues and connections</span></a></li><li><a href="/lyra-release/en/dev/features/issues-details/" class="ly-page" title="Issues and connections details"><span>Issues and connections details</span></a></li><li><a href="/lyra-release/en/dev/features/projects/" class="ly-page" title="Projects and Workspaces"><span>Projects and Workspaces</span></a></li><li><a href="/lyra-release/en/dev/features/projects-details/" class="ly-page" title="Projects and Workspaces details"><span>Projects and Workspaces details</span></a></li><li><a href="/lyra-release/en/dev/features/terminals/" class="ly-page" title="Terminals"><span>Terminals</span></a></li><li><a href="/lyra-release/en/dev/features/terminals-details/" class="ly-page" title="Terminals details"><span>Terminals details</span></a></li><li><a href="/lyra-release/en/dev/features/serial/" class="ly-page" title="Serial"><span>Serial</span></a></li><li><a href="/lyra-release/en/dev/features/serial-details/" class="ly-page" title="Serial details"><span>Serial details</span></a></li><li><a href="/lyra-release/en/dev/features/profiles/" class="ly-page" title="Profiles and agents"><span>Profiles and agents</span></a></li><li><a href="/lyra-release/en/dev/features/profiles-details/" class="ly-page" title="Profiles and agents details"><span>Profiles and agents details</span></a></li><li><a href="/lyra-release/en/dev/features/avatars-modules/" class="ly-page" title="Avatars and Modules"><span>Avatars and Modules</span></a></li><li><a href="/lyra-release/en/dev/features/avatars-modules-details/" class="ly-page" title="Avatars and Modules details"><span>Avatars and Modules details</span></a></li><li><a href="/lyra-release/en/dev/features/search/" class="ly-page" title="Search"><span>Search</span></a></li><li><a href="/lyra-release/en/dev/features/search-details/" class="ly-page" title="Search details"><span>Search details</span></a></li><li><a href="/lyra-release/en/dev/features/updates/" class="ly-page" title="Updates"><span>Updates</span></a></li><li><a href="/lyra-release/en/dev/features/updates-details/" class="ly-page" title="Updates details"><span>Updates details</span></a></li><li><a href="/lyra-release/en/dev/features/status/" class="ly-page" title="Status and diagnostics"><span>Status and diagnostics</span></a></li><li><a href="/lyra-release/en/dev/features/status-details/" class="ly-page" title="Status and diagnostics details"><span>Status and diagnostics details</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10h4v4H4zM16 4h4v4h-4zM16 16h4v4h-4zM8 12h4V6h4M12 12v6h4"></path></svg><b title="Lifecycles">Lifecycles</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="17"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/dev/lifecycles/session-open/" class="ly-page" title="Opening a Session"><span>Opening a Session</span></a></li><li><a href="/lyra-release/en/dev/lifecycles/engine-start/" class="ly-page" title="Engine start and restart"><span>Engine start and restart</span></a></li><li><a href="/lyra-release/en/dev/lifecycles/updates/" class="ly-page" title="Updating the app and the server daemon"><span>Updating the app and the server daemon</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3v5M16 3v5M6 8h12v4a6 6 0 0 1-12 0zM12 18v4"></path></svg><b title="Extending">Extending</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="18"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/dev/extending/plugins/" class="ly-page" title="Plugins"><span>Plugins</span></a></li><li><a href="/lyra-release/en/dev/extending/modules/" class="ly-page" title="Modules"><span>Modules</span></a></li><li><a href="/lyra-release/en/dev/extending/skills/" class="ly-page" title="Bundled skills"><span>Bundled skills</span></a></li><li><a href="/lyra-release/en/dev/extending/project-mcp/" class="ly-page" title="Project MCP"><span>Project MCP</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5.5h12M6 12h12M6 18.5h7"></path></svg><b title="Lookup">Lookup</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="19"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/dev/lookup/operations/" class="ly-page" title="Engine operations"><span>Engine operations</span></a></li><li><a href="/lyra-release/en/dev/lookup/errors/" class="ly-page" title="Error codes"><span>Error codes</span></a></li><li><a href="/lyra-release/en/dev/lookup/contracts/" class="ly-page" title="Contracts"><span>Contracts</span></a></li><li><a href="/lyra-release/en/dev/lookup/crates/" class="ly-page" title="Crates"><span>Crates</span></a></li><li><a href="/lyra-release/en/dev/lookup/implementation/" class="ly-page" title="Implementation status"><span>Implementation status</span></a></li></ul></details></li></ul></div></div></div><script aria-hidden="true">
+		(() => {
+			const scroller = document.getElementById('starlight__sidebar');
+			if (!window._starlightScrollRestore || !scroller) return;
+			scroller.scrollTop = window._starlightScrollRestore;
+			delete window._starlightScrollRestore;
+		})();
+	</script></sl-sidebar-state-persist><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-p4azlveh"><div class="social-icons astro-p4azlveh"></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><starlight-lang-select><label style="--sl-select-width: 7em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select language</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path fill-rule="evenodd" d="M8.516 3a.94.94 0 0 0-.941.94v1.15H2.94a.94.94 0 1 0 0 1.882h7.362a7.422 7.422 0 0 1-1.787 3.958 7.42 7.42 0 0 1-1.422-2.425.94.94 0 1 0-1.774.627 9.303 9.303 0 0 0 1.785 3.043 7.422 7.422 0 0 1-4.164 1.278.94.94 0 1 0 0 1.881 9.303 9.303 0 0 0 5.575-1.855 9.303 9.303 0 0 0 4.11 1.74l-.763 1.525a.968.968 0 0 0-.016.034l-1.385 2.77a.94.94 0 1 0 1.683.841l1.133-2.267h5.806l1.134 2.267a.94.94 0 0 0 1.683-.841l-1.385-2.769a.95.95 0 0 0-.018-.036l-3.476-6.951a.94.94 0 0 0-1.682 0l-1.82 3.639a7.423 7.423 0 0 1-3.593-1.256 9.303 9.303 0 0 0 2.27-5.203h1.894a.94.94 0 0 0 0-1.881H9.456V3.94A.94.94 0 0 0 8.516 3Zm6.426 11.794a1.068 1.068 0 0 1-.02.039l-.703 1.407h3.924l-1.962-3.924-1.24 2.478Z" clip-rule="evenodd"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="/lyra-release/screens/workflows/run-screen/" class="astro-2z5xp7gb">한국어</option><option value="/lyra-release/en/screens/workflows/run-screen/" selected class="astro-2z5xp7gb">English</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-lang-select></div></div></div></sl-sidebar-pane></nav><div class="main-frame astro-yntsjkba"><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex astro-lrzkfocr"><aside class="right-sidebar-container print:hidden astro-lrzkfocr"><div class="right-sidebar astro-lrzkfocr"><div class="lg:sl-hidden astro-qok35upx"><mobile-starlight-toc data-min-h="2" data-max-h="3" class="astro-66cqc7ze"><nav aria-labelledby="starlight__on-this-page--mobile" class="astro-66cqc7ze"><details id="starlight__mobile-toc" class="astro-66cqc7ze"><summary id="starlight__on-this-page--mobile" class="sl-flex astro-66cqc7ze"><span class="toggle sl-flex astro-66cqc7ze">On this page<svg aria-hidden="true" class="caret astro-66cqc7ze astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></span><span class="display-current astro-66cqc7ze"></span></summary><div class="dropdown astro-66cqc7ze"><ul class="isMobile astro-jugkfwgx" style="--depth: 0;"><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#_top" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Overview</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#how-the-screen-is-put-together" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">How the screen is put together</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#state-marks" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">State marks</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#read-the-header-and-stop-a-run" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Read the header and stop a run</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#read-the-graph" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Read the graph</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#use-the-node-menu" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Use the node menu</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#see-one-node-in-detail" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">See one node in detail</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#see-a-session-terminal" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">See a session terminal</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#read-the-run-log" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Read the run log</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#read-the-evidence-records" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Read the evidence records</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#open-an-output" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Open an output</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#add-a-tab-to-the-main-area" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Add a tab to the main area</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#see-the-result-after-a-run-ends" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">See the result after a run ends</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#delete-the-workspaces-a-run-created" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Delete the workspaces a run created</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#words-on-this-screen" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Words on this screen</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#when-it-does-not-work" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">When it does not work</span></a></li></ul></div></details></nav></mobile-starlight-toc><script type="module" src="/lyra-release/_astro/MobileTableOfContents.astro_astro_type_script_index_0_lang.C3fM4Kra.js"></script></div><div class="right-sidebar-panel sl-hidden lg:sl-block astro-qok35upx"><div class="sl-container astro-qok35upx"><starlight-toc data-min-h="2" data-max-h="3"><nav aria-labelledby="starlight__on-this-page"><h2 id="starlight__on-this-page">On this page</h2><ul class="astro-jugkfwgx" style="--depth: 0;"><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#_top" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Overview</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#how-the-screen-is-put-together" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">How the screen is put together</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#state-marks" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">State marks</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#read-the-header-and-stop-a-run" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Read the header and stop a run</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#read-the-graph" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Read the graph</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#use-the-node-menu" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Use the node menu</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#see-one-node-in-detail" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">See one node in detail</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#see-a-session-terminal" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">See a session terminal</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#read-the-run-log" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Read the run log</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#read-the-evidence-records" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Read the evidence records</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#open-an-output" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Open an output</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#add-a-tab-to-the-main-area" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Add a tab to the main area</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#see-the-result-after-a-run-ends" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">See the result after a run ends</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#delete-the-workspaces-a-run-created" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Delete the workspaces a run created</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#words-on-this-screen" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Words on this screen</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#when-it-does-not-work" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">When it does not work</span></a></li></ul></nav></starlight-toc><script type="module" src="/lyra-release/_astro/TableOfContents.astro_astro_type_script_index_0_lang.BpJaGz7G.js"></script></div></div></div></aside><div class="main-pane astro-lrzkfocr"><main data-pagefind-body class="astro-g5ptsecz" lang="en" dir="ltr"><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><h1 id="_top" class="astro-bebwqqxs">Run screen</h1></div></div><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><div class="sl-markdown-content"><p>The <strong>Run screen</strong> is where you watch one <strong>run</strong>, one time a Workflow was run. In one place you see which node is working, where it failed, and what the agent left.</p>
+<p>You open the Run screen from these places.</p>
+<ul>
+<li>The state mark on a row of the list on the <a href="../">Workflows</a> screen, or a row of <strong>Recent runs</strong> on the right</li>
+<li>The <strong>Recent runs</strong> tab of a saved Workflow screen</li>
+<li>Right after you start a run with <a href="../run/">Run now</a></li>
+<li><strong>Open run</strong> in the Inbox (see <a href="../../inbox/#%EC%9B%8C%ED%81%AC%ED%94%8C%EB%A1%9C-%EC%9A%94%EC%B2%AD">Workflow requests</a>)</li>
+<li>Right after you use <strong>Start with a Workflow</strong> in <a href="../../issues/start/">Start work</a></li>
+</ul>
+<p>While a run is going, the screen is read again by itself every 2 seconds. It does not read while this screen is not visible.</p>
+<p><img src="/lyra-release/_astro/workflow-run-overview.DY76HWtf_ZwQ4oM.webp" alt="The Run screen of a run in progress: Stop run in the header (1), the work node in the graph (2), the session panel (3), the side panel tabs (4)" loading="lazy" decoding="async" width="2728" height="1716">
+<small>This picture was taken with sample data.</small></p>
+<div class="sl-heading-wrapper level-h2"><h2 id="how-the-screen-is-put-together">How the screen is put together<a id="화면의-짜임"></a></h2><a class="sl-anchor-link" href="#how-the-screen-is-put-together"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “How the screen is put together”</span></a></div>
+<table>
+<thead>
+<tr>
+<th>Place</th>
+<th>Contents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Top</td>
+<td>The run header: the issue key or the run name, the state mark, <strong>Run information</strong>, and <strong>Stop run</strong> if it is going</td>
+</tr>
+<tr>
+<td>Middle</td>
+<td>The main area. At the front is the <strong>Graph</strong> tab, followed by tabs for files, outputs, and workspaces you opened</td>
+</tr>
+<tr>
+<td>Above the graph</td>
+<td>A band: what is waiting for my answer, and the result of a finished run</td>
+</tr>
+<tr>
+<td>Bottom</td>
+<td>The session panel. You see the agent’s terminal of a node</td>
+</tr>
+<tr>
+<td>Side panel on the right</td>
+<td>Three tabs: <strong>Run log</strong>, <strong>Evidence</strong>, <strong>Node</strong></td>
+</tr>
+</tbody>
+</table>
+<div class="sl-heading-wrapper level-h2"><h2 id="state-marks">State marks<a id="상태-표시"></a></h2><a class="sl-anchor-link" href="#state-marks"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “State marks”</span></a></div>
+<p>Runs and nodes carry a state mark. The marks mean this.</p>
+<table>
+<thead>
+<tr>
+<th>Mark</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Not started</strong></td>
+<td>It has not started yet. Sometimes a reason is added: “Not started · Waiting for upstream”, “Not started · Waiting to start”, “Not started · Worker slot”, “Not started · Same folder”</td>
+</tr>
+<tr>
+<td>Starting · Checking</td>
+<td>The engine is starting the step, or is checking the state of the session</td>
+</tr>
+<tr>
+<td><strong>Working</strong></td>
+<td>The agent is working</td>
+</tr>
+<tr>
+<td><strong>Waiting</strong></td>
+<td>It is waiting for a person. A reason is added: “Waiting · approval needed”, “Waiting · decision needed”, “Waiting · needs a person’s check”, “Waiting · needs an answer”</td>
+</tr>
+<tr>
+<td><strong>Idle</strong></td>
+<td>The session has not started its first turn yet</td>
+</tr>
+<tr>
+<td><strong>Interrupted</strong></td>
+<td>A turn a person stopped</td>
+</tr>
+<tr>
+<td><strong>Done</strong></td>
+<td>It finished</td>
+</tr>
+<tr>
+<td><strong>Failed</strong></td>
+<td>It failed</td>
+</tr>
+<tr>
+<td><strong>Stopped</strong></td>
+<td>It stopped</td>
+</tr>
+<tr>
+<td><strong>Skipped</strong></td>
+<td>It was not done this time (nodes only)</td>
+</tr>
+<tr>
+<td><strong>Unknown</strong></td>
+<td>The state could not be confirmed</td>
+</tr>
+</tbody>
+</table>
+<p>A mark never tells you by color alone; it always carries text.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="read-the-header-and-stop-a-run">Read the header and stop a run<a id="머리를-읽고-실행을-멈추려면"></a></h2><a class="sl-anchor-link" href="#read-the-header-and-stop-a-run"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Read the header and stop a run”</span></a></div>
+<ol>
+<li>In the top row, read the issue key (the run name if there is no issue) and the state mark. If you click the issue key, the page of that issue opens in a browser.</li>
+<li>In the row below, read the Workflow name, the connection mark, the reason it started (“Started because it was assigned to me” or “Run manually”), and the time it took.</li>
+<li>If you click <strong>Run information</strong>, a window shows the issue, the Workflow, the <strong>Run ID</strong> (with a <strong>Copy ID</strong> button), the connection, the start, and the start time. A value that is not known is “Unconfirmed”.</li>
+<li>To stop a run that is going, click <strong>Stop run</strong>. It cannot be clicked when writing is blocked.</li>
+</ol>
+<p>When you stop a run, the state mark changes to <strong>Stopped</strong>. If it cannot be stopped, the reason appears below the header.</p>
+<p>If the run cannot be read anew, the header says “The latest information for … could not be read. The state and information above are what was last read.” and the state mark changes to something like “Last checked · Done”. If you click <strong>Open problem log</strong>, you go to the problem log in Settings. At that time the buttons that go to the Inbox also cannot be clicked.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="read-the-graph">Read the graph<a id="그래프를-읽으려면"></a></h2><a class="sl-anchor-link" href="#read-the-graph"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Read the graph”</span></a></div>
+<p>The graph is a picture of nodes wired together with lines. A node card has a name, a kind, and a state mark, and below it a Trigger shows the issue key and the others show the time they took. If there are outputs, a count mark is added. After the last nodes there is an <strong>End</strong> mark.</p>
+<ul>
+<li>When a step fails, the line that sends it back to an earlier node is drawn with the marks “Sent back on failure” and “Up to N”. A line that sends it back because approval was denied is written “Deny”.</li>
+<li>The line in front of a step that is waiting for approval carries “Approval needed”.</li>
+<li>If you click a node or press Enter, the <strong>Node</strong> tab of the side panel opens.</li>
+<li>With the tools at the lower left, you <strong>Zoom out</strong>, <strong>Zoom in</strong>, <strong>Fit the whole graph</strong>, and change the direction (<strong>Left → right</strong> · <strong>Top → bottom</strong>).</li>
+</ul>
+<div class="sl-heading-wrapper level-h2"><h2 id="use-the-node-menu">Use the node menu<a id="노드-메뉴를-쓰려면"></a></h2><a class="sl-anchor-link" href="#use-the-node-menu"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Use the node menu”</span></a></div>
+<ol>
+<li>Click <strong>⋯</strong> on a node card (the right mouse button or Shift+F10 also works) to open the menu.</li>
+<li>Choose an item.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>View details</strong></td>
+<td>Opens the <strong>Node</strong> tab in the side panel</td>
+</tr>
+<tr>
+<td><strong>View terminal</strong></td>
+<td>Opens the session panel and shows that node’s terminal</td>
+</tr>
+<tr>
+<td><strong>View outputs</strong></td>
+<td>Goes to the output list of the <strong>Node</strong> tab</td>
+</tr>
+<tr>
+<td><strong>View evidence</strong></td>
+<td>Goes to the <strong>Evidence</strong> part of the <strong>Node</strong> tab</td>
+</tr>
+<tr>
+<td><strong>View workspace</strong></td>
+<td>Opens that node’s workspace tab in the main area</td>
+</tr>
+<tr>
+<td><strong>Copy session ID</strong></td>
+<td>Copies the session ID</td>
+</tr>
+</tbody>
+</table>
+<p>What does not exist yet is dimmed, with a reason: “This node has no session yet”, “This node has no outputs yet”, “This node has no evidence records yet”, and “This node has no workspace yet”.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="see-one-node-in-detail">See one node in detail<a id="노드-하나를-자세히-보려면"></a></h2><a class="sl-anchor-link" href="#see-one-node-in-detail"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “See one node in detail”</span></a></div>
+<ol>
+<li>Click a node, or choose <strong>View details</strong> in the menu.</li>
+<li>The <strong>Node · name</strong> tab of the side panel opens. Before you choose a node, this tab cannot be clicked.</li>
+</ol>
+<p>At the top of the tab are the node name, the kind, the state mark, and the two part buttons <strong>Details</strong> · <strong>Evidence</strong>. <strong>Details</strong> shows these.</p>
+<ul>
+<li><strong>Show in session panel</strong>: opens this node’s terminal in the session panel.</li>
+<li>If the state has a reason, it appears on one line.</li>
+<li><strong>Session</strong>: the state of the session. If the session closed or the turn ended, a time is added.</li>
+<li><strong>Attempt</strong>: “Attempt 2 / 3” · “1 send-back left” · “… started” · the time it took.</li>
+<li><strong>Workspace</strong>: the name of the workspace this node worked in.</li>
+<li><strong>Comment</strong>: the comment an Agent node left on the issue. If there is one, <strong>Open the comment left</strong>; if not, “No comments yet”.</li>
+<li><strong>Outputs</strong>: the results the node left. See <a href="#%EC%82%B0%EC%B6%9C%EB%AC%BC%EC%9D%84-%EC%97%B4%EB%A0%A4%EB%A9%B4">Open an output</a> below.</li>
+<li><strong>Changed files</strong>: files that changed in the workspace. If you click one, a comparison tab opens in the main area. If there are none, it says “No changed files”. <strong>Open workspace</strong> opens the workspace tab.</li>
+<li><strong>Attempt history</strong> (when there is more than one attempt): each attempt shows its state and start time. It tells you why it was done again: “The … step failed, so it was sent back.”, “A later step failed, so it was sent back to this step.”, “Approval was denied, so it came back to this step.” <strong>View terminal</strong> on a row opens the session of that attempt.</li>
+</ul>
+<p>When a step fails, the same step is done again as <strong>Attempt 2</strong> and <strong>Attempt 3</strong>.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="see-a-session-terminal">See a session terminal<a id="세션-터미널을-보려면"></a></h2><a class="sl-anchor-link" href="#see-a-session-terminal"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “See a session terminal”</span></a></div>
+<p>The session panel is below the graph. When it is folded, “Session panel” and the counts by state (for example “1 Working”) appear on one line.</p>
+<ol>
+<li>Click the terminal button in the top row (“Toggle session panel”) or the folded row to open it.</li>
+<li>In the “Sessions” list on the left, choose a node. Each row has the node name, the agent, the session state, and the time it took, and you move with the up and down arrows, Home, and End.</li>
+<li>On the right, the terminal of that node appears. It is the same session as the agent, so you can type into it directly.</li>
+</ol>
+<p>The buttons at the top of the panel are these.</p>
+<table>
+<thead>
+<tr>
+<th>Button</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Maximize (“Maximize or restore session panel”)</td>
+<td>Makes the panel larger or brings it back</td>
+</tr>
+<tr>
+<td>Close (“Close session panel”)</td>
+<td>Folds the panel</td>
+</tr>
+<tr>
+<td><strong>Show current attempt</strong></td>
+<td>Goes back to the newest attempt when you are viewing an earlier one</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Drag the border at the top of the panel (“Session panel height”), or use the arrow keys, to change the height. Double-click to return to the first height. Whether it is open and its height are remembered while the window is open.</li>
+<li>Sometimes a reason appears instead of a terminal. “Select a session to show its terminal here”, “This node does not run an agent and has no session”, “The terminal will appear here when this session starts”, “Not started yet. The session starts after … finishes.”, and “Attempt N of node … has no recorded session information, so its terminal cannot open. Check that attempt in the execution log.”</li>
+<li>If the session closed or failed, <strong>Reconnect</strong> appears. For a session that is not the first one opened, or one that failed or is closing, <strong>Close session</strong> also appears.</li>
+</ul>
+<div class="sl-heading-wrapper level-h2"><h2 id="read-the-run-log">Read the run log<a id="실행-기록을-읽으려면"></a></h2><a class="sl-anchor-link" href="#read-the-run-log"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Read the run log”</span></a></div>
+<p>The <strong>Run log</strong> tab of the side panel is open at first. Under the title “Run log”, it says “Run state recorded by the Lyra engine · in time order”, and what happened appears one line at a time with its time.</p>
+<ul>
+<li>Sentences such as “ABC-123 was assigned to me — run started”, “work — attempt 1 started”, “work — start approved”, “Workspace … created”, “work — Worker started”, “Left a comment on ABC-123”, and “Run ended”.</li>
+<li>A finished item has a state mark and the time it took, and if there is a reason, it is added below on one line.</li>
+<li>A note a person left on an approval or a decision appears as a quote.</li>
+<li>A row that has a comment or an issue address opens a tab for that address in the main area when you click it.</li>
+<li>Less important rows are grouped under “Expand N records”. The order does not change and no row is dropped.</li>
+<li>If there is nothing yet, it is “No records yet”.</li>
+</ul>
+<div class="sl-heading-wrapper level-h2"><h2 id="read-the-evidence-records">Read the evidence records<a id="근거-기록을-읽으려면"></a></h2><a class="sl-anchor-link" href="#read-the-evidence-records"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Read the evidence records”</span></a></div>
+<p>When a Workflow step finishes its work, it leaves <strong>evidence</strong>. It is proof of “what was chosen and why”. A person looks at it and judges before approving.</p>
+<ol>
+<li>Click the <strong>Evidence</strong> tab of the side panel. If there are records, the tab carries a count.</li>
+<li>Filter by <strong>Node</strong> and <strong>Written by</strong>. “Whole run” is a record that belongs to no node.</li>
+<li>To read it widely, click <strong>Read in a wider view</strong>. A window opens, and when you close it, you return to where you were.</li>
+<li>If you expand <strong>Writer details</strong> above a record, you see the record ID, the session or person who recorded it, the attempt, and the records seen when deciding.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Kind of record</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Choice</strong></td>
+<td>Which of the <strong>Options considered</strong> was chosen (<strong>Chosen</strong>) and the <strong>reason</strong></td>
+</tr>
+<tr>
+<td><strong>Assumption</strong></td>
+<td>An assumption the agent made</td>
+</tr>
+<tr>
+<td><strong>Finding</strong></td>
+<td>Something found while working</td>
+</tr>
+<tr>
+<td><strong>Approval</strong></td>
+<td>A person’s approval or denial</td>
+</tr>
+<tr>
+<td><strong>Waiver</strong> · <strong>Skipped</strong></td>
+<td>A record that a check requiring evidence was waived or skipped. What it is about appears as “Target: …”</td>
+</tr>
+</tbody>
+</table>
+<p>Who wrote a record is written as one of “Step work” (a step name added), “Run Orchestrator”, “Person”, or “Lyra”.</p>
+<p>Each record carries <strong>evidence</strong>, and how far it can be trusted is divided into three marks. When you point at a mark, its meaning appears.</p>
+<table>
+<thead>
+<tr>
+<th>Mark</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Checked by Lyra</strong></td>
+<td>A check that Lyra ran itself and saw the result of</td>
+</tr>
+<tr>
+<td><strong>Kept by Lyra · written by the agent</strong></td>
+<td>A file or output that Lyra kept as it was written. The agent wrote the content</td>
+</tr>
+<tr>
+<td><strong>Stated by the agent</strong></td>
+<td>Content only the agent said. Lyra did not check or keep it</td>
+</tr>
+</tbody>
+</table>
+<p>Do not trust evidence with the third mark as it is; check it yourself if you need to.</p>
+<ul>
+<li>An evidence row can be a file, output, check, command with exit code, link, or quote. If you click an output or a check, you go to that node.</li>
+<li><strong>View all</strong> on file evidence shows only a preview of a file over 64 KiB.</li>
+<li>If a step left no evidence and gave no reason for skipping, “The … step left no evidence records and gave no reason for skipping them.” appears. What a person waived is shown separately as “The evidence records were waived by a person. This does not mean they passed.”</li>
+<li>If the list cannot be confirmed, it says “The list of evidence records for this run could not be confirmed. This does not mean there are none.” If only part was read, it says “N records and N pieces of evidence could not be read. Only the items that can be read are shown.”</li>
+<li>If there are no records, it is “There are no evidence records for this run yet.”</li>
+</ul>
+<div class="sl-heading-wrapper level-h2"><h2 id="open-an-output">Open an output<a id="산출물을-열려면"></a></h2><a class="sl-anchor-link" href="#open-an-output"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Open an output”</span></a></div>
+<p>An output is a result a node leaves. The kinds are text, markdown, file, link, and list.</p>
+<ol>
+<li>In <strong>Outputs</strong> on the node tab, click a row. The row name is “Open name in a tab beside the graph”.</li>
+<li>It opens as a new tab in the main area. If it is already open, you go to that tab.</li>
+<li>To see the outputs of the whole run at once, click <strong>Entire run</strong> under the node tab. The “Outputs of this run” tab opens, with the Workflow’s output and the outputs of each node grouped together.</li>
+</ol>
+<p>A markdown output has <strong>Expand</strong>, and a file output that is in the workspace has <strong>View in the file</strong>. If the node’s workspace information was not received, it says “The workspace information for output … was not received, so …” and it does not open. An output that does not exist yet carries “Not yet”, and one that a finished attempt did not leave carries a mark like “… · Missing · no reason”.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="add-a-tab-to-the-main-area">Add a tab to the main area<a id="메인-영역에-탭을-더하려면"></a></h2><a class="sl-anchor-link" href="#add-a-tab-to-the-main-area"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Add a tab to the main area”</span></a></div>
+<ol>
+<li>Click the <strong>New tab</strong> button at the end of the tab row.</li>
+<li>Choose <strong>Open file…</strong> or <strong>Open Browser</strong>.</li>
+<li>In the window, enter a file path or an address and click <strong>Open</strong>.</li>
+</ol>
+<p>Files and addresses that open only inside this computer open in the node’s workspace. The window description says “Workspace: node · attempt N · name”, and if you have not chosen a node, it says “Choose a node that has a workspace first.” Close a tab with its close button (“Close tab”). You cannot close the <strong>Graph</strong> tab at the front.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="see-the-result-after-a-run-ends">See the result after a run ends<a id="실행이-끝난-뒤-결과를-보려면"></a></h2><a class="sl-anchor-link" href="#see-the-result-after-a-run-ends"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “See the result after a run ends”</span></a></div>
+<p>When a run ends as <strong>Done</strong>, the band above the graph says “The run ended with passed status.” The band also has the link to the comment the agent left on the issue.</p>
+<ul>
+<li>If there is one, click <strong>Open the comment left</strong>; if there are several, click “View N comments left” and choose from the list by step and attempt.</li>
+<li>If there is none, it is “No posted comment link was reported for this run.”</li>
+<li>The reason for a failure or a stop appears on one line in the same band.</li>
+</ul>
+<div class="sl-heading-wrapper level-h2"><h2 id="delete-the-workspaces-a-run-created">Delete the workspaces a run created<a id="실행이-만든-작업-자리를-지우려면"></a></h2><a class="sl-anchor-link" href="#delete-the-workspaces-a-run-created"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Delete the workspaces a run created”</span></a></div>
+<p>For a finished run (a run that is not going) that created workspaces, <strong>Manage workspaces</strong> appears below the side panel. Before you delete, you first check what will be deleted.</p>
+<ol>
+<li>Expand <strong>Manage workspaces</strong>.</li>
+<li>Click <strong>Preview cleanup</strong>. “Counting the workspaces to delete and the uncommitted files…” appears.</li>
+<li>The window shows the workspaces this run created and the number of files. Each row says whether uncommitted files will be deleted, whether the files are already gone, and whether they could not be counted. A branch that has commits is kept, like “The branch … has commits, so it was kept.”</li>
+<li>If it is fine to delete, click <strong>Delete</strong>; if not, click <strong>Cancel</strong>. A deleted workspace cannot be restored.</li>
+<li>It handles only a few at a time, so if some are left, “The remaining N workspaces will be shown again after this deletion finishes.” appears, and you repeat the check and the delete.</li>
+</ol>
+<ul>
+<li>If the workspaces changed after the check, nothing is deleted and the new list is shown again.</li>
+<li>If a Worker is still working in that workspace, a sentence such as “… could not be deleted. Try deleting again in a moment.” appears. After the session ends or closes, click again.</li>
+<li>If a folder remains after deleting, a warning “While deleting workspace …, folder … was left. …” keeps showing at the top of the screen. After you delete the folder yourself and click delete again, Lyra checks.</li>
+<li>A workspace that cannot be confirmed as one this run created is not deleted and is left. If you do not need it, delete it on the Projects screen.</li>
+</ul>
+<div class="sl-heading-wrapper level-h2"><h2 id="words-on-this-screen">Words on this screen<a id="이-화면의-말"></a></h2><a class="sl-anchor-link" href="#words-on-this-screen"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Words on this screen”</span></a></div>
+<p>See what each word means in <a href="../../../terms/">Terms</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Word</th>
+<th>On this screen</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../../terms/#%EC%8B%A4%ED%96%89">Run</a></td>
+<td>One time a Workflow was run</td>
+</tr>
+<tr>
+<td><a href="../../../terms/#%EC%8B%9C%EB%8F%84">Attempt</a></td>
+<td>One time a step was done. If it fails, it is done again as Attempt 2 and Attempt 3</td>
+</tr>
+<tr>
+<td><a href="../../../terms/#%EC%84%B8%EC%85%98-%ED%8C%A8%EB%84%90">Session panel</a></td>
+<td>The area below where you see a node’s agent terminal</td>
+</tr>
+<tr>
+<td><a href="../../../terms/#%EC%8B%A4%ED%96%89-%EA%B8%B0%EB%A1%9D">Run log</a></td>
+<td>The order of what happened, written by the engine</td>
+</tr>
+<tr>
+<td><a href="../../../terms/#%EA%B7%BC%EA%B1%B0">Evidence</a> · <a href="../../../terms/#%EA%B7%BC%EA%B1%B0-%EA%B8%B0%EB%A1%9D">Evidence record</a></td>
+<td>The proof of “what was chosen and why” a step leaves, and one record of it</td>
+</tr>
+<tr>
+<td><a href="../../../terms/#%EC%82%B0%EC%B6%9C%EB%AC%BC">Outputs</a></td>
+<td>A result a node leaves</td>
+</tr>
+<tr>
+<td><a href="../../../terms/#working">Working</a> · <a href="../../../terms/#waiting">Waiting</a> · <a href="../../../terms/#idle">Idle</a> · <a href="../../../terms/#done">Done</a> · <a href="../../../terms/#failed">Failed</a> · <a href="../../../terms/#interrupted">Interrupted</a> · <a href="../../../terms/#unknown">Unknown</a></td>
+<td>State marks</td>
+</tr>
+</tbody>
+</table>
+<div class="sl-heading-wrapper level-h2"><h2 id="when-it-does-not-work">When it does not work<a id="잘-안-될-때"></a></h2><a class="sl-anchor-link" href="#when-it-does-not-work"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “When it does not work”</span></a></div>
+<table>
+<thead>
+<tr>
+<th>What you see</th>
+<th>What to do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>“The latest information for … could not be read.”</td>
+<td>The state above is what was last read. Look for the reason with <strong>Open problem log</strong></td>
+</tr>
+<tr>
+<td>“has no recorded session information” instead of a terminal</td>
+<td>Look at the state of that attempt in the <strong>Run log</strong> and in the attempt history on the node tab</td>
+</tr>
+<tr>
+<td>An output does not open</td>
+<td>It needs the node’s workspace information. Open it again from the node’s <strong>Outputs</strong></td>
+</tr>
+<tr>
+<td>You cannot delete a workspace</td>
+<td>Read the reason in the sentence (a Worker is working, or it cannot be confirmed) and try again after the session ends</td>
+</tr>
+<tr>
+<td>A run is waiting for my answer</td>
+<td>See <a href="../waiting/">Waiting runs</a></td>
+</tr>
+</tbody>
+</table>
+<p>For developers: <a href="../../../dev/features/workflows/">Workflows</a>, <a href="../../../dev/features/workflows-details/">Workflows details</a>.</p></div><footer class="sl-flex astro-ddtxxk7k"><div class="meta sl-flex astro-ddtxxk7k"></div><div class="pagination-links print:hidden astro-b5raizh3" dir="ltr"><a href="/lyra-release/en/screens/workflows/editor/" rel="prev" class="astro-b5raizh3"><svg aria-hidden="true" class="astro-b5raizh3 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17 11H9.41l3.3-3.29a1.004 1.004 0 1 0-1.42-1.42l-5 5a1 1 0 0 0-.21.33 1 1 0 0 0 0 .76 1 1 0 0 0 .21.33l5 5a1.002 1.002 0 0 0 1.639-.325 1 1 0 0 0-.219-1.095L9.41 13H17a1 1 0 0 0 0-2Z"/></svg><span class="astro-b5raizh3">Previous<br class="astro-b5raizh3"><span class="link-title astro-b5raizh3">Edit</span></span></a><a href="/lyra-release/en/screens/workflows/waiting/" rel="next" class="astro-b5raizh3"><svg aria-hidden="true" class="astro-b5raizh3 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17.92 11.62a1.001 1.001 0 0 0-.21-.33l-5-5a1.003 1.003 0 1 0-1.42 1.42l3.3 3.29H7a1 1 0 0 0 0 2h7.59l-3.3 3.29a1.002 1.002 0 0 0 .325 1.639 1 1 0 0 0 1.095-.219l5-5a1 1 0 0 0 .21-.33 1 1 0 0 0 0-.76Z"/></svg><span class="astro-b5raizh3">Next<br class="astro-b5raizh3"><span class="link-title astro-b5raizh3">Waiting runs</span></span></a></div></footer></div></div></main></div></div></div></div></body></html>

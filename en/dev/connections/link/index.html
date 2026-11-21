@@ -1,0 +1,391 @@
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-toc data-has-sidebar class="astro-g5ptsecz"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Link | Lyra</title><link rel="canonical" href="https://runixs.github.io/lyra-release/en/dev/connections/link/"/><link rel="alternate" hreflang="ko" href="https://runixs.github.io/lyra-release/dev/connections/link/"/><link rel="alternate" hreflang="en" href="https://runixs.github.io/lyra-release/en/dev/connections/link/"/><link rel="alternate" hreflang="x-default" href="https://runixs.github.io/lyra-release/dev/connections/link/"/><link rel="sitemap" href="/lyra-release/sitemap-index.xml"/><link rel="shortcut icon" href="/lyra-release/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.4.2"/><meta name="generator" content="Starlight v0.42.7"/><meta property="og:title" content="Link"/><meta property="og:type" content="article"/><meta property="og:url" content="https://runixs.github.io/lyra-release/en/dev/connections/link/"/><meta property="og:locale" content="en"/><meta property="og:description" content="엔진이 서버 하나에 세우는 SSH 연결과 그 위의 Link 줄(bootstrap, 제어 봉투, 바이트 프레임), 버전 맞추기, 다시 붙기입니다."/><meta property="og:site_name" content="Lyra"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="엔진이 서버 하나에 세우는 SSH 연결과 그 위의 Link 줄(bootstrap, 제어 봉투, 바이트 프레임), 버전 맞추기, 다시 붙기입니다."/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/lyra-release/_astro/print.ehPL0gv-.css" media="print"><link rel="stylesheet" href="/lyra-release/_astro/common.CtTqcOyc.css"><script type="module" src="/lyra-release/_astro/page.cNngjUgL.js"></script></head><body class="astro-g5ptsecz"><a class="sl-skip-link astro-qb7clj6f" href="#_top">Skip to content</a><div class="page sl-flex astro-yntsjkba"><header class="header astro-yntsjkba"><div class="header astro-by6fddyj"><div class="title-wrapper sl-flex astro-by6fddyj"><a href="/lyra-release/en" class="site-title sl-flex astro-6rvad3va"><span class="astro-6rvad3va" translate="no">Lyra</span></a></div><div class="sl-flex print:hidden astro-by6fddyj"><site-search class="astro-by6fddyj astro-b5kgnn7o" data-translations="{&quot;placeholder&quot;:&quot;Search&quot;}"><button data-open-modal disabled aria-label="Search" aria-keyshortcuts="Control+K" class="astro-b5kgnn7o"><svg aria-hidden="true" class="astro-b5kgnn7o astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg><span class="sl-hidden md:sl-block astro-b5kgnn7o" aria-hidden="true">Search</span><kbd class="sl-hidden md:sl-flex astro-b5kgnn7o" style="display: none;"><kbd class="astro-b5kgnn7o">Ctrl</kbd><kbd class="astro-b5kgnn7o">K</kbd></kbd></button><dialog style="padding:0" aria-label="Search" class="astro-b5kgnn7o"><div class="dialog-frame sl-flex astro-b5kgnn7o"><button data-close-modal class="sl-flex md:sl-hidden astro-b5kgnn7o">Cancel</button><div class="search-container astro-b5kgnn7o"><div id="starlight__search" class="astro-b5kgnn7o"></div></div></div></dialog></site-search><script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script><script type="module" src="/lyra-release/_astro/Search.astro_astro_type_script_index_0_lang.DVXiSYbz.js"></script></div><div class="sl-hidden md:sl-flex print:hidden right-group astro-by6fddyj"><div class="sl-flex social-icons astro-by6fddyj"></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script><starlight-lang-select><label style="--sl-select-width: 7em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select language</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path fill-rule="evenodd" d="M8.516 3a.94.94 0 0 0-.941.94v1.15H2.94a.94.94 0 1 0 0 1.882h7.362a7.422 7.422 0 0 1-1.787 3.958 7.42 7.42 0 0 1-1.422-2.425.94.94 0 1 0-1.774.627 9.303 9.303 0 0 0 1.785 3.043 7.422 7.422 0 0 1-4.164 1.278.94.94 0 1 0 0 1.881 9.303 9.303 0 0 0 5.575-1.855 9.303 9.303 0 0 0 4.11 1.74l-.763 1.525a.968.968 0 0 0-.016.034l-1.385 2.77a.94.94 0 1 0 1.683.841l1.133-2.267h5.806l1.134 2.267a.94.94 0 0 0 1.683-.841l-1.385-2.769a.95.95 0 0 0-.018-.036l-3.476-6.951a.94.94 0 0 0-1.682 0l-1.82 3.639a7.423 7.423 0 0 1-3.593-1.256 9.303 9.303 0 0 0 2.27-5.203h1.894a.94.94 0 0 0 0-1.881H9.456V3.94A.94.94 0 0 0 8.516 3Zm6.426 11.794a1.068 1.068 0 0 1-.02.039l-.703 1.407h3.924l-1.962-3.924-1.24 2.478Z" clip-rule="evenodd"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="/lyra-release/dev/connections/link/" class="astro-2z5xp7gb">한국어</option><option value="/lyra-release/en/dev/connections/link/" selected class="astro-2z5xp7gb">English</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-lang-select><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script></div></div></header><nav class="sidebar print:hidden astro-yntsjkba" aria-label="Main"><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden astro-r2osgdlg"><svg aria-hidden="true" class="open-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only astro-r2osgdlg">Menu</span></button><script type="module">var e=class extends HTMLElement{constructor(){super();let e=matchMedia(`(min-width: 50em)`),t=()=>{this.popover=e.matches?null:`auto`};t(),e.addEventListener(`change`,()=>t()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane astro-yntsjkba"><div class="sidebar-content sl-flex astro-yntsjkba"><ul class="ly-rail"><li><a class="ly-rb" href="/lyra-release/en/start/"><svg class="ly-icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h8l4 4v14H6zM14 3v5h4M9 12h6M9 16h4"></path></svg><span class="ly-fly">User guide</span></a></li><li><a class="ly-rb" href="/lyra-release/en/dev/" aria-current="true"><svg class="ly-icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 7L3.5 12l5 5M15.5 7l5 5-5 5"></path></svg><span class="ly-fly">Developers</span></a></li><li class="ly-rdiv" aria-hidden="true"></li><li><a class="ly-rb" href="/lyra-release/en/architecture/"><svg class="ly-icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10h4v4H4zM16 4h4v4h-4zM16 16h4v4h-4zM8 12h4V6h4M12 12v6h4"></path></svg><span class="ly-fly">Architecture</span></a></li></ul><sl-sidebar-state-persist data-hash="1ltv0my" class="astro-ipdry5cl"><script aria-hidden="true">
+		(() => {
+			try {
+				if (!matchMedia('(min-width: 50em)').matches) return;
+				/** @type {HTMLElement | null} */
+				const target = document.querySelector('sl-sidebar-state-persist');
+				const state = JSON.parse(sessionStorage.getItem('sl-sidebar-state') || '0');
+				if (!target || !state || target.dataset.hash !== state.hash) return;
+				window._starlightScrollRestore = state.scroll;
+				customElements.define(
+					'sl-sidebar-restore',
+					class SidebarRestore extends HTMLElement {
+						connectedCallback() {
+							try {
+								const idx = parseInt(this.dataset.index || '');
+								const details = this.closest('details');
+								if (details && typeof state.open[idx] === 'boolean') details.open = state.open[idx];
+							} catch {}
+						}
+					}
+				);
+			} catch {}
+		})();
+	</script><div class="ly-card"><div class="ly-head">Developers</div><div class="ly-tree"><div hidden><ul class="ly-list ly-sections"><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4l12 8-12 8z"></path></svg><b title="Getting started">Getting started</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="0"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/start/" class="ly-page" title="Getting started"><span>Getting started</span></a></li><li><a href="/lyra-release/en/start/overview/" class="ly-page" title="Overview"><span>Overview</span></a></li><li><a href="/lyra-release/en/start/install/" class="ly-page" title="Install"><span>Install</span></a></li><li><a href="/lyra-release/en/start/wsl/" class="ly-page" title="Use WSL as a server"><span>Use WSL as a server</span></a></li><li><a href="/lyra-release/en/start/first-session/" class="ly-page" title="First Session"><span>First Session</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5z"></path></svg><b title="Home">Home</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="1"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/screens/home/" class="ly-page" title="Home"><span>Home</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 13.5L7 5.5h10l2.5 8v5.5h-15zM4.5 13.5h4l1.5 2.5h4l1.5-2.5h4"></path></svg><b title="Inbox">Inbox</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="2"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/screens/inbox/" class="ly-page" title="Inbox"><span>Inbox</span></a></li><li><a href="/lyra-release/en/screens/inbox/notices/" class="ly-page" title="Notice list"><span>Notice list</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H10l-6 4z"></path></svg><b title="Lyra">Lyra</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="3"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/screens/lyra/" class="ly-page" title="Lyra"><span>Lyra</span></a></li><li><a href="/lyra-release/en/screens/lyra/composer/" class="ly-page" title="Lyra input box"><span>Lyra input box</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM7 9l3 3-3 3M13 15h4"></path></svg><b title="Projects">Projects</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="4"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/screens/projects/" class="ly-page" title="Projects"><span>Projects</span></a></li><li><a href="/lyra-release/en/screens/projects/add-project/" class="ly-page" title="Add a Project"><span>Add a Project</span></a></li><li><a href="/lyra-release/en/screens/projects/explorer/" class="ly-page" title="Explorer"><span>Explorer</span></a></li><li><a href="/lyra-release/en/screens/projects/workspaces/" class="ly-page" title="Worktree and Workspace"><span>Worktree and Workspace</span></a></li><li><a href="/lyra-release/en/screens/projects/sessions/" class="ly-page" title="Open a Session"><span>Open a Session</span></a></li><li><a href="/lyra-release/en/screens/projects/tabs/" class="ly-page" title="Tabs"><span>Tabs</span></a></li><li><a href="/lyra-release/en/screens/projects/layout/" class="ly-page" title="Split and Layout"><span>Split and Layout</span></a></li><li><a href="/lyra-release/en/screens/projects/side-panel/" class="ly-page" title="Right side panel"><span>Right side panel</span></a></li><li><a href="/lyra-release/en/screens/projects/project-settings/" class="ly-page" title="Project settings"><span>Project settings</span></a></li><li><a href="/lyra-release/en/screens/projects/execution-pane/" class="ly-page" title="Run pane"><span>Run pane</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10h4v4H4zM16 4h4v4h-4zM16 16h4v4h-4zM8 12h4V6h4M12 12v6h4"></path></svg><b title="Workflows">Workflows</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="5"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/screens/workflows/" class="ly-page" title="Workflows"><span>Workflows</span></a></li><li><a href="/lyra-release/en/screens/workflows/run/" class="ly-page" title="Run now"><span>Run now</span></a></li><li><a href="/lyra-release/en/screens/workflows/editor/" class="ly-page" title="Edit"><span>Edit</span></a></li><li><a href="/lyra-release/en/screens/workflows/run-screen/" class="ly-page" title="Run screen"><span>Run screen</span></a></li><li><a href="/lyra-release/en/screens/workflows/waiting/" class="ly-page" title="Waiting runs"><span>Waiting runs</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5a8.5 8.5 0 1 0 0 17a8.5 8.5 0 1 0 0-17zM12 10.4a1.6 1.6 0 1 0 0 3.2a1.6 1.6 0 1 0 0-3.2z"></path></svg><b title="Issues">Issues</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="6"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/screens/issues/" class="ly-page" title="Issues"><span>Issues</span></a></li><li><a href="/lyra-release/en/screens/issues/read/" class="ly-page" title="Read an issue"><span>Read an issue</span></a></li><li><a href="/lyra-release/en/screens/issues/comments/" class="ly-page" title="Comments"><span>Comments</span></a></li><li><a href="/lyra-release/en/screens/issues/start/" class="ly-page" title="Start work"><span>Start work</span></a></li><li><a href="/lyra-release/en/screens/issues/connections/" class="ly-page" title="Connections"><span>Connections</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8.8a3.2 3.2 0 1 0 0 6.4a3.2 3.2 0 1 0 0-6.4zM19.4 14.5a1.6 1.6 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.6 1.6 0 00-2.7 1.1v.3a2 2 0 11-4 0v-.2a1.6 1.6 0 00-2.8-1.1l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.6 1.6 0 00-1.1-2.7h-.3a2 2 0 110-4h.2a1.6 1.6 0 001.1-2.8l-.1-.1A2 2 0 116.9 3.9l.1.1a1.6 1.6 0 001.8.3h.1a1.6 1.6 0 001-1.5v-.3a2 2 0 114 0v.2a1.6 1.6 0 002.7 1.1l.1-.1a2 2 0 112.8 2.8l-.1.1a1.6 1.6 0 00-.3 1.8v.1a1.6 1.6 0 001.5 1h.3a2 2 0 110 4h-.2a1.6 1.6 0 00-1.5 1z"></path></svg><b title="Settings">Settings</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="7"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/screens/settings/" class="ly-page" title="Settings"><span>Settings</span></a></li><li><a href="/lyra-release/en/screens/settings/wsl/" class="ly-page" title="WSL"><span>WSL</span></a></li><li><a href="/lyra-release/en/screens/settings/remote/" class="ly-page" title="Remote"><span>Remote</span></a></li><li><a href="/lyra-release/en/screens/settings/agents/" class="ly-page" title="Agents"><span>Agents</span></a></li><li><a href="/lyra-release/en/screens/settings/connections/" class="ly-page" title="Issue connections"><span>Issue connections</span></a></li><li><a href="/lyra-release/en/screens/settings/general/" class="ly-page" title="General"><span>General</span></a></li><li><a href="/lyra-release/en/screens/settings/appearance/" class="ly-page" title="Appearance"><span>Appearance</span></a></li><li><a href="/lyra-release/en/screens/settings/shortcuts/" class="ly-page" title="Shortcuts"><span>Shortcuts</span></a></li><li><a href="/lyra-release/en/screens/settings/agent-skills/" class="ly-page" title="Agent skills"><span>Agent skills</span></a></li><li><a href="/lyra-release/en/screens/settings/orchestration/" class="ly-page" title="Orchestration"><span>Orchestration</span></a></li><li><a href="/lyra-release/en/screens/settings/serial/" class="ly-page" title="Serial"><span>Serial</span></a></li><li><a href="/lyra-release/en/screens/settings/token-profiling/" class="ly-page" title="Token profiling"><span>Token profiling</span></a></li><li><a href="/lyra-release/en/screens/settings/app/" class="ly-page" title="App"><span>App</span></a></li><li><a href="/lyra-release/en/screens/settings/problem-log/" class="ly-page" title="Problem log"><span>Problem log</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"></path></svg><b title="Across screens">Across screens</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="8"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/across/" class="ly-page" title="Across screens"><span>Across screens</span></a></li><li><a href="/lyra-release/en/across/servers-hosts/" class="ly-page" title="Servers and Hosts"><span>Servers and Hosts</span></a></li><li><a href="/lyra-release/en/across/profiles-agents/" class="ly-page" title="Profiles and agents"><span>Profiles and agents</span></a></li><li><a href="/lyra-release/en/across/orchestration/" class="ly-page" title="Orchestration"><span>Orchestration</span></a></li><li><a href="/lyra-release/en/across/window/" class="ly-page" title="The top and bottom of the window"><span>The top and bottom of the window</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h8l4 4v14H6zM14 3v5h4M9 12h6M9 16h4"></path></svg><b title="Orchestration guide">Orchestration guide</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="9"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/orchestration-book/" class="ly-page" title="Structure"><span>Structure</span></a></li><li><a href="/lyra-release/en/orchestration-book/life/" class="ly-page" title="The life of a task"><span>The life of a task</span></a></li><li><a href="/lyra-release/en/orchestration-book/scenarios/" class="ly-page" title="Scenarios"><span>Scenarios</span></a></li><li><a href="/lyra-release/en/orchestration-book/edges/" class="ly-page" title="Edge cases"><span>Edge cases</span></a></li><li><a href="/lyra-release/en/orchestration-book/roles/" class="ly-page" title="Roles"><span>Roles</span></a></li><li><a href="/lyra-release/en/orchestration-book/handoff/" class="ly-page" title="Handoff"><span>Handoff</span></a></li><li><a href="/lyra-release/en/orchestration-book/experiments/" class="ly-page" title="Experiments to try"><span>Experiments to try</span></a></li><li><a href="/lyra-release/en/orchestration-book/trouble/" class="ly-page" title="When this happens"><span>When this happens</span></a></li><li><a href="/lyra-release/en/orchestration-book/commands/" class="ly-page" title="Command reference"><span>Command reference</span></a></li><li><a href="/lyra-release/en/orchestration-book/words/" class="ly-page" title="Words"><span>Words</span></a></li><li><a href="/lyra-release/en/orchestration-book/roadmap/" class="ly-page" title="Roadmap"><span>Roadmap</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 7L3.5 12l5 5M15.5 7l5 5-5 5"></path></svg><b title="Command line">Command line</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="10"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/cli/" class="ly-page" title="Command line"><span>Command line</span></a></li><li><a href="/lyra-release/en/cli/commands/" class="ly-page" title="Command list"><span>Command list</span></a></li><li><a href="/lyra-release/en/cli/skills/" class="ly-page" title="Default skills"><span>Default skills</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5.5h12M6 12h12M6 18.5h7"></path></svg><b title="Terms">Terms</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="11"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/terms/" class="ly-page" title="Terms"><span>Terms</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3L2 21h20L12 3zM12 9v5M12 17h.01"></path></svg><b title="Troubleshooting">Troubleshooting</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="12"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/troubleshooting/" class="ly-page" title="Troubleshooting"><span>Troubleshooting</span></a></li></ul></details></li></ul></div><div><ul class="ly-list ly-sections"><li><a href="/lyra-release/en/dev/" class="ly-top" title="Overview"><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5z"></path></svg><span>Overview</span></a></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM7 9l3 3-3 3M13 15h4"></path></svg><b title="Processes">Processes</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="13"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/dev/processes/app/" class="ly-page" title="Lyra app"><span>Lyra app</span></a></li><li><a href="/lyra-release/en/dev/processes/sidecar/" class="ly-page" title="Desktop sidecar"><span>Desktop sidecar</span></a></li><li><a href="/lyra-release/en/dev/processes/engine/" class="ly-page" title="Engine"><span>Engine</span></a></li><li><a href="/lyra-release/en/dev/processes/keeper/" class="ly-page" title="Keeper"><span>Keeper</span></a></li><li><a href="/lyra-release/en/dev/processes/server-daemon/" class="ly-page" title="Server daemon"><span>Server daemon</span></a></li><li><a href="/lyra-release/en/dev/processes/cli/" class="ly-page" title="Command line"><span>Command line</span></a></li><li><a href="/lyra-release/en/dev/processes/children/" class="ly-page" title="Agent and terminal children"><span>Agent and terminal children</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"></path></svg><b title="Connections">Connections</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="14"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/dev/connections/window-bridge/" class="ly-page" title="Window bridge"><span>Window bridge</span></a></li><li><a href="/lyra-release/en/dev/connections/sidecar-lines/" class="ly-page" title="Sidecar line protocol"><span>Sidecar line protocol</span></a></li><li><a href="/lyra-release/en/dev/connections/guest-socket/" class="ly-page" title="Guest socket"><span>Guest socket</span></a></li><li><a href="/lyra-release/en/dev/connections/keeper-socket/" class="ly-page" title="Keeper socket"><span>Keeper socket</span></a></li><li><a href="/lyra-release/en/dev/connections/link/" class="ly-page" aria-current="page" title="Link"><span>Link</span></a></li><li><a href="/lyra-release/en/dev/connections/wsl/" class="ly-page" title="WSL channel"><span>WSL channel</span></a></li><li><a href="/lyra-release/en/dev/connections/cli-bridge/" class="ly-page" title="CLI bridge"><span>CLI bridge</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h8l4 4v14H6zM14 3v5h4M9 12h6M9 16h4"></path></svg><b title="Data">Data</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="15"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/dev/data/folders/" class="ly-page" title="Folders"><span>Folders</span></a></li><li><a href="/lyra-release/en/dev/data/home-sqlite/" class="ly-page" title="home.sqlite"><span>home.sqlite</span></a></li><li><a href="/lyra-release/en/dev/data/server-state/" class="ly-page" title="Server state"><span>Server state</span></a></li><li><a href="/lyra-release/en/dev/data/credentials/" class="ly-page" title="Credentials"><span>Credentials</span></a></li><li><a href="/lyra-release/en/dev/data/logs/" class="ly-page" title="Logs and problem records"><span>Logs and problem records</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5z"></path></svg><b title="Features">Features</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="16"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/dev/features/sessions/" class="ly-page" title="Sessions and Turns"><span>Sessions and Turns</span></a></li><li><a href="/lyra-release/en/dev/features/sessions-details/" class="ly-page" title="Sessions and Turns details"><span>Sessions and Turns details</span></a></li><li><a href="/lyra-release/en/dev/features/inbox/" class="ly-page" title="Inbox"><span>Inbox</span></a></li><li><a href="/lyra-release/en/dev/features/inbox-details/" class="ly-page" title="Inbox details"><span>Inbox details</span></a></li><li><a href="/lyra-release/en/dev/features/orchestration/" class="ly-page" title="Orchestration"><span>Orchestration</span></a></li><li><a href="/lyra-release/en/dev/features/orchestration-details/" class="ly-page" title="Orchestration details"><span>Orchestration details</span></a></li><li><a href="/lyra-release/en/dev/features/workflows/" class="ly-page" title="Workflows"><span>Workflows</span></a></li><li><a href="/lyra-release/en/dev/features/workflows-details/" class="ly-page" title="Workflows details"><span>Workflows details</span></a></li><li><a href="/lyra-release/en/dev/features/issues/" class="ly-page" title="Issues and connections"><span>Issues and connections</span></a></li><li><a href="/lyra-release/en/dev/features/issues-details/" class="ly-page" title="Issues and connections details"><span>Issues and connections details</span></a></li><li><a href="/lyra-release/en/dev/features/projects/" class="ly-page" title="Projects and Workspaces"><span>Projects and Workspaces</span></a></li><li><a href="/lyra-release/en/dev/features/projects-details/" class="ly-page" title="Projects and Workspaces details"><span>Projects and Workspaces details</span></a></li><li><a href="/lyra-release/en/dev/features/terminals/" class="ly-page" title="Terminals"><span>Terminals</span></a></li><li><a href="/lyra-release/en/dev/features/terminals-details/" class="ly-page" title="Terminals details"><span>Terminals details</span></a></li><li><a href="/lyra-release/en/dev/features/serial/" class="ly-page" title="Serial"><span>Serial</span></a></li><li><a href="/lyra-release/en/dev/features/serial-details/" class="ly-page" title="Serial details"><span>Serial details</span></a></li><li><a href="/lyra-release/en/dev/features/profiles/" class="ly-page" title="Profiles and agents"><span>Profiles and agents</span></a></li><li><a href="/lyra-release/en/dev/features/profiles-details/" class="ly-page" title="Profiles and agents details"><span>Profiles and agents details</span></a></li><li><a href="/lyra-release/en/dev/features/avatars-modules/" class="ly-page" title="Avatars and Modules"><span>Avatars and Modules</span></a></li><li><a href="/lyra-release/en/dev/features/avatars-modules-details/" class="ly-page" title="Avatars and Modules details"><span>Avatars and Modules details</span></a></li><li><a href="/lyra-release/en/dev/features/search/" class="ly-page" title="Search"><span>Search</span></a></li><li><a href="/lyra-release/en/dev/features/search-details/" class="ly-page" title="Search details"><span>Search details</span></a></li><li><a href="/lyra-release/en/dev/features/updates/" class="ly-page" title="Updates"><span>Updates</span></a></li><li><a href="/lyra-release/en/dev/features/updates-details/" class="ly-page" title="Updates details"><span>Updates details</span></a></li><li><a href="/lyra-release/en/dev/features/status/" class="ly-page" title="Status and diagnostics"><span>Status and diagnostics</span></a></li><li><a href="/lyra-release/en/dev/features/status-details/" class="ly-page" title="Status and diagnostics details"><span>Status and diagnostics details</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10h4v4H4zM16 4h4v4h-4zM16 16h4v4h-4zM8 12h4V6h4M12 12v6h4"></path></svg><b title="Lifecycles">Lifecycles</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="17"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/dev/lifecycles/session-open/" class="ly-page" title="Opening a Session"><span>Opening a Session</span></a></li><li><a href="/lyra-release/en/dev/lifecycles/engine-start/" class="ly-page" title="Engine start and restart"><span>Engine start and restart</span></a></li><li><a href="/lyra-release/en/dev/lifecycles/updates/" class="ly-page" title="Updating the app and the server daemon"><span>Updating the app and the server daemon</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3v5M16 3v5M6 8h12v4a6 6 0 0 1-12 0zM12 18v4"></path></svg><b title="Extending">Extending</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="18"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/dev/extending/plugins/" class="ly-page" title="Plugins"><span>Plugins</span></a></li><li><a href="/lyra-release/en/dev/extending/modules/" class="ly-page" title="Modules"><span>Modules</span></a></li><li><a href="/lyra-release/en/dev/extending/skills/" class="ly-page" title="Bundled skills"><span>Bundled skills</span></a></li><li><a href="/lyra-release/en/dev/extending/project-mcp/" class="ly-page" title="Project MCP"><span>Project MCP</span></a></li></ul></details></li><li><details class="ly-sec" open><summary><svg class="ly-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5.5h12M6 12h12M6 18.5h7"></path></svg><b title="Lookup">Lookup</b><svg class="ly-icon ly-chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></summary><sl-sidebar-restore data-index="19"></sl-sidebar-restore><ul class="ly-list ly-kids"><li><a href="/lyra-release/en/dev/lookup/operations/" class="ly-page" title="Engine operations"><span>Engine operations</span></a></li><li><a href="/lyra-release/en/dev/lookup/errors/" class="ly-page" title="Error codes"><span>Error codes</span></a></li><li><a href="/lyra-release/en/dev/lookup/contracts/" class="ly-page" title="Contracts"><span>Contracts</span></a></li><li><a href="/lyra-release/en/dev/lookup/crates/" class="ly-page" title="Crates"><span>Crates</span></a></li><li><a href="/lyra-release/en/dev/lookup/implementation/" class="ly-page" title="Implementation status"><span>Implementation status</span></a></li></ul></details></li></ul></div></div></div><script aria-hidden="true">
+		(() => {
+			const scroller = document.getElementById('starlight__sidebar');
+			if (!window._starlightScrollRestore || !scroller) return;
+			scroller.scrollTop = window._starlightScrollRestore;
+			delete window._starlightScrollRestore;
+		})();
+	</script></sl-sidebar-state-persist><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-p4azlveh"><div class="social-icons astro-p4azlveh"></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><starlight-lang-select><label style="--sl-select-width: 7em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select language</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path fill-rule="evenodd" d="M8.516 3a.94.94 0 0 0-.941.94v1.15H2.94a.94.94 0 1 0 0 1.882h7.362a7.422 7.422 0 0 1-1.787 3.958 7.42 7.42 0 0 1-1.422-2.425.94.94 0 1 0-1.774.627 9.303 9.303 0 0 0 1.785 3.043 7.422 7.422 0 0 1-4.164 1.278.94.94 0 1 0 0 1.881 9.303 9.303 0 0 0 5.575-1.855 9.303 9.303 0 0 0 4.11 1.74l-.763 1.525a.968.968 0 0 0-.016.034l-1.385 2.77a.94.94 0 1 0 1.683.841l1.133-2.267h5.806l1.134 2.267a.94.94 0 0 0 1.683-.841l-1.385-2.769a.95.95 0 0 0-.018-.036l-3.476-6.951a.94.94 0 0 0-1.682 0l-1.82 3.639a7.423 7.423 0 0 1-3.593-1.256 9.303 9.303 0 0 0 2.27-5.203h1.894a.94.94 0 0 0 0-1.881H9.456V3.94A.94.94 0 0 0 8.516 3Zm6.426 11.794a1.068 1.068 0 0 1-.02.039l-.703 1.407h3.924l-1.962-3.924-1.24 2.478Z" clip-rule="evenodd"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="/lyra-release/dev/connections/link/" class="astro-2z5xp7gb">한국어</option><option value="/lyra-release/en/dev/connections/link/" selected class="astro-2z5xp7gb">English</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-lang-select></div></div></div></sl-sidebar-pane></nav><div class="main-frame astro-yntsjkba"><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex astro-lrzkfocr"><aside class="right-sidebar-container print:hidden astro-lrzkfocr"><div class="right-sidebar astro-lrzkfocr"><div class="lg:sl-hidden astro-qok35upx"><mobile-starlight-toc data-min-h="2" data-max-h="3" class="astro-66cqc7ze"><nav aria-labelledby="starlight__on-this-page--mobile" class="astro-66cqc7ze"><details id="starlight__mobile-toc" class="astro-66cqc7ze"><summary id="starlight__on-this-page--mobile" class="sl-flex astro-66cqc7ze"><span class="toggle sl-flex astro-66cqc7ze">On this page<svg aria-hidden="true" class="caret astro-66cqc7ze astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></span><span class="display-current astro-66cqc7ze"></span></summary><div class="dropdown astro-66cqc7ze"><ul class="isMobile astro-jugkfwgx" style="--depth: 0;"><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#_top" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Overview</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#두-끝" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">두 끝</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#통로" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">통로</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#줄의-모양과-version" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">줄의 모양과 version</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#누가-붙을-수-있나" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">누가 붙을 수 있나</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#한도" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">한도</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#끊기면" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">끊기면</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#코드와-주석이-다른-곳" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">코드와 주석이 다른 곳</span></a></li></ul></div></details></nav></mobile-starlight-toc><script type="module" src="/lyra-release/_astro/MobileTableOfContents.astro_astro_type_script_index_0_lang.C3fM4Kra.js"></script></div><div class="right-sidebar-panel sl-hidden lg:sl-block astro-qok35upx"><div class="sl-container astro-qok35upx"><starlight-toc data-min-h="2" data-max-h="3"><nav aria-labelledby="starlight__on-this-page"><h2 id="starlight__on-this-page">On this page</h2><ul class="astro-jugkfwgx" style="--depth: 0;"><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#_top" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Overview</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#두-끝" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">두 끝</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#통로" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">통로</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#줄의-모양과-version" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">줄의 모양과 version</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#누가-붙을-수-있나" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">누가 붙을 수 있나</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#한도" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">한도</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#끊기면" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">끊기면</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#코드와-주석이-다른-곳" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">코드와 주석이 다른 곳</span></a></li></ul></nav></starlight-toc><script type="module" src="/lyra-release/_astro/TableOfContents.astro_astro_type_script_index_0_lang.BpJaGz7G.js"></script></div></div></div></aside><div class="main-pane astro-lrzkfocr"><main data-pagefind-body class="astro-g5ptsecz" lang="ko" dir="ltr"><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><h1 id="_top" class="astro-bebwqqxs">Link</h1><p class="sl-flex astro-gsljcgkv"><svg aria-hidden="true" class="astro-gsljcgkv astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-color: var(--sl-color-orange-high);--sl-icon-size: 1.5em;"><path d="M12 16a1 1 0 1 0 0 2 1 1 0 0 0 0-2Zm10.67 1.47-8.05-14a3 3 0 0 0-5.24 0l-8 14A3 3 0 0 0 3.94 22h16.12a3 3 0 0 0 2.61-4.53Zm-1.73 2a1 1 0 0 1-.88.51H3.94a1 1 0 0 1-.88-.51 1 1 0 0 1 0-1l8-14a1 1 0 0 1 1.78 0l8.05 14a1 1 0 0 1 .05 1.02v-.02ZM12 8a1 1 0 0 0-1 1v4a1 1 0 0 0 2 0V9a1 1 0 0 0-1-1Z"/></svg><span class="astro-gsljcgkv">This content is not available in your language yet.</span></p></div></div><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><div class="sl-markdown-content">
+<p>Link는 이 컴퓨터의 엔진과 서버의 <code dir="auto">lyra-daemon</code>을 잇는 길입니다. 서버 하나에 SSH 연결 하나가 서고, 그 연결의 명령 채널 입출력 위로 Link 줄이 흐릅니다. 코드는 <code dir="auto">crates/lyra-link</code>(연결을 세우는 쪽)와 <code dir="auto">crates/lyra-link-protocol</code>(줄의 모양)입니다.</p>
+<figure class="ld"><div class="ld-scroll not-content"><svg viewBox="0 0 860 380" role="img" aria-label="엔진은 서버에 SSH 연결 하나를 세우고, 그 위 명령 채널에서 서버의 lyra-daemon attach를 실행한다. 이 채널의 입출력으로 Link 줄이 흐른다. 먼저 bootstrap hello와 accepted를 주고받고, 이어 request와 response, 바이트 프레임이 오간다. 서버의 호스트 키가 맞지 않으면 엔진이 link-host-key-rejected로 거부한다.">
+  <defs><marker id="lk-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ld-head"/></marker><marker id="lk-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ld-head-refused"/></marker></defs>
+  <rect class="ld-place" x="10" y="10" width="280" height="360" rx="14"/>
+  <g class="ld-icon" transform="translate(24 23) scale(0.6667)"><path d="M3 4h18v12H3zM8 20h8M12 16v4"/></g>
+  <text x="48" y="36" class="ld-place-name">이 컴퓨터</text>
+  <rect class="ld-chip" x="116" y="24" width="73" height="18" rx="9"/>
+  <text x="152" y="37" text-anchor="middle" class="ld-chip-text">localhost</text>
+  <rect class="ld-place" x="570" y="10" width="280" height="360" rx="14"/>
+  <g class="ld-icon" transform="translate(584 23) scale(0.6667)"><path d="M4 4h16v6H4zM4 14h16v6H4zM7 7h.01M7 17h.01M11 7h6M11 17h6"/></g>
+  <text x="608" y="36" class="ld-place-name">서버</text>
+  <rect class="ld-chip" x="642" y="24" width="67" height="18" rx="9"/>
+  <text x="675" y="37" text-anchor="middle" class="ld-chip-text">서버 이름</text>
+  <rect class="ld-card ld-card-focus" x="30" y="70" width="230" height="250" rx="12"/>
+  <g class="ld-icon" transform="translate(42 82) scale(0.6667)"><path d="M4 7l8-4 8 4v10l-8 4-8-4zM4 7l8 5 8-5M12 12v9"/></g>
+  <text x="66" y="95" class="ld-title ld-title-focus">엔진</text>
+  <text x="66" y="112" class="ld-exe">lyra-daemon</text>
+  <line class="ld-sep" x1="42" y1="120" x2="248" y2="120"/>
+  <g class="ld-icon" transform="translate(44 127) scale(0.5833)"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></g>
+  <text x="66" y="139" class="ld-row">lyra-link</text>
+  <line class="ld-sep" x1="42" y1="150" x2="248" y2="150"/>
+  <g class="ld-icon" transform="translate(44 157) scale(0.5833)"><path d="M6 5.5h12M6 12h12M6 18.5h7"/></g>
+  <text x="66" y="169" class="ld-row">link-state</text>
+  <rect class="ld-card" x="600" y="70" width="230" height="250" rx="12"/>
+  <g class="ld-icon" transform="translate(612 82) scale(0.6667)"><path d="M4 4h16v6H4zM4 14h16v6H4zM7 7h.01M7 17h.01M11 7h6M11 17h6"/></g>
+  <text x="636" y="95" class="ld-title">서버의 lyra-daemon</text>
+  <text x="636" y="112" class="ld-exe">lyra-daemon attach</text>
+  <line class="ld-sep" x1="612" y1="120" x2="818" y2="120"/>
+  <g class="ld-icon" transform="translate(614 127) scale(0.5833)"><path d="M8 3v5M16 3v5M6 8h12v4a6 6 0 0 1-12 0zM12 18v4"/></g>
+  <text x="636" y="139" class="ld-row">daemon socket</text>
+  <line class="ld-sep" x1="612" y1="150" x2="818" y2="150"/>
+  <g class="ld-icon" transform="translate(614 157) scale(0.5833)"><path d="M4 5h16v14H4zM7 9l3 3-3 3M13 15h4"/></g>
+  <text x="636" y="169" class="ld-row">PTY</text>
+  <path class="ld-call" d="M260,105 L600,105" marker-end="url(#lk-a)"/>
+  <rect class="ld-pill" x="336" y="96" width="188" height="18" rx="9"/>
+  <text x="430" y="109" text-anchor="middle" class="ld-pill-text">SSH exec · bootstrap hello</text>
+  <path class="ld-event" d="M600,135 L262,135" marker-end="url(#lk-a)"/>
+  <rect class="ld-pill" x="364" y="126" width="135" height="18" rx="9"/>
+  <text x="431" y="139" text-anchor="middle" class="ld-pill-text">bootstrap accepted</text>
+  <path class="ld-call" d="M260,175 L600,175" marker-end="url(#lk-a)"/>
+  <rect class="ld-pill" x="333" y="166" width="194" height="18" rx="9"/>
+  <text x="430" y="179" text-anchor="middle" class="ld-pill-text">request · link.channel.open</text>
+  <path class="ld-event" d="M600,205 L262,205" marker-end="url(#lk-a)"/>
+  <rect class="ld-pill" x="367" y="196" width="128" height="18" rx="9"/>
+  <text x="431" y="209" text-anchor="middle" class="ld-pill-text">response · notify</text>
+  <path class="ld-call" d="M260,245 L600,245" marker-end="url(#lk-a)"/>
+  <rect class="ld-pill" x="348" y="236" width="164" height="18" rx="9"/>
+  <text x="430" y="249" text-anchor="middle" class="ld-pill-text">바이트 프레임 Data · Ack</text>
+  <path class="ld-refused" d="M260,290 L600,290" marker-end="url(#lk-r)"/>
+  <rect class="ld-pill" x="349" y="281" width="161" height="18" rx="9"/>
+  <text x="430" y="294" text-anchor="middle" class="ld-pill-refused-text">link-host-key-rejected</text>
+</svg>
+</div><figcaption><p>엔진이 SSH 연결을 세우고 서버에서 <code dir="auto">lyra-daemon attach</code>를 실행하면, 그 입출력이 Link가 됩니다. 먼저 bootstrap hello와 accepted를 주고받아 버전을 맞추고, 그 뒤 요청과 응답, 바이트 프레임이 오갑니다. 아래 빨간 점선은 거부되는 길입니다. 서버의 호스트 키가 맞지 않으면 엔진이 연결을 거부합니다.</p></figcaption></figure>
+<div class="sl-heading-wrapper level-h2"><h2 id="두-끝">두 끝</h2><a class="sl-anchor-link" href="#두-끝"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “두 끝”</span></a></div>
+<table>
+<thead>
+<tr>
+<th>끝</th>
+<th>하는 일</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>엔진</td>
+<td><code dir="auto">lyra-link</code>로 연결을 세우고 지키며 <code dir="auto">link-state</code>를 앱에 알립니다.</td>
+</tr>
+<tr>
+<td>서버의 <code dir="auto">lyra-daemon</code></td>
+<td><code dir="auto">lyra-daemon serve</code>로 떠 있다가 <code dir="auto">attach</code>가 이어 주는 입출력으로 Link 줄을 받습니다.</td>
+</tr>
+</tbody>
+</table>
+<p>서버의 <code dir="auto">lyra-daemon</code>이 어디서 도는지는 <a href="../../processes/server-daemon/">Server daemon</a>에서 다룹니다.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="통로">통로</h2><a class="sl-anchor-link" href="#통로"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “통로”</span></a></div>
+<p>연결은 단계를 차례로 밟습니다. 단계 이름은 코드의 <code dir="auto">ConnState</code>입니다.</p>
+<table>
+<thead>
+<tr>
+<th>단계</th>
+<th>하는 일</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code dir="auto">resolving</code></td>
+<td>등록된 서버에서 주소와 계정을 풀어냅니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">connecting</code></td>
+<td>SSH 전송을 세웁니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">verifying-host-key</code></td>
+<td>서버가 낸 호스트 키를 기억한 키와 견줍니다. 인증보다 먼저 합니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">authenticating</code></td>
+<td>인증합니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">installing</code></td>
+<td>서버에 맞는 버전의 <code dir="auto">lyra-daemon</code>이 없으면 올리고 띄웁니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">handshaking</code></td>
+<td>bootstrap 버전 맞추기. 5초 안에 끝나야 합니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">connected</code></td>
+<td>Link 줄이 흐릅니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">reconnecting</code> · <code dir="auto">failed</code> · <code dir="auto">closing</code> · <code dir="auto">closed</code></td>
+<td>끊긴 뒤 · 멈춤 · 닫는 중 · 닫힘</td>
+</tr>
+</tbody>
+</table>
+<p>앱 화면이 보는 상태는 이 가운데 여섯 가지로 줄어듭니다(<code dir="auto">LinkState</code>): <code dir="auto">connected</code> · <code dir="auto">disconnected</code> · <code dir="auto">reconnecting</code> · <code dir="auto">installing</code>, 그리고 WSL 배포판에만 있는 <code dir="auto">distribution-stopped</code> · <code dir="auto">distribution-state-unknown</code>(<a href="../wsl/">WSL channel</a>).</p>
+<ul>
+<li>서버나 WSL 대상에 연결할 때마다 <code dir="auto">link-state</code> 알림이 <code dir="auto">progress</code>를 싣습니다(<code dir="auto">ConnectProgressView</code>, <code dir="auto">version</code> 1). <code dir="auto">attempt</code>는 연결 세대로 시도마다 오르고, <code dir="auto">steps</code>는 실제로 거친 단계만 차례로 담습니다. 단계 이름은 <code dir="auto">ssh-login</code> · <code dir="auto">starting-distribution</code> · <code dir="auto">version-check</code> · <code dir="auto">ssh-transfer</code> · <code dir="auto">install</code> · <code dir="auto">retire-older</code> · <code dir="auto">engine-start</code> · <code dir="auto">relay-open</code>이고, 단계의 끝은 <code dir="auto">running</code> · <code dir="auto">succeeded</code> · <code dir="auto">failed</code> · <code dir="auto">cancelled</code> · <code dir="auto">not-confirmed</code>입니다. 멈춘 단계는 그 연결의 실패 코드(<code dir="auto">failure</code>)를 달고, 사람이 닫으면 <code dir="auto">cancelled</code>입니다. 이전 버전 <code dir="auto">lyra-daemon</code>을 멈춘 것이 확인되지 않으면 <code dir="auto">not-confirmed</code>이고 완료로 읽지 않습니다. <code dir="auto">version-check</code> 단계는 <code dir="auto">versions</code>(<code dir="auto">needed</code>와 <code dir="auto">found</code>: <code dir="auto">this-version</code> · <code dir="auto">not-installed</code> · <code dir="auto">older-running</code> · <code dir="auto">other-running</code>)를 싣습니다. 마지막 시도의 단계는 연결되거나 멈춘 뒤에도 다음 시도가 시작될 때까지 남고, 시도가 끝나면 더는 바뀌지 않습니다. 이 컴퓨터의 <code dir="auto">lyra-daemon</code>에는 없고, 모르는 단계 이름은 읽는 쪽이 빼고 보여 줍니다. 화면은 <a href="../../../screens/settings/remote/#%EC%97%B0%EA%B2%B0%ED%95%98%EB%8A%94-%EB%8F%99%EC%95%88-%EB%B3%B4%EC%9D%B4%EB%8A%94-%EB%8B%A8%EA%B3%84">원격</a>의 서버 줄에, 명령줄은 <code dir="auto">lyra server connect</code>의 상태 줄에 이것을 보입니다.</li>
+<li>전송은 셋입니다. 내장 SSH(<code dir="auto">russh</code>), OS의 <code dir="auto">ssh</code> 프로그램, 그리고 WSL 채널입니다. 환경변수 <code dir="auto">LYRA_SSH_FORCE_SYSTEM_TRANSPORT</code>가 정확히 <code dir="auto">1</code>이면 OS의 <code dir="auto">ssh</code>를 강제하고 <code dir="auto">link-system-ssh-forced</code>를 알립니다.</li>
+<li>호스트 키 정책은 <code dir="auto">accept-new</code>(처음 보는 키는 기억하고 받음, 기본)와 <code dir="auto">known-only</code>(기억한 키만 받음)입니다. 검사를 끄는 값은 없습니다. 기억한 키와 다르면 <code dir="auto">link-host-key-rejected</code>, 알던 호스트가 다른 종류의 키를 내면 <code dir="auto">link-host-key-kind-changed</code>, 기록을 읽을 수 없으면 <code dir="auto">link-host-key-record-unreadable</code>입니다.</li>
+<li>서버에서는 명령 채널 하나로 <code dir="auto">&lt;서버 프로그램&gt; attach --socket &lt;서버 소켓&gt;</code>을 실행합니다. 이 명령이 서버의 <code dir="auto">lyra-daemon</code>의 소켓과 채널의 입출력을 이어 주고, 그 입출력이 전송이 됩니다. 이 채널은 30초 안에 붙어야 하고, 못 붙으면 <code dir="auto">link-attach-timed-out</code>입니다.</li>
+<li>내장 SSH에서는 같은 SSH 연결 위에 명령 채널을 여러 개 엽니다. 설치 단계의 원격 명령은 하나씩 30초(<code dir="auto">EXEC_TIMEOUT</code>) 안에 끝나야 합니다.</li>
+</ul>
+<div class="sl-heading-wrapper level-h2"><h2 id="줄의-모양과-version">줄의 모양과 <code dir="auto">version</code></h2><a class="sl-anchor-link" href="#줄의-모양과-version"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “줄의 모양과 version”</span></a></div>
+<p>SSH 명령 채널의 입출력에는 세 가지 덩어리가 섞여 흐르고, 첫 바이트로 구별합니다.</p>
+<table>
+<thead>
+<tr>
+<th>첫 바이트</th>
+<th>덩어리</th>
+<th>한도</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code dir="auto">L</code></td>
+<td>첫 교환(bootstrap): 19바이트 <code dir="auto">LYRA-LINK-BOOTSTRAP</code>, 4바이트 길이, JSON</td>
+<td>JSON 65,536 바이트</td>
+</tr>
+<tr>
+<td><code dir="auto">{</code></td>
+<td>제어 봉투: JSON 객체 하나</td>
+<td>16 MiB(<code dir="auto">16,777,216</code> 바이트)</td>
+</tr>
+<tr>
+<td>그 밖</td>
+<td>바이트 프레임: 19바이트 머리, payload</td>
+<td>받는 쪽 16 MiB, 보내는 쪽 64 KiB</td>
+</tr>
+</tbody>
+</table>
+<p><strong>제어 봉투</strong>는 아래 칸을 갖고, 모르는 칸은 거부합니다(<code dir="auto">deny_unknown_fields</code>).</p>
+<div class="expressive-code"><link rel="stylesheet" href="/lyra-release/_astro/ec.w36nc.css"><script type="module" src="/lyra-release/_astro/ec.0vx5m.js"></script><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="text"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">{ "v": {major,minor,patch}, "kind": "request" | "response" | "notify" | "error",</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">"id": "…", "ch": 0, "seq": 1, "op": "link.channel.open", "body": …, "err": …, "extensions": [] }</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="클립보드로 복사" data-copied="복사 완료!" data-code="{ &quot;v&quot;: {major,minor,patch}, &quot;kind&quot;: &quot;request&quot; | &quot;response&quot; | &quot;notify&quot; | &quot;error&quot;,  &quot;id&quot;: &quot;…&quot;, &quot;ch&quot;: 0, &quot;seq&quot;: 1, &quot;op&quot;: &quot;link.channel.open&quot;, &quot;body&quot;: …, &quot;err&quot;: …, &quot;extensions&quot;: [] }"><div></div></button></div></figure></div>
+<ul>
+<li><code dir="auto">v</code>는 모든 봉투에 실리는 버전입니다. <code dir="auto">op</code>는 <code dir="auto">request</code>와 <code dir="auto">notify</code>에만, <code dir="auto">err</code>는 <code dir="auto">error</code>에만 있습니다.</li>
+<li>제어 채널의 번호는 <code dir="auto">0</code>이고 연결마다 하나입니다. <code dir="auto">seq</code>는 채널마다 1부터 하나씩 올라갑니다. 이미 본 번호는 버리고, 건너뛰면 <code dir="auto">link.resend</code>로 빠진 구간을 다시 청합니다.</li>
+</ul>
+<p><strong>바이트 프레임</strong>은 터미널 출력, 파일, <code dir="auto">mcp</code> 표준 입출력이 가는 길입니다. 머리는 big-endian 19바이트입니다.</p>
+<table>
+<thead>
+<tr>
+<th>자리</th>
+<th>크기</th>
+<th>뜻</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0–1</td>
+<td>2</td>
+<td>짧은 버전 표기(bootstrap이 정해 줍니다)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>1</td>
+<td>opcode: <code dir="auto">Data</code>=1 · <code dir="auto">Ack</code>=2 · <code dir="auto">Pause</code>=3 · <code dir="auto">Resume</code>=4 · <code dir="auto">End</code>=5 · <code dir="auto">Error</code>=6</td>
+</tr>
+<tr>
+<td>3–6</td>
+<td>4</td>
+<td>채널 번호. <code dir="auto">0</code>이 될 수 없습니다.</td>
+</tr>
+<tr>
+<td>7–14</td>
+<td>8</td>
+<td>순번</td>
+</tr>
+<tr>
+<td>15–18</td>
+<td>4</td>
+<td>payload 길이</td>
+</tr>
+</tbody>
+</table>
+<p>바이트 채널은 <code dir="auto">link.channel.open</code>으로 열고 <code dir="auto">link.channel.close</code>로 닫습니다. 채널마다 흐름 제어가 따로 붙습니다: 보내는 창 256 KiB(<code dir="auto">DEFAULT_WINDOW_BYTES</code>), 받은 양을 64 KiB마다 또는 50 ms마다 <code dir="auto">Ack</code>로 알립니다. 받는 쪽이 감당하지 못하면 <code dir="auto">Pause</code>로 그 채널만 멈춥니다. 다시 붙을 때 이어 받을 수 있도록 보낸 줄은 10분 30초(<code dir="auto">REPLAY_RETENTION_MS</code>) 동안 보관합니다.</p>
+<p><strong>버전 맞추기.</strong> 연결을 세운 쪽이 <code dir="auto">hello</code>에 자기 버전 <code dir="auto">PROTOCOL_VERSION</code>을 싣습니다. 지금 값은 <code dir="auto">0.2.6</code>입니다. 받는 쪽은 자기 버전과 <strong>글자 하나까지</strong> 같을 때만 <code dir="auto">accepted</code>를 돌려줍니다. 세 숫자 중 하나라도, 빌드 꼬리표라도 다르면 이을 수 없습니다. 제품 버전이 달라도 이 버전이 같으면 이어집니다.</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="text"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">hello      { bootstrapRevision: 1, kind: "hello",    requestId, actualVersion, featureOffers: […] }</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">accepted   { …, kind: "accepted", selectedFeatures, versionTag }</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">rejected   { …, kind: "rejected", requiredVersion, remediation, errorClass: "protocol", errorCode }</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="클립보드로 복사" data-copied="복사 완료!" data-code="hello      { bootstrapRevision: 1, kind: &quot;hello&quot;,    requestId, actualVersion, featureOffers: […] }accepted   { …, kind: &quot;accepted&quot;, selectedFeatures, versionTag }rejected   { …, kind: &quot;rejected&quot;, requiredVersion, remediation, errorClass: &quot;protocol&quot;, errorCode }"><div></div></button></div></figure></div>
+<table>
+<thead>
+<tr>
+<th>거부</th>
+<th><code dir="auto">errorCode</code></th>
+<th>조치(<code dir="auto">remediation</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>핵심 버전이 다름</td>
+<td><code dir="auto">core-version-mismatch</code></td>
+<td><code dir="auto">install-required-version</code>: 상대가 요구한 버전을 나란히 설치하고 새 bootstrap을 시작합니다.</td>
+</tr>
+<tr>
+<td>꼭 필요한(<code dir="auto">required</code>) 기능이 한쪽에 없음</td>
+<td><code dir="auto">link-feature-mismatch</code></td>
+<td><code dir="auto">retry-later</code>: 광고나 설치 상태가 바뀐 뒤 새 bootstrap으로 다시 시도합니다.</td>
+</tr>
+</tbody>
+</table>
+<p>엔진은 <code dir="auto">install-required-version</code>을 받고 설정 <code dir="auto">auto_install</code>이 켜져 있으면(기본 켬) 그 버전의 <code dir="auto">lyra-daemon</code>을 서버에 올리고(<code dir="auto">installing</code>) 다시 bootstrap합니다. 방금 올린 것이 또 거부하면 다시 올리지 않고 <code dir="auto">link-daemon-install-failed</code>로 멈춥니다. 필수가 아닌 기능이 한쪽에 없으면 그 기능만 빠진 채 이어집니다. 지금 광고하는 선택 기능으로 <code dir="auto">lyra.link-health</code>(<code dir="auto">link.ping</code>)가 있습니다.</p>
+<p>형태가 바뀌면 <code dir="auto">PROTOCOL_VERSION</code>을 올리는 규칙은 코드가 지킵니다. 닫힌 메시지 모양의 지문을 <code dir="auto">crates/lyra-link-protocol/tests/shape_fingerprint.rs</code>가 재고, 버전을 올리지 않고 모양만 바뀌면 이 시험이 실패합니다.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="누가-붙을-수-있나">누가 붙을 수 있나</h2><a class="sl-anchor-link" href="#누가-붙을-수-있나"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “누가 붙을 수 있나”</span></a></div>
+<ul>
+<li>서버 쪽에서는 SSH 인증을 통과한 계정만 명령 채널을 열 수 있습니다. 인증 방법은 비밀번호, 개인 키, 키보드 대화(일회용 코드 포함)이고, 실패하면 <code dir="auto">link-authentication-failed</code> · <code dir="auto">link-authentication-method-unsupported</code> · <code dir="auto">link-authentication-otp-needed</code> · <code dir="auto">link-reconnect-needs-one-time-code</code> 같은 코드로 멈춥니다.</li>
+<li>엔진 쪽은 호스트 키 검사가 인증보다 먼저입니다. 키가 맞지 않으면 인증 정보를 서버에 보내지 않습니다.</li>
+<li>Link는 자격 증명 저장소에서 받은 바이트를 메모리에만 두었다가 인증이 끝나면 지웁니다. 저장소가 어디인지는 <a href="../../data/credentials/">Credentials</a>에서 다룹니다.</li>
+</ul>
+<div class="sl-heading-wrapper level-h2"><h2 id="한도">한도</h2><a class="sl-anchor-link" href="#한도"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “한도”</span></a></div>
+<table>
+<thead>
+<tr>
+<th>한도</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SSH 전송이 서기까지(<code dir="auto">CONNECT_TIMEOUT</code>)</td>
+<td>10초</td>
+</tr>
+<tr>
+<td>원격 명령 하나(<code dir="auto">EXEC_TIMEOUT</code>)</td>
+<td>30초</td>
+</tr>
+<tr>
+<td>비밀번호 로그인 한 번에 사람이 입력하는 시간을 뺀 전체(<code dir="auto">LOGIN_EXCHANGE_LIMIT</code>)</td>
+<td>30초. 키보드 대화의 응답 하나는 10초(<code dir="auto">CONNECT_TIMEOUT</code>)이고, 사람의 일회용 코드를 실은 응답만 이 30초의 남은 시간까지 기다립니다. 그래도 답이 없으면 <code dir="auto">link-one-time-code-reply-timed-out</code>(<code dir="auto">limitSeconds</code>에 기다린 초)로 멈추고 다시 시도하지 않습니다.</td>
+</tr>
+<tr>
+<td>처음 보는 호스트 키를 기록하는 시간</td>
+<td>5초</td>
+</tr>
+<tr>
+<td>명령 채널 붙기(<code dir="auto">ATTACH_TIMEOUT</code>)</td>
+<td>30초</td>
+</tr>
+<tr>
+<td>서버의 <code dir="auto">attach</code>가 서버 소켓에 붙기(<code dir="auto">ATTACH_CONNECT_TIMEOUT</code>)</td>
+<td>5초</td>
+</tr>
+<tr>
+<td>버전 맞추기(<code dir="auto">HANDSHAKE_TIMEOUT_MS</code>)</td>
+<td>5초</td>
+</tr>
+<tr>
+<td>요청 하나 기본(<code dir="auto">DEFAULT_REQUEST_TIMEOUT_MS</code>)</td>
+<td>30초</td>
+</tr>
+<tr>
+<td>SSH 무응답 확인</td>
+<td>5초마다 확인하고(<code dir="auto">KEEPALIVE_INTERVAL</code>), 응답 없는 확인이 셋째가 되면 끊음(<code dir="auto">KEEPALIVE_MAX</code> 2) → 15초</td>
+</tr>
+<tr>
+<td><code dir="auto">link.ping</code>(<code dir="auto">lyra.link-health</code>를 고른 연결)</td>
+<td>연결을 세운 쪽이 5초마다 보내고, ping을 보낸 상대에게서 20초 동안 줄이 없으면 받는 쪽이 그 상대를 뗍니다(<code dir="auto">LINK_PING_INTERVAL_MS</code> · <code dir="auto">LINK_PEER_SILENCE_MS</code>).</td>
+</tr>
+</tbody>
+</table>
+<div class="sl-heading-wrapper level-h2"><h2 id="끊기면">끊기면</h2><a class="sl-anchor-link" href="#끊기면"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “끊기면”</span></a></div>
+<p>끊긴 연결은 실패의 <strong>분류</strong>로 다시 붙을지를 정합니다. 분류는 <code dir="auto">protocol</code> · <code dir="auto">transport</code> · <code dir="auto">busy</code> · <code dir="auto">absent</code> · <code dir="auto">refused</code> · <code dir="auto">internal</code> 여섯이고, 다시 시도해도 되는 것은 <code dir="auto">transport</code>와 <code dir="auto">busy</code>뿐입니다. 나머지는 같은 일이 같은 결과일 것으로 보고 멈춥니다.</p>
+<table>
+<thead>
+<tr>
+<th>일</th>
+<th>일어나는 일</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>전송이 끊김</td>
+<td>다시 붙기 계획을 시작합니다. 최대 5번이고, 기다림은 즉시 · 1 · 2 · 4 · 8초에 ±20% 흔들림이 더해집니다(<code dir="auto">BACKOFF_BASE_MS</code>, <code dir="auto">MAX_RECONNECT_ATTEMPTS</code>). 전부 합쳐도 20초(<code dir="auto">RECONNECT_BUDGET_MS</code>) 안에 들게 되어 있습니다.</td>
+</tr>
+<tr>
+<td>계획의 시도가 재시도 가능한 이유로 실패</td>
+<td>다음 시도로 갑니다.</td>
+</tr>
+<tr>
+<td>계획이 다 소진됨</td>
+<td><code dir="auto">link-reconnect-exhausted</code>(<code dir="auto">transport</code>)로 <code dir="auto">failed</code>입니다.</td>
+</tr>
+<tr>
+<td>재시도할 수 없는 이유로 실패(호스트 키 불일치, 인증 실패, 버전 불일치 등)</td>
+<td>바로 <code dir="auto">failed</code>입니다.</td>
+</tr>
+<tr>
+<td><code dir="auto">failed</code> 뒤</td>
+<td>사람의 다시 연결이나 컴퓨터의 잠 깸 신호가 있을 때만 다시 돕니다(<code dir="auto">UserReconnectOrHostWake</code>). 잠에서 깨면 5초 간격으로 최대 두 번 서버에 닿는지 봅니다.</td>
+</tr>
+<tr>
+<td>되풀이해도 안전하지 않은 요청의 답을 못 받고 끊김</td>
+<td>다시 보내지 않고 결과 모름(<code dir="auto">link-request-outcome-unknown</code>)으로 닫습니다.</td>
+</tr>
+</tbody>
+</table>
+<p>연결이 <code dir="auto">link-state</code> 사건으로 어떻게 화면까지 가는지는 <a href="../window-bridge/">Window bridge</a>와 <a href="../sidecar-lines/">Sidecar line protocol</a>에서 다룹니다.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="코드와-주석이-다른-곳">코드와 주석이 다른 곳</h2><a class="sl-anchor-link" href="#코드와-주석이-다른-곳"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “코드와 주석이 다른 곳”</span></a></div>
+<p><code dir="auto">crates/lyra-link/src/view.rs</code>의 모듈 설명(3번째 줄)은 “연결 상태 넷”만 말하지만 <code dir="auto">LinkState</code>의 값은 여섯 개입니다. 타입 설명(11번째 줄)은 WSL 대상의 둘을 덧붙여 맞게 쓰여 있습니다. <a href="../../lookup/implementation/">Implementation</a>에 올립니다.</p></div><footer class="sl-flex astro-ddtxxk7k"><div class="meta sl-flex astro-ddtxxk7k"></div><div class="pagination-links print:hidden astro-b5raizh3" dir="ltr"><a href="/lyra-release/en/dev/connections/keeper-socket/" rel="prev" class="astro-b5raizh3"><svg aria-hidden="true" class="astro-b5raizh3 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17 11H9.41l3.3-3.29a1.004 1.004 0 1 0-1.42-1.42l-5 5a1 1 0 0 0-.21.33 1 1 0 0 0 0 .76 1 1 0 0 0 .21.33l5 5a1.002 1.002 0 0 0 1.639-.325 1 1 0 0 0-.219-1.095L9.41 13H17a1 1 0 0 0 0-2Z"/></svg><span class="astro-b5raizh3">Previous<br class="astro-b5raizh3"><span class="link-title astro-b5raizh3">Keeper socket</span></span></a><a href="/lyra-release/en/dev/connections/wsl/" rel="next" class="astro-b5raizh3"><svg aria-hidden="true" class="astro-b5raizh3 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17.92 11.62a1.001 1.001 0 0 0-.21-.33l-5-5a1.003 1.003 0 1 0-1.42 1.42l3.3 3.29H7a1 1 0 0 0 0 2h7.59l-3.3 3.29a1.002 1.002 0 0 0 .325 1.639 1 1 0 0 0 1.095-.219l5-5a1 1 0 0 0 .21-.33 1 1 0 0 0 0-.76Z"/></svg><span class="astro-b5raizh3">Next<br class="astro-b5raizh3"><span class="link-title astro-b5raizh3">WSL channel</span></span></a></div></footer></div></div></main></div></div></div></div></body></html>
